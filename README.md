@@ -30,9 +30,10 @@
 4. `docs/story/synopsis_and_plot.md` — 시놉시스와 플롯
 5. `docs/story/routes/main_route_blueprint.md` — 데모 전체 장면 흐름
 6. `docs/assets/asset_manifest.yaml` — 최소 데모 에셋 범위와 제작 우선순위
-7. `docs/systems/variable_list.md` — 변수/플래그/분기 목록
-8. `docs/design/scope_and_scale.md` — 데모 스케일과 제작 범위
-9. `docs/design/system_ui_resolution.md` — 시스템 UI와 해상도 규칙
+7. `docs/assets/s01_asset_candidate_qa_2026-05-12.md` — S01 ComfyUI 후보 생성/접촉시트/QA 메모
+8. `docs/systems/variable_list.md` — 변수/플래그/분기 목록
+9. `docs/design/scope_and_scale.md` — 데모 스케일과 제작 범위
+10. `docs/design/system_ui_resolution.md` — 시스템 UI와 해상도 규칙
 
 ## 현재 Ren'Py 기본값 확인
 

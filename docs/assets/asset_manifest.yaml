@@ -17,7 +17,8 @@ minimum_demo_assets:
       purpose: 소환/측정식이 열리는 왕립 마법 학원 강당
       priority: P1
       production_route: ComfyUI background candidate batch, no fake text
-      status: planned
+      status: candidate_batch_generated
+      qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: bg_artifact_lab
       scenes: [ch01_s02_artifact_lab]
       purpose: 봉인 마도구가 있는 실습동/보관실
@@ -49,13 +50,15 @@ minimum_demo_assets:
       purpose: 기본 감찰 담당 포즈
       priority: P0
       production_route: ComfyUI main reference selection, transparent sprite proof
-      status: planned
+      status: design_candidates_generated
+      qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: sprite_harin_suspicious
       scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
       purpose: 의심/추궁 표정
       priority: P0
       production_route: expression consistency workflow from neutral master
-      status: planned
+      status: design_direction_candidate_generated
+      qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: sprite_harin_surprised
       scenes: [ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
       purpose: 주인공의 무지/우연한 해결을 보고 흔들리는 표정
@@ -75,7 +78,8 @@ minimum_demo_assets:
       purpose: 측정구 오류/측정 불능 핵심 소품
       priority: P1
       production_route: ComfyUI prop/CG candidate, no readable fake text
-      status: planned
+      status: candidate_batch_generated_needs_refine
+      qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: cg_sealed_artifact
       scenes: [ch01_s02_artifact_lab]
       purpose: 봉인 마도구 폭주/정지 핵심 소품

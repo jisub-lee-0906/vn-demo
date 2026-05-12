@@ -15,7 +15,8 @@
     "docs/assets/asset_manifest.yaml",
     "docs/story/scenes/ch01_s03_special_observation.yaml",
     "docs/story/scenes/ch01_s04_harin_watch.yaml",
-    "docs/story/scenes/ch01_s05_demo_ending_hook.yaml"
+    "docs/story/scenes/ch01_s05_demo_ending_hook.yaml",
+    "docs/assets/s01_asset_candidate_qa_2026-05-12.md"
   ],
   "renpy_current_files": {
     "script": "demo/game/script.rpy",
@@ -43,10 +44,12 @@
     "ch01_s04_harin_watch",
     "ch01_s05_demo_ending_hook"
   ],
-  "asset_scope": "minimum demo asset scope defined in docs/assets/asset_manifest.yaml",
-  "next_step": "Implement ch01_s04_harin_watch, then begin S01 asset production after flow review.",
+  "asset_scope": "minimum demo asset scope defined; S01 candidate batches generated for Harin, summoning hall, and measurement orb, pending user selection and RenPy screenshot QA",
+  "next_step": "User selects Harin visual direction (00005/00008, with 00006 as suspicious influence), then generate a stricter neutral master and run alpha/RenPy screenshot QA.",
   "implementation_notes": [
     "ch01_s03_special_observation implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy",
-    "ch01_s02_artifact_lab implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy"
+    "ch01_s02_artifact_lab implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy",
+    "S01 ComfyUI candidate batch generated locally under generated/comfyui/s01_asset_candidates_2026-05-12; outputs are not promoted assets.",
+    "S01 visual QA notes recorded in docs/assets/s01_asset_candidate_qa_2026-05-12.md."
   ]
 }

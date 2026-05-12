@@ -18,6 +18,7 @@
 | `story/synopsis_and_plot.md` | 시놉시스, 3막 플롯, 데모 장면 구성 | DRAFT |
 | `story/routes/main_route_blueprint.md` | 데모 전체 장면 흐름과 제작 순서 | DRAFT |
 | `assets/asset_manifest.yaml` | 최소 데모 에셋 범위와 제작 우선순위 | DRAFT |
+| `assets/s01_asset_candidate_qa_2026-05-12.md` | S01 후보 생성 contact sheet와 QA 메모 | GENERATED_CANDIDATES |
 | `systems/variable_list.md` | Ren'Py 변수, 선택지, 플래그 목록 | DRAFT |
 | `design/scope_and_scale.md` | 제작 스케일, 에셋/음성/시나리오 범위 | DRAFT |
 | `design/system_ui_resolution.md` | 1920x1080 UI/폰트/화면 구성 규칙 | DRAFT |
@@ -35,7 +36,7 @@
 ## 현재 작업 순서
 
 1. 전체 데모 장면 흐름과 최소 에셋 범위를 문서로 잠근 상태를 유지한다.
-2. `ch01_s04_harin_watch`를 TDD로 실제 Ren'Py 장면으로 구현한다.
-3. S01 에셋 제작을 시작한다: 하린 기본/의심, 강당 배경, 측정구 CG.
+2. 사용자가 하린 방향 후보를 고르면 `sprite_harin_neutral` 기준 이미지를 좁힌다.
+3. S01 에셋 제작을 계속한다: 하린 기본/의심, 강당 배경, 측정구 CG.
 4. S01 screenshot QA 후 S02 에셋으로 이동한다.
 5. 이후 S05를 한 장면씩 구현/에셋/QA한다.

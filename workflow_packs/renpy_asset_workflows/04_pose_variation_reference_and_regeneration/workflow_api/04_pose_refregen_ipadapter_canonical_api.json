@@ -2,7 +2,7 @@
   "1": {
     "class_type": "CheckpointLoaderSimple",
     "inputs": {
-      "ckpt_name": "novaAnimeXL_ilV125.safetensors"
+      "ckpt_name": "novaAnimeXL_ilV180.safetensors"
     }
   },
   "2": {
@@ -18,7 +18,7 @@
   "3": {
     "class_type": "CLIPTextEncode",
     "inputs": {
-      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, full head visible, complete hair visible, large centered character, auburn medium-length wavy hair, warm brown eyes, clean face, pink knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, arms crossed, crossed arms, both arms folded across chest, serious expression, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop",
+      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, full head visible, complete hair visible, large centered character, auburn medium-length wavy hair, warm brown eyes, clean face, pink knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, one hand on hip, hand on hip, other arm relaxed down, confident expression, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop",
       "clip": [
         "2",
         0
@@ -28,7 +28,7 @@
   "4": {
     "class_type": "CLIPTextEncode",
     "inputs": {
-      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, expression sheet, inset, profile card, hands clasped together, prayer hands, both hands on chest, fingers touching in front of face",
+      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, expression sheet, inset, profile card, hands clasped together, prayer hands, both hands on chest, arms crossed, crossed arms, fingers touching in front of face",
       "clip": [
         "2",
         0
@@ -38,13 +38,13 @@
   "5": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "hermes_refregen_pose_arms_crossed_source.png"
+      "image": "TEMPLATE_pose_reference.png"
     }
   },
   "6": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "hermes_refregen_identity_auburn_719238043.png"
+      "image": "TEMPLATE_character_anchor.png"
     }
   },
   "7": {
@@ -106,7 +106,7 @@
         "10",
         0
       ],
-      "seed": 8193202,
+      "seed": 8193302,
       "steps": 28,
       "cfg": 6.0,
       "sampler_name": "euler_ancestral",
@@ -146,7 +146,7 @@
         "12",
         0
       ],
-      "filename_prefix": "hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/arms_refregen_d0p42_w0p6"
+      "filename_prefix": "hermes_vn_pose/refregen_{character_slug}_{pose_slug}"
     }
   }
 }

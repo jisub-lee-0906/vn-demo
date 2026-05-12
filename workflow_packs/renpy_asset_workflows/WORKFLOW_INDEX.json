@@ -9,20 +9,44 @@
       "folder": "01_character_anchor_and_prompt",
       "category": "character",
       "title": "캐릭터 기준 앵커 생성",
-      "purpose": "새 캐릭터의 기준 이미지와 고정 prompt/seed를 만든다.",
-      "output": "02 alpha, 03 expression, 05 pose, 10 outfit의 기준 참조로 사용",
-      "test": "기준 인물성/헤어/의상 anchor가 안정적인지 확인",
+      "purpose": "새 캐릭터의 A-pose + neutral expression 기준 이미지와 고정 prompt/seed를 만든다.",
+      "output": "02 alpha, 03 expression, 04 pose, 10 outfit의 기준 참조로 사용할 character source PNG",
+      "test": "A-pose/무표정/정면/손 가시성/헤어·의상 anchor 안정성 확인",
       "api_templates": [
         {
-          "file": "01_character_anchor_seed719238043_api.json",
-          "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_seed719238043_api.json",
-          "purpose": "canonical selected character anchor using novaAnimeXL_ilV180.safetensors",
+          "file": "01_character_anchor_apose_neutral_api.json",
+          "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_apose_neutral_api.json",
+          "purpose": "canonical A-pose neutral character anchor using novaAnimeXL_ilV180.safetensors",
           "required_inputs": [],
-          "status": "USER_APPROVED canonical / ilV180"
+          "status": "USER_APPROVED canonical"
         }
       ],
-      "status": "USER_APPROVED_01_ANCHOR_ILV180",
-      "last_user_qa": "2026-05-13"
+      "status": "USER_APPROVED_01_APOSE_NEUTRAL_CANONICAL",
+      "last_user_qa": "2026-05-13",
+      "last_smoke_test": "2026-05-13",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_toonout_other_character/source_auburn_apose_neutral_v3_ilV180_719238045_00001_.png",
+      "notes": "2026-05-13: preferred 01 baseline changed from relaxed pose to A-pose + neutral expression for easier downstream 02/03/05/10 reuse. User approved canonical prompt_id ee3d0faf-7ea8-4ec8-8751-7da594e5b643 and confirmed 3 additional character checks kept appropriate pose/neutral expression.",
+      "canonical_prompt_id": "ee3d0faf-7ea8-4ec8-8751-7da594e5b643",
+      "cross_character_prompt_checks": [
+        {
+          "slug": "silver_bob",
+          "seed": 719238145,
+          "prompt_id": "6139ddca-183a-441a-9848-8209d077905d",
+          "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_promptmatch_ilV180_719238145_00001_.png"
+        },
+        {
+          "slug": "pink_twinbraids",
+          "seed": 719238245,
+          "prompt_id": "84f1fb91-2bd1-44c4-9da2-c7bb38b8487f",
+          "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_pink_twinbraids_apose_neutral_promptmatch_ilV180_719238245_00001_.png"
+        },
+        {
+          "slug": "green_glasses",
+          "seed": 719238345,
+          "prompt_id": "aaf37d63-4442-4a9e-9f77-7b1a0e81c0dc",
+          "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_green_glasses_apose_neutral_promptmatch_ilV180_719238345_00001_.png"
+        }
+      ]
     },
     {
       "id": "02",
@@ -52,7 +76,7 @@
       "folder": "03_expression_variation_ipadapter_img2img",
       "category": "character",
       "title": "표정 변형",
-      "purpose": "기준 캐릭터의 smile/sad/angry/surprised 등 표정 source variation을 만든다.",
+      "purpose": "기준 캐릭터의 기본 표정 세트(neutral + happy/sad/angry/disgusted/surprised/fearful) source variation을 만든다.",
       "output": "표정별 source PNG 후보; 투명 PNG는 02 alpha workflow로 처리",
       "test": "contact sheet에서 동일 인물성 + 표정 차이 확인; alpha 필요 시 02로 후처리",
       "api_templates": [
@@ -64,111 +88,54 @@
             "TEMPLATE_character_anchor.png"
           ],
           "status": "canonical source template; alpha delegated to 02"
+        },
+        {
+          "file": "03_face_composite_masked_api.json",
+          "path": "03_expression_variation_ipadapter_img2img/workflow_api/03_face_composite_masked_api.json",
+          "purpose": "optional face-only composite postprocess to preserve approved outfit/body while using expression candidate face",
+          "required_inputs": [
+            "TEMPLATE_neutral_anchor.png",
+            "TEMPLATE_expression_candidate.png",
+            "TEMPLATE_face_mask_inverted_alpha.png"
+          ],
+          "status": "smoke-tested optional drift-fix template"
         }
       ],
-      "notes": "2026-05-13: removed duplicated 03 alpha workflows and consolidated per-expression source workflows into one canonical JSON. Emotion-specific prompts/strengths live in README.",
+      "notes": "2026-05-13: removed duplicated 03 alpha workflows and consolidated per-expression source workflows into one canonical JSON. Default expression set is neutral plus six emotion presets: happy, sad, angry, disgusted, surprised, fearful. Emotion-specific prompts/strengths, user-QA refinement rules, and optional face-composite outfit/body drift fix live in README.",
       "last_smoke_test": "2026-05-13",
       "status": "SMOKE_PASS_SOURCE_CANONICAL_PENDING_USER_QA",
       "last_smoke_output": "ComfyUI/output/hermes_vn_expression/source_auburn_smile_canonical_smoke_00001_.png"
     },
     {
       "id": "04",
-      "folder": "04_pose_source_generation_textonly",
+      "folder": "04_pose_variation_reference_and_regeneration",
       "category": "character",
-      "title": "텍스트 기반 포즈 donor/source 생성",
-      "purpose": "참조 포즈가 없을 때 donor/source 포즈 이미지를 만든다. 최종 캐릭터가 아니다.",
-      "output": "05에 넣을 pose donor/source",
-      "test": "포즈 형태만 확인. 캐릭터 일관성은 05에서 판정",
+      "title": "포즈 variation: reference 생성 + 캐릭터 재생성",
+      "purpose": "포즈 참고 이미지가 없으면 text-only donor/source를 만들고, pose reference + 01 character anchor로 같은 캐릭터의 포즈 variant source를 재생성한다.",
+      "output": "pose donor/source PNG 또는 same-character pose source PNG; 투명 PNG는 02 alpha workflow로 처리",
+      "test": "donor 단계는 포즈 가독성만 확인; refgen 단계는 anchor와 비교해 얼굴/헤어/의상 유지, 포즈 가독성, 손/팔/edge 문제 확인",
       "api_templates": [
         {
-          "file": "04_pose_alpha_arms_crossed_toonout_o0_b0_ref0_api.json",
-          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_alpha_arms_crossed_toonout_o0_b0_ref0_api.json",
-          "purpose": "canonical arms-crossed donor alpha",
-          "required_inputs": [
-            "hermes_pose_selected_arms_crossed.png"
-          ],
-          "status": "PASS canonical"
-        },
-        {
-          "file": "04_pose_alpha_hand_chest_toonout_o0_b0_ref0_api.json",
-          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_alpha_hand_chest_toonout_o0_b0_ref0_api.json",
-          "purpose": "canonical hand-to-chest donor alpha",
-          "required_inputs": [
-            "hermes_pose_selected_hand_chest.png"
-          ],
-          "status": "PASS canonical"
-        },
-        {
-          "file": "04_pose_alpha_one_hand_hip_toonout_o0_b0_ref0_api.json",
-          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_alpha_one_hand_hip_toonout_o0_b0_ref0_api.json",
-          "purpose": "canonical one-hand-on-hip donor alpha",
-          "required_inputs": [
-            "hermes_pose_selected_one_hand_hip.png"
-          ],
-          "status": "PASS canonical"
-        },
-        {
-          "file": "04_pose_textonly_source_cross_txt_s0_api.json",
-          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_textonly_source_cross_txt_s0_api.json",
-          "purpose": "canonical arms-crossed pose donor",
+          "file": "04_pose_textonly_source_canonical_api.json",
+          "path": "04_pose_variation_reference_and_regeneration/workflow_api/04_pose_textonly_source_canonical_api.json",
+          "purpose": "canonical text-only pose donor/source generation; switch pose by README preset",
           "required_inputs": [],
-          "status": "PASS pose source canonical"
+          "status": "canonical template consolidated from old 04 text-only pose variants"
         },
         {
-          "file": "04_pose_textonly_source_hand_chest_txt_s1_api.json",
-          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_textonly_source_hand_chest_txt_s1_api.json",
-          "purpose": "canonical hand-to-chest pose donor",
-          "required_inputs": [],
-          "status": "PASS pose source canonical"
-        },
-        {
-          "file": "04_pose_textonly_source_hip_txt_s0_api.json",
-          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_textonly_source_hip_txt_s0_api.json",
-          "purpose": "canonical one-hand-on-hip pose donor",
-          "required_inputs": [],
-          "status": "PASS pose source canonical"
+          "file": "04_pose_refregen_ipadapter_canonical_api.json",
+          "path": "04_pose_variation_reference_and_regeneration/workflow_api/04_pose_refregen_ipadapter_canonical_api.json",
+          "purpose": "canonical same-character pose regeneration using pose reference + character anchor/IPAdapter",
+          "required_inputs": [
+            "TEMPLATE_pose_reference.png",
+            "TEMPLATE_character_anchor.png"
+          ],
+          "status": "canonical template consolidated from old 05 ref-generation variants"
         }
-      ]
-    },
-    {
-      "id": "05",
-      "folder": "05_pose_image_reference_regeneration_ipadapter",
-      "category": "character",
-      "title": "이미지 참조 기반 포즈 재생성",
-      "purpose": "04 donor 또는 외부 포즈 이미지를 기존 캐릭터처럼 재생성한다.",
-      "output": "최종 포즈 variant/alpha 후보",
-      "test": "anchor와 비교해 얼굴/헤어/의상 유지, 손/edge 문제 확인",
-      "api_templates": [
-        {
-          "file": "05_alpha_toonout_example_api.json",
-          "path": "05_pose_image_reference_regeneration_ipadapter/workflow_api/05_alpha_toonout_example_api.json",
-          "purpose": "canonical reusable alpha for ref-generated pose outputs",
-          "required_inputs": [
-            "hermes_refregen_alpha_SOURCE_TO_PROCESS.png"
-          ],
-          "status": "PASS canonical alpha step"
-        },
-        {
-          "file": "05_pose_refregen_arms_crossed_d0p42_w0p60_api.json",
-          "path": "05_pose_image_reference_regeneration_ipadapter/workflow_api/05_pose_refregen_arms_crossed_d0p42_w0p60_api.json",
-          "purpose": "canonical arms-crossed same-character ref-generation",
-          "required_inputs": [
-            "hermes_refregen_pose_arms_crossed_source.png",
-            "hermes_refregen_identity_auburn_719238043.png"
-          ],
-          "status": "PASS production-direction canonical"
-        },
-        {
-          "file": "05_pose_refregen_one_hand_hip_d0p42_w0p60_api.json",
-          "path": "05_pose_image_reference_regeneration_ipadapter/workflow_api/05_pose_refregen_one_hand_hip_d0p42_w0p60_api.json",
-          "purpose": "canonical one-hand-on-hip same-character ref-generation",
-          "required_inputs": [
-            "hermes_refregen_pose_one_hand_hip_source.png",
-            "hermes_refregen_identity_auburn_719238043.png"
-          ],
-          "status": "PASS production-direction canonical"
-        }
-      ]
+      ],
+      "notes": "2026-05-13: merged old 04_pose_source_generation_textonly and old 05_pose_image_reference_regeneration_ipadapter into one AI-agent-friendly pose folder. Archived per-pose/alpha JSONs under 04/archive. Alpha is delegated to 02 by default. Use canonical JSON + README pose preset table instead of adding one JSON per pose.",
+      "last_smoke_test": "2026-05-13 pre-merge archived variants",
+      "status": "CONSOLIDATED_CANONICAL_TEMPLATES_PENDING_POST_MERGE_SMOKE"
     },
     {
       "id": "06",

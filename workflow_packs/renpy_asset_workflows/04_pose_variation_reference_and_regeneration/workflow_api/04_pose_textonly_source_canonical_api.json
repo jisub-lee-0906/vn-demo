@@ -2,7 +2,7 @@
   "1": {
     "class_type": "CheckpointLoaderSimple",
     "inputs": {
-      "ckpt_name": "novaAnimeXL_ilV125.safetensors"
+      "ckpt_name": "novaAnimeXL_ilV180.safetensors"
     }
   },
   "2": {
@@ -22,7 +22,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, waist-up to upper-thigh visible, full head visible, complete hair visible, large centered character, auburn medium-length wavy hair, orange auburn wavy hair, warm brown eyes, clean face, ivory knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop, single character only, right hand touching chest, left hand relaxed at side, shy modest gesture, hand on chest pose, readable gesture, natural elbows"
+      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, waist-up to upper-thigh visible, full head visible, complete hair visible, large centered character, auburn medium-length wavy hair, orange auburn wavy hair, warm brown eyes, clean face, ivory knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop, single character only, one hand on hip, other arm relaxed at side, confident standing pose, hand-on-hip pose, readable gesture, natural elbows"
     }
   },
   "4": {
@@ -62,7 +62,7 @@
         "5",
         0
       ],
-      "seed": 22334001,
+      "seed": 22334010,
       "steps": 30,
       "cfg": 6.2,
       "sampler_name": "euler_ancestral",
@@ -90,7 +90,7 @@
         "7",
         0
       ],
-      "filename_prefix": "hermes_vn_pose_smoke_auburn/source_hand_chest_txt_s1"
+      "filename_prefix": "hermes_vn_pose/source_{character_slug}_{pose_slug}"
     }
   }
 }

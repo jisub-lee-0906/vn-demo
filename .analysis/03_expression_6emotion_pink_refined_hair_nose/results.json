@@ -1,0 +1,73 @@
+{
+  "endpoint": "http://172.28.224.1:8000",
+  "input_image": "/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/source_pink_twinbraids_apose_neutral_promptmatch_ilV180_719238245_00001_.png",
+  "load_image": "hermes_vn_toonout_other_character/source_pink_twinbraids_apose_neutral_promptmatch_ilV180_719238245_00001_.png",
+  "results": [
+    {
+      "expression": "happy",
+      "prompt_id": "64f0977b-c904-41c7-86eb-e56817f73c4b",
+      "seed": 729239245,
+      "denoise": 0.42,
+      "ipadapter_weight": 0.62,
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_expression/source_pink_twinbraids_happy_6emotion_refined_hair_nose_00001_.png"
+      ],
+      "status": "success"
+    },
+    {
+      "expression": "sad",
+      "prompt_id": "843beaec-1309-46c5-ac90-bf92b43d69ad",
+      "seed": 729240245,
+      "denoise": 0.52,
+      "ipadapter_weight": 0.54,
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_expression/source_pink_twinbraids_sad_6emotion_refined_hair_nose_00001_.png"
+      ],
+      "status": "success"
+    },
+    {
+      "expression": "angry",
+      "prompt_id": "e085b73a-a9d9-4a25-9f98-d0b92b55efe7",
+      "seed": 729241245,
+      "denoise": 0.52,
+      "ipadapter_weight": 0.52,
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_expression/source_pink_twinbraids_angry_6emotion_refined_hair_nose_00001_.png"
+      ],
+      "status": "success"
+    },
+    {
+      "expression": "disgusted",
+      "prompt_id": "586494ef-3524-4a91-bd85-1308fbb93ee8",
+      "seed": 729242245,
+      "denoise": 0.52,
+      "ipadapter_weight": 0.54,
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_expression/source_pink_twinbraids_disgusted_6emotion_refined_hair_nose_00001_.png"
+      ],
+      "status": "success"
+    },
+    {
+      "expression": "surprised",
+      "prompt_id": "6ac6514e-2879-4b35-ae2b-ea04915c7d80",
+      "seed": 729243245,
+      "denoise": 0.52,
+      "ipadapter_weight": 0.52,
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_expression/source_pink_twinbraids_surprised_6emotion_refined_hair_nose_00001_.png"
+      ],
+      "status": "success"
+    },
+    {
+      "expression": "fearful",
+      "prompt_id": "883a015c-3c34-4ebd-b897-3734f014c9b8",
+      "seed": 729244245,
+      "denoise": 0.52,
+      "ipadapter_weight": 0.52,
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_expression/source_pink_twinbraids_fearful_6emotion_refined_hair_nose_00001_.png"
+      ],
+      "status": "success"
+    }
+  ]
+}

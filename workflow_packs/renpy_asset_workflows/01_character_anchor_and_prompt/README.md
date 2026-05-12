@@ -4,114 +4,157 @@ Category: `character`
 
 ## Purpose
 
-새 캐릭터의 기준 이미지와 고정 prompt/seed를 만든다.
+새 캐릭터의 재사용 가능한 기준 source 이미지를 만든다.
+
+01의 기준은 예쁜 완성 포즈가 아니라 후속 workflow에서 다루기 쉬운 `A-pose + neutral expression` anchor다.
 
 ## Output
 
-02 alpha, 03 expression, 05 pose, 10 outfit의 기준 참조로 사용
+02 alpha, 03 expression, 04 pose, 10 outfit의 기준 참조로 사용할 character source PNG.
 
-## API templates
+## API template
 
-- `workflow_api/01_character_anchor_seed719238043_api.json` — canonical selected character anchor, updated to `novaAnimeXL_ilV180.safetensors` | inputs: - | status: PASS canonical / user-approved 01 anchor checkpoint ilV180
+- `workflow_api/01_character_anchor_apose_neutral_api.json`
+  - checkpoint: `novaAnimeXL_ilV180.safetensors`
+  - role: canonical A-pose neutral character anchor
+  - inputs: none
+  - status: user-approved canonical
 
-## Editable fields
+## Role in the pack
 
-Usually safe to edit only: prompt, negative prompt, seed, input filename, output prefix. If changing node structure, save a new JSON with a clear name.
+```text
+01 = 캐릭터 기준 anchor 생성
+02 = anchor/source 이미지를 Ren'Py용 투명 PNG로 변환
+03 = 01 anchor를 기준으로 표정 variation 생성
+04 = 01 anchor + pose reference로 포즈 variation 생성
+10 = 01 anchor를 기준으로 의상 variation 생성
+```
 
-## Inputs
+## What the agent should edit
 
-Check each API JSON `LoadImage` filename and ensure the file exists in the active ComfyUI input directory. Required inputs are listed above when known.
+보통 아래 3가지만 바꾼다.
 
-## Test / QA
+1. positive prompt의 캐릭터 정체성 구간
+2. `KSampler.seed`
+3. `SaveImage.filename_prefix`
 
-기준 인물성/헤어/의상 anchor가 안정적인지 확인
+특별한 이유가 없으면 아래는 유지한다.
 
-For game-ready promotion, verify actual outputs with contact sheet or RenPy screenshot. Do not rely on workflow theory alone.
+- checkpoint
+- sampler/node 구조
+- A-pose/neutral expression 구간
+- negative prompt의 pose/hand/crop/sheet/text 방지 구간
 
-## Prompting guide
+## Canonical pose/expression target
 
-01은 “나중에 계속 재사용할 캐릭터 기준 이미지”를 만드는 단계입니다. 프롬프트는 길게 쓰기보다, 고정할 핵심 특징만 짧게 바꿉니다.
+생성 결과가 아래에 가까워야 한다.
 
-### 유지할 것
+```text
+front view
+standing character reference pose
+relaxed A-pose
+arms straight down at both sides
+arms slightly away from body
+visible open hands at sides
+palms facing body
+straight posture
+shoulders level
+neutral expression
+closed mouth
+calm blank face
+upper body to mid-thigh visible
+full head visible
+complete hair visible
+plain gray background
+```
 
-- `anime style`, `cowboy shot`, `upper body character portrait`, `waist-up to upper-thigh visible` 같은 VN 스프라이트 구도 토큰
-- `full head visible`, `complete hair visible`, `hands inside canvas` 같은 잘림 방지 토큰
-- `1girl`, `solo`, `large centered character` 같은 단일 캐릭터 토큰
-- negative의 `text`, `watermark`, `logo`, `cropped head`, `cut off hair`, `out of frame`, `extra hands`, `bad hands` 계열
+## Prompt editing pattern
 
-### 캐릭터를 바꿀 때 주로 수정할 것
+positive prompt는 크게 두 덩어리로 본다.
 
-positive prompt 안의 캐릭터 정체성 부분만 교체합니다.
+```text
+[fixed composition/pose/expression block], [character identity block], [fixed style/background block]
+```
+
+새 캐릭터를 만들 때는 character identity block만 교체한다.
 
 권장 교체 단위:
 
 ```text
-[hair], [eye color], [outfit], [expression], [small accessory]
+[hair], [eye color], clean face, [outfit], simple school uniform or outfit descriptor
 ```
 
 예시:
 
 ```text
-short silver bob hair, cool blue eyes, navy cardigan, white blouse, calm intelligent expression
+short silver bob hair, cool blue eyes, clean face, navy cardigan over white blouse, charcoal pleated skirt, simple school uniform
 ```
 
 ```text
-pink twin braids, teal eyes, cream sailor uniform, cheerful bright smile, small star hairclip
+pink twin braids, teal eyes, clean face, cream sailor uniform with pale pink ribbon, navy pleated skirt, simple school uniform
 ```
 
 ```text
-short moss green hair, amber eyes, round glasses, beige knit vest over white shirt, shy gentle expression
+short moss green hair, amber eyes, round glasses, clean face, beige knit vest over white shirt, brown pleated skirt, simple school uniform
 ```
 
-### 피할 것
+01에서는 표정을 바꾸지 않는다. smile/sad/angry/surprised는 03에서 만든다.
 
-- 세계관/성격 설명을 길게 넣기
-- 한 번에 머리, 옷, 포즈, 배경, 표정, 소품을 모두 바꾸기
-- `visual novel`, `game sprite` 같은 단어를 과하게 추가하기
-- 배경 설명을 자세히 넣기. 01은 캐릭터 anchor가 목적입니다.
-- 손/전신/신발을 강조하기. 01은 상반신 VN 기준 이미지입니다.
+## Negative prompt rules
 
-### seed/output 규칙
+A-pose neutral 기준에서는 아래 계열을 유지한다.
 
-- 새 캐릭터 후보는 seed를 바꾸고 output prefix에 캐릭터 slug를 넣습니다.
-- 비교용 모델 테스트는 filename에 checkpoint 이름을 넣습니다. 예: `source_auburn_ilV180_719238043`
-- 템플릿의 canonical checkpoint는 현재 `novaAnimeXL_ilV180.safetensors`입니다.
+```text
+smile, smiling, open mouth,
+dynamic pose, tilted body, crossed arms,
+hands together, hands near face,
+hands on hips, hands on waist, hands in pockets,
+akimbo, elbows bent, hidden hands, cropped hands,
+clenched fists, fist, dramatic pose, sassy pose, leaning,
+three-quarter view,
+text, watermark, logo,
+reference sheet, character sheet, sprite sheet, inset, profile card
+```
 
-### QA 기준
+## Output naming
 
-- 머리/얼굴이 잘리지 않음
-- 상반신 VN 구도 유지
-- 손/팔이 크게 깨지지 않음
-- 배경, 글자, 로고, 워터마크 없음
-- 02 alpha, 03 expression, 05 pose, 10 outfit의 기준으로 반복 사용 가능
+권장 prefix:
+
+```text
+hermes_vn_toonout_other_character/source_{character_slug}_apose_neutral_ilV180_{seed}
+```
+
+예시:
+
+```text
+hermes_vn_toonout_other_character/source_auburn_apose_neutral_ilV180_719238045
+```
 
 ## Agent recipe
 
-AI agent가 새 캐릭터 anchor를 생성할 때는 아래 순서만 따릅니다.
+1. `workflow_api/01_character_anchor_apose_neutral_api.json`을 로드한다.
+2. 캐릭터 정체성 구간만 교체한다.
+3. 새 후보라면 seed를 바꾼다.
+4. `SaveImage.filename_prefix`를 output naming 규칙에 맞춘다.
+5. 제출 전 ComfyUI `/queue`가 비어 있는지 확인한다.
+6. 실행 후 사용자에게 `prompt_id`와 output path를 전달한다.
+7. 사용자가 요청하지 않으면 vision QA를 하지 않는다.
+8. 사용자가 후보를 승인하면 상태 기록은 `WORKFLOW_INDEX.json`에 간단히 반영한다.
 
-1. `workflow_api/01_character_anchor_seed719238043_api.json`을 로드합니다.
-2. checkpoint는 `novaAnimeXL_ilV180.safetensors`를 유지합니다.
-3. positive prompt에서 캐릭터 정체성 구간만 교체합니다.
-   - 권장 형식: `[hair], [eye color], [outfit], [expression], [small accessory]`
-4. VN 스프라이트 구도 토큰은 유지합니다.
-   - 예: `cowboy shot`, `upper body character portrait`, `waist-up to upper-thigh visible`, `full head visible`, `complete hair visible`, `hands inside canvas`
-5. negative prompt는 특별한 이유가 없으면 유지합니다.
-6. 새 seed를 설정합니다.
-7. `filename_prefix`는 아래 형식을 사용합니다.
+## QA checklist
 
-```text
-hermes_vn_toonout_other_character/source_{character_slug}_ilV180_{seed}
-```
+- 단일 캐릭터인가
+- 무표정/닫힌 입인가
+- 정면 기준인가
+- A-pose 또는 팔 내림 reference pose인가
+- 양손이 보이고 크게 깨지지 않았는가
+- 머리/얼굴/손/치마가 잘리지 않았는가
+- 상반신~허벅지 구도가 유지되는가
+- 배경, 글자, 로고, 워터마크가 없는가
+- 02/03/05/10의 기준 이미지로 재사용하기 쉬운가
 
-8. ComfyUI에 제출하기 전 `/queue`가 비어 있는지 확인합니다.
-9. 실행 후 사용자에게 `prompt_id`와 output path만 전달합니다.
-10. 사용자가 명시적으로 요청하지 않으면 vision QA를 하지 않습니다.
-11. 사용자가 통과라고 말하면 README/`WORKFLOW_INDEX.json`에 user-approved 상태를 기록합니다.
+## Notes for agents
 
-## Extra files
-
-- none
-
-## User QA
-
-- 2026-05-13: 01 character anchor workflow approved for use with `novaAnimeXL_ilV180.safetensors`.
+- README는 사용법 문서다. 긴 테스트 결과나 보고서는 여기에 누적하지 않는다.
+- 승인 상태, 대표 prompt_id, 대표 output은 `WORKFLOW_INDEX.json`에 짧게 둔다.
+- 생성된 PNG/contact sheet는 reusable pack 안에 저장하지 않는다.

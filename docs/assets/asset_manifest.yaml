@@ -17,8 +17,9 @@ minimum_demo_assets:
       purpose: 소환/측정식이 열리는 왕립 마법 학원 강당
       priority: P1
       production_route: ComfyUI background candidate batch, no fake text
-      status: user_selected_s03_pending_renpy_qa
+      status: promoted_prototype_pending_in_game_qa
       selected_candidate: bg_summoning_hall_s03
+      game_path: demo/game/images/backgrounds/bg_summoning_hall.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: bg_artifact_lab
       scenes: [ch01_s02_artifact_lab]
@@ -51,16 +52,18 @@ minimum_demo_assets:
       purpose: 기본 감찰 담당 포즈
       priority: P0
       production_route: ComfyUI main reference selection, transparent sprite proof
-      status: user_selected_anchor_s04_pending_alpha_qa
+      status: promoted_card_prototype_pending_transparent_sprite
       selected_candidate: harin_anchor_s04
+      game_path: demo/game/images/characters/harin/harin_neutral.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: sprite_harin_suspicious
       scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
       purpose: 의심/추궁 표정
       priority: P0
       production_route: expression consistency workflow from neutral master
-      status: pending_generation_from_harin_anchor_s04
+      status: promoted_card_prototype_pending_expression_generation
       selected_anchor: harin_anchor_s04
+      game_path: demo/game/images/characters/harin/harin_suspicious.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: sprite_harin_surprised
       scenes: [ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
@@ -81,8 +84,9 @@ minimum_demo_assets:
       purpose: 측정구 오류/측정 불능 핵심 소품
       priority: P1
       production_route: ComfyUI prop/CG candidate, no readable fake text
-      status: user_selected_s01_pending_fullsize_inspection_and_renpy_qa
+      status: promoted_prototype_pending_in_game_qa
       selected_candidate: cg_measurement_orb_s01
+      game_path: demo/game/images/cg/cg_measurement_orb.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: cg_sealed_artifact
       scenes: [ch01_s02_artifact_lab]

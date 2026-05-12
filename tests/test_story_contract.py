@@ -142,6 +142,34 @@ def test_asset_manifest_defines_minimum_demo_asset_scope_and_priorities():
     assert "docs/assets/asset_manifest.yaml" in readme
 
 
+def test_selected_s01_assets_are_promoted_and_wired_into_opening_scene():
+    text = read(SCRIPT)
+    asset_manifest = read(DOCS / "assets" / "asset_manifest.yaml")
+
+    promoted_assets = [
+        ROOT / "demo" / "game" / "images" / "backgrounds" / "bg_summoning_hall.png",
+        ROOT / "demo" / "game" / "images" / "cg" / "cg_measurement_orb.png",
+        ROOT / "demo" / "game" / "images" / "characters" / "harin" / "harin_neutral.png",
+        ROOT / "demo" / "game" / "images" / "characters" / "harin" / "harin_suspicious.png",
+    ]
+
+    for path in promoted_assets:
+        assert path.exists(), path
+        assert path.stat().st_size > 1000, path
+
+    assert 'image bg summoning_hall = "images/backgrounds/bg_summoning_hall.png"' in text
+    assert 'image cg measurement_orb = "images/cg/cg_measurement_orb.png"' in text
+    assert 'image harin neutral = "images/characters/harin/harin_neutral.png"' in text
+    assert 'image harin suspicious = "images/characters/harin/harin_suspicious.png"' in text
+    assert "scene bg summoning_hall" in text
+    assert "show cg measurement_orb" in text
+    assert "show harin suspicious" in text
+    assert "show harin neutral" in text
+    assert "selected_candidate: bg_summoning_hall_s03" in asset_manifest
+    assert "selected_candidate: cg_measurement_orb_s01" in asset_manifest
+    assert "selected_candidate: harin_anchor_s04" in asset_manifest
+
+
 def test_special_observation_scene_is_playable_and_connected_from_artifact_lab():
     text = read(SCRIPT)
 

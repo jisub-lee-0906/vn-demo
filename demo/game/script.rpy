@@ -10,7 +10,11 @@ define stu = Character("학생들", color="#d0d0d0")
 define seal = Character("봉인 인장", color="#c9b37a")
 
 # Placeholder-safe 이미지 정의.
-# 실제 배경/스프라이트는 ComfyUI QA 후 semantic PNG로 교체합니다.
+# S01 선택 에셋은 후보 승격 상태이며, 최종 품질은 Ren'Py 스크린샷 QA 후 판단합니다.
+image bg summoning_hall = "images/backgrounds/bg_summoning_hall.png"
+image cg measurement_orb = "images/cg/cg_measurement_orb.png"
+image harin neutral = "images/characters/harin/harin_neutral.png"
+image harin suspicious = "images/characters/harin/harin_suspicious.png"
 image bg summoning_hall_placeholder = Solid("#1b2038")
 image bg artifact_lab_placeholder = Solid("#141a24")
 image bg report_room_placeholder = Solid("#202436")
@@ -44,7 +48,7 @@ default choice_final_response = None
 
 label start:
 
-    scene bg summoning_hall_placeholder
+    scene bg summoning_hall
     with fade
 
     "눈을 뜨자, 천장 대신 거대한 마법진이 보였다."
@@ -74,6 +78,9 @@ label start:
 
     "수정구 안쪽에서 푸른 빛이 돌았다. 한 번, 두 번."
 
+    show cg measurement_orb
+    with dissolve
+
     "그리고 갑자기 빛이 꺼졌다."
 
     prof "...측정 불능?"
@@ -86,7 +93,8 @@ label start:
 
     "나는 그냥 아무것도 모르는 사람이다."
 
-    show harin suspicious_placeholder at right
+    hide cg measurement_orb
+    show harin suspicious at right
     with dissolve
 
     h "학생회 감찰 담당 윤하린입니다."
@@ -156,8 +164,8 @@ label start:
 
     prof "감찰 담당이라면 가장 적합하겠지."
 
-    hide harin suspicious_placeholder
-    show harin neutral_placeholder at right
+    hide harin suspicious
+    show harin neutral at right
 
     h "좋습니다. 대신 제 질문에는 전부 대답해 주세요."
 

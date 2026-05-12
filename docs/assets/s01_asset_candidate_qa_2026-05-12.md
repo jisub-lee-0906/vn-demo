@@ -1,6 +1,6 @@
 # S01 asset candidate QA (workflow-pack derived)
 
-Status: USER_SELECTED_CANDIDATES_PENDING_PROMOTION_QA
+Status: S01_SELECTED_ASSETS_PROMOTED_PROTOTYPE_PENDING_IN_GAME_QA
 
 This replaces the earlier ad-hoc S01 candidate batch. The previous generated assets were discarded, and this run was regenerated from the canonical Windows ComfyUI workflow pack.
 
@@ -24,7 +24,7 @@ Derived templates:
 Generation result:
 - 3 jobs, 12 candidate images, 12 derived API workflow JSON files.
 - Contact sheets were generated locally from downloaded ComfyUI outputs.
-- Outputs remain candidate QA artifacts only; none were promoted into `demo/game/images/...`.
+- Selected S01 assets are now promoted as prototype game assets under `demo/game/images/...`; final quality still requires in-game screenshot/manual QA.
 
 
 User selection (2026-05-12):
@@ -41,6 +41,24 @@ User selection (2026-05-12):
   - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/cg_measurement_orb_selected_s01.png`
   - Correction: replaces the prior s03 selection after user reviewed the contact sheet.
   - Gate: full-size contamination/story-beat inspection, then Ren'Py screenshot QA before semantic promotion.
+
+
+
+Prototype game promotion (2026-05-12):
+- Background promoted from summoning hall s03:
+  - `demo/game/images/backgrounds/bg_summoning_hall.png`
+  - scaled to 1920x1080 and wired as `image bg summoning_hall`.
+- Measurement orb CG promoted from s01:
+  - `demo/game/images/cg/cg_measurement_orb.png`
+  - scaled to 1920x1080 and wired as `image cg measurement_orb` during the S01 measurement beat.
+- Harin anchor s04 promoted as prototype card-style sprites:
+  - `demo/game/images/characters/harin/harin_neutral.png`
+  - `demo/game/images/characters/harin/harin_suspicious.png`
+  - wired as `image harin neutral` and `image harin suspicious`.
+  - Alpha caveat: simple chromakey damaged hair/clothes too much, so the current promoted version intentionally preserves the original light background as a temporary card-style prototype. This is suitable for route/composition QA, not final sprite quality.
+- Approximate composition previews:
+  - `generated/renpy_s01_asset_promotion_qa_2026-05-12/s01_hall_harin_textbox_preview.png`
+  - `generated/renpy_s01_asset_promotion_qa_2026-05-12/s01_measurement_orb_textbox_preview.png`
 
 Contact-sheet review notes:
 
@@ -101,13 +119,11 @@ Candidate note:
 - Story-beat accuracy still needs refinement if the image itself must show the darkened orb and thin golden crack clearly.
 
 QA gate:
-- Candidate/contact-sheet review only.
-- Do not promote any file into `demo/game/images/...` before user selection and Ren'Py screenshot QA.
-- Character candidates are design/anchor candidates, not expression/pose-ready sprites yet.
-- Background and CG candidates still need textbox readability and fake-text inspection at full size.
+- Prototype game asset promotion completed for S01 selected assets.
+- Current Harin sprite is a temporary card-style prototype, not a final transparent sprite.
+- Background/CG are wired for in-game QA but still need real Ren'Py screenshot/manual review before final-quality claims.
 
 Next step:
-1. Generate transparent neutral/suspicious sprite candidates from Harin s04 using the workflow pack alpha/expression route.
-2. Run full-size inspection and Ren'Py textbox screenshot QA for summoning hall s03.
-3. Run full-size contamination/story-beat inspection for measurement-orb s01, then run Ren'Py screenshot QA.
-4. Promote only after those artifact/screenshot gates pass.
+1. Run actual Ren'Py play/screenshot QA for S01 with the promoted prototype assets.
+2. Check textbox overlap, Harin card-style limitation, background readability, and measurement-orb beat timing.
+3. Replace Harin card-style prototype with a proper transparent sprite/alpha workflow before calling sprite quality final.

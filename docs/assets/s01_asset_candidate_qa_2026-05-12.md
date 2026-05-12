@@ -1,6 +1,6 @@
 # S01 asset candidate QA (workflow-pack derived)
 
-Status: GENERATED_CONTACT_SHEET_REVIEWED_CANDIDATES
+Status: USER_SELECTED_CANDIDATES_PENDING_PROMOTION_QA
 
 This replaces the earlier ad-hoc S01 candidate batch. The previous generated assets were discarded, and this run was regenerated from the canonical Windows ComfyUI workflow pack.
 
@@ -25,6 +25,21 @@ Generation result:
 - 3 jobs, 12 candidate images, 12 derived API workflow JSON files.
 - Contact sheets were generated locally from downloaded ComfyUI outputs.
 - Outputs remain candidate QA artifacts only; none were promoted into `demo/game/images/...`.
+
+
+User selection (2026-05-12):
+- Harin anchor: s04
+  - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/harin_anchor_candidates/harin_anchor_candidate_s04_00001_.png`
+  - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/harin_anchor_selected_s04.png`
+  - Gate: use as anchor direction/source for transparent neutral/suspicious sprite generation, then alpha QA and Ren'Py screenshot QA.
+- Summoning hall: s03
+  - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/bg_summoning_hall_candidates/bg_summoning_hall_s03_00001_.png`
+  - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/bg_summoning_hall_selected_s03.png`
+  - Gate: full-size fake-text inspection plus Ren'Py textbox screenshot QA before semantic promotion.
+- Measurement orb: s03
+  - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/cg_measurement_orb_candidates/cg_measurement_orb_s03_00001_.png`
+  - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/cg_measurement_orb_selected_s03.png`
+  - Caveat: contact-sheet QA noted small fake-glyph/text-like marks near the lower pedestal area. User selection is recorded, but this needs full-size contamination inspection and likely crop/cleanup before promotion.
 
 Contact-sheet review notes:
 
@@ -91,7 +106,7 @@ QA gate:
 - Background and CG candidates still need textbox readability and fake-text inspection at full size.
 
 Next step:
-1. User selects Harin anchor direction, recommended from s03/s04.
-2. Generate transparent neutral/suspicious sprite candidates from the chosen anchor using the workflow pack's alpha/expression route.
-3. Select a summoning hall candidate, recommended s03 or s04, then run Ren'Py screenshot QA.
-4. Select or refine measurement-orb candidate, recommended s02/s04 if accepting blue-glow candidate direction; otherwise run a stricter dark-orb/golden-crack refinement.
+1. Generate transparent neutral/suspicious sprite candidates from Harin s04 using the workflow pack alpha/expression route.
+2. Run full-size inspection and Ren'Py textbox screenshot QA for summoning hall s03.
+3. Run full-size contamination inspection for measurement-orb s03; crop/clean the lower pedestal marks if needed, then run Ren'Py screenshot QA.
+4. Promote only after those artifact/screenshot gates pass.

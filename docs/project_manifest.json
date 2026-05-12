@@ -1,0 +1,34 @@
+{
+  "project_root": "/home/jisub-lee/workspace/vn-demo",
+  "renpy_project": "demo",
+  "status": "playable_two_scene_draft",
+  "canonical_docs": [
+    "docs/01_project_brief.md",
+    "docs/story/characters/character_sheets.md",
+    "docs/story/synopsis_and_plot.md",
+    "docs/systems/variable_list.md",
+    "docs/design/scope_and_scale.md",
+    "docs/design/system_ui_resolution.md",
+    "docs/story/routes/main_route_blueprint.md",
+    "docs/story/scenes/ch01_s01_summoning_measurement.yaml",
+    "docs/story/scenes/ch01_s02_artifact_lab.yaml"
+  ],
+  "renpy_current_files": {
+    "script": "demo/game/script.rpy",
+    "options": "demo/game/options.rpy",
+    "gui": "demo/game/gui.rpy"
+  },
+  "current_resolution": "1920x1080",
+  "current_font": "SourceHanSansLite.ttf",
+  "approval_state": "All creative content is DRAFT until user approval.",
+  "approved_direction_choices": {
+    "protagonist_hidden_talent": "초반은 평범/운 중심, 후반에 작은 숨은 재능이 드러나는 방향",
+    "heroine_role": "학생회 감찰 담당",
+    "first_incident": "측정구 오류 + 봉인 마도구 사고"
+  },
+  "current_playable_range": "ch01_s01_summoning_measurement and ch01_s02_artifact_lab implemented; demo ends at special observation hook",
+  "verification": {
+    "static_contract_tests": "PASS: python3 tools/run_static_tests.py (5 passed)",
+    "renpy_lint": "PASS: RenPy 8.5.2 lint exit 0, no warnings for ch01_s02_artifact_lab"
+  }
+}

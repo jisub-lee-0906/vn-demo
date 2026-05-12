@@ -1,0 +1,98 @@
+# vn-demo root ignore rules
+# Keep source/docs/tests/game scripts tracked; ignore generated runtime/build/local assets.
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# --- Secrets / local config ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.token
+secrets/
+
+# --- Ren'Py generated runtime files ---
+**/game/saves/
+**/game/cache/
+**/game/**/*.rpyc
+**/game/**/*.rpymc
+**/game/**/*.bak
+**/game/**/*.new
+**/game/**/*.old
+**/errors.txt
+**/files.txt
+**/image_cache.txt
+**/log.txt
+**/save_dump.txt
+**/traceback.txt
+**/dialogue.tab
+**/dialogue.txt
+**/strings.json
+
+# Ren'Py builds/distributions
+**/build/
+**/dist/
+**/dists/
+**/releases/
+**/*.zip
+**/*.tar.bz2
+**/*.tar.gz
+**/*.app/
+**/*.exe
+
+# --- Local generated VN assets / review outputs ---
+generated/
+outputs/
+output/
+.tmp/
+tmp/
+artifacts/
+contact_sheets/
+review_sheets/
+screenshots/
+
+# Large/local media candidates. Promote only curated, rights-safe game assets deliberately.
+*.psd
+*.kra
+*.blend1
+*.blend2
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.mp4
+*.mov
+*.webm
+*.avi
+
+# Local/private voice outputs and references
+**/game/audio/voice/_test/
+**/game/audio/voice/_approved/
+voice_refs/
+reference_voice/
+
+# Node/tool caches if added later
+node_modules/
+.next/
+.cache/

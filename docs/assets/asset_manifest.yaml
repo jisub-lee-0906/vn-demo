@@ -81,8 +81,8 @@ minimum_demo_assets:
       purpose: 측정구 오류/측정 불능 핵심 소품
       priority: P1
       production_route: ComfyUI prop/CG candidate, no readable fake text
-      status: user_selected_s03_pending_fake_glyph_cleanup_and_renpy_qa
-      selected_candidate: cg_measurement_orb_s03
+      status: user_selected_s01_pending_fullsize_inspection_and_renpy_qa
+      selected_candidate: cg_measurement_orb_s01
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: cg_sealed_artifact
       scenes: [ch01_s02_artifact_lab]

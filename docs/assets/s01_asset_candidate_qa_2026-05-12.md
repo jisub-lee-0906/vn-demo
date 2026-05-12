@@ -36,10 +36,11 @@ User selection (2026-05-12):
   - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/bg_summoning_hall_candidates/bg_summoning_hall_s03_00001_.png`
   - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/bg_summoning_hall_selected_s03.png`
   - Gate: full-size fake-text inspection plus Ren'Py textbox screenshot QA before semantic promotion.
-- Measurement orb: s03
-  - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/cg_measurement_orb_candidates/cg_measurement_orb_s03_00001_.png`
-  - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/cg_measurement_orb_selected_s03.png`
-  - Caveat: contact-sheet QA noted small fake-glyph/text-like marks near the lower pedestal area. User selection is recorded, but this needs full-size contamination inspection and likely crop/cleanup before promotion.
+- Measurement orb: s01
+  - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/cg_measurement_orb_candidates/cg_measurement_orb_s01_00001_.png`
+  - Selected copy: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/cg_measurement_orb_selected_s01.png`
+  - Correction: replaces the prior s03 selection after user reviewed the contact sheet.
+  - Gate: full-size contamination/story-beat inspection, then Ren'Py screenshot QA before semantic promotion.
 
 Contact-sheet review notes:
 
@@ -108,5 +109,5 @@ QA gate:
 Next step:
 1. Generate transparent neutral/suspicious sprite candidates from Harin s04 using the workflow pack alpha/expression route.
 2. Run full-size inspection and Ren'Py textbox screenshot QA for summoning hall s03.
-3. Run full-size contamination inspection for measurement-orb s03; crop/clean the lower pedestal marks if needed, then run Ren'Py screenshot QA.
+3. Run full-size contamination/story-beat inspection for measurement-orb s01, then run Ren'Py screenshot QA.
 4. Promote only after those artifact/screenshot gates pass.

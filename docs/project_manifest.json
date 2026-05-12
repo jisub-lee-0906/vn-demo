@@ -44,12 +44,12 @@
     "ch01_s04_harin_watch",
     "ch01_s05_demo_ending_hook"
   ],
-  "asset_scope": "minimum demo asset scope defined; S01 candidate batches generated for Harin, summoning hall, and measurement orb, pending user selection and RenPy screenshot QA",
-  "next_step": "User selects Harin visual direction (00005/00008, with 00006 as suspicious influence), then generate a stricter neutral master and run alpha/RenPy screenshot QA.",
+  "asset_scope": "minimum demo asset scope defined; invalid earlier S01 batch discarded; workflow-pack-derived candidate batches regenerated for Harin anchor, summoning hall, and measurement orb, pending user selection and RenPy screenshot QA",
+  "next_step": "User selects Harin anchor direction from regenerated workflow-pack candidates (recommended s03/s04), then generate transparent neutral/suspicious sprites and run alpha/RenPy screenshot QA; select bg_summoning_hall s03/s04 and cg_measurement_orb s02/s04 or request a stricter dark-orb refinement.",
   "implementation_notes": [
     "ch01_s03_special_observation implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy",
     "ch01_s02_artifact_lab implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy",
-    "S01 ComfyUI candidate batch generated locally under generated/comfyui/s01_asset_candidates_2026-05-12; outputs are not promoted assets.",
-    "S01 visual QA notes recorded in docs/assets/s01_asset_candidate_qa_2026-05-12.md."
+    "Invalid earlier S01 ComfyUI candidate outputs were discarded and regenerated from canonical workflow-pack API templates under generated/comfyui/s01_asset_candidates_2026-05-12; outputs are not promoted assets.",
+    "Regenerated S01 contact-sheet QA notes recorded in docs/assets/s01_asset_candidate_qa_2026-05-12.md."
   ]
 }

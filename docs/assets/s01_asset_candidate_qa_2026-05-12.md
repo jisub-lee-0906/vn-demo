@@ -1,75 +1,97 @@
-# S01 Asset Candidate QA — 2026-05-12
+# S01 asset candidate QA (workflow-pack derived)
 
-상태: GENERATED_CANDIDATES / NOT PROMOTED
+Status: GENERATED_CONTACT_SHEET_REVIEWED_CANDIDATES
 
-이번 작업은 최종 에셋 승격이 아니라 S01 비주얼 방향 확인용 소량 후보 생성입니다. 모든 PNG/contact sheet는 `generated/` 아래에 있으며 gitignored 상태입니다. Ren'Py semantic asset으로 복사하거나 품질 PASS를 주장하지 않습니다.
+This replaces the earlier ad-hoc S01 candidate batch. The previous generated assets were discarded, and this run was regenerated from the canonical Windows ComfyUI workflow pack.
 
-## 실행 정보
+Workflow pack source:
+- Windows: `C:\Users\Desktop\Documents\ComfyUI\workflow_packs\renpy_asset_workflows`
+- WSL: `/mnt/c/Users/Desktop/Documents/ComfyUI/workflow_packs/renpy_asset_workflows`
 
-- ComfyUI endpoint: `http://172.28.224.1:8000`
-- Queue state before submit: empty
-- Model: `novaAnimeXL_ilV180.safetensors`
-- Runner: `tools/generate_s01_asset_candidates.py`
-- Run manifest: `generated/comfyui/s01_asset_candidates_2026-05-12/RUN_MANIFEST.json`
-- API workflow templates: `generated/comfyui/s01_asset_candidates_2026-05-12/api_workflows/`
+Run manifest:
+- `generated/comfyui/s01_asset_candidates_2026-05-12/RUN_MANIFEST.json`
 
-## Contact sheets
+Contact sheets:
+- `harin_anchor_candidates`: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/harin_anchor_candidates_sheet.jpg`
+- `bg_summoning_hall_candidates`: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/bg_summoning_hall_candidates_sheet.jpg`
+- `cg_measurement_orb_candidates`: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/cg_measurement_orb_candidates_sheet.jpg`
 
-- Harin design: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/harin_design_candidates_sheet.jpg`
-- Summoning hall: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/bg_summoning_hall_candidates_sheet.jpg`
-- Measurement orb first batch: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/cg_measurement_orb_candidates_sheet.jpg`
-- Measurement orb dark refine: `generated/comfyui/s01_asset_candidates_2026-05-12/contact_sheets/cg_measurement_orb_dark_refine_candidates_sheet.jpg`
+Derived templates:
+- `harin_anchor_candidates` derived from `01_character_anchor_and_prompt` / `01_character_anchor_seed719238043_api.json`
+- `bg_summoning_hall_candidates` derived from `06_background_generation_no_text` / `06_background_generation_no_text_api.json`
+- `cg_measurement_orb_candidates` derived from `08_event_cg_no_text_story_beat` / `08_event_cg_no_text_story_beat_api.json`
 
-## Quick visual QA notes
+Generation result:
+- 3 jobs, 12 candidate images, 12 derived API workflow JSON files.
+- Contact sheets were generated locally from downloaded ComfyUI outputs.
+- Outputs remain candidate QA artifacts only; none were promoted into `demo/game/images/...`.
 
-### `sprite_harin_neutral` / `sprite_harin_suspicious` direction
+Contact-sheet review notes:
 
-Second-run contact sheet files: `harin_design_candidates_00005.png` through `00008.png`.
+## `harin_anchor_candidates`
 
-- `00005`: strong audit-officer read, clipboard works, mature enough; white-heavy uniform may feel more formal officer than student council, but it is a good base direction.
-- `00006`: best serious side-profile/inspection mood, clean mature tone; side angle is less ideal as the neutral master but useful as a suspicious/inspection pose direction.
-- `00007`: less suitable; pose reads softer/younger and the clipboard/framing is less stable for a main sprite.
-- `00008`: front-facing and route-friendly, good uniform silhouette; expression is slightly softer/younger, but useful as a neutral master candidate if refined.
+Files:
+- `harin_anchor_candidate_s01_00001_.png`
+- `harin_anchor_candidate_s02_00001_.png`
+- `harin_anchor_candidate_s03_00001_.png`
+- `harin_anchor_candidate_s04_00001_.png`
 
-Recommended next direction: use `00005` or `00008` as the main visual direction, then regenerate a stricter front-facing neutral/suspicious pair. `00006` can inform the suspicious pose but should not be the first neutral master.
+Observed:
+- No obvious cropped head/hair problem in the contact sheet.
+- No duplicate/inset/reference-sheet contamination visible.
+- No UI/text/watermark contamination visible in the character art itself.
+- Clipboard/hand details are still candidate-grade: s01 has a pen/clipboard pose that may need hand cleanup; s02 shows fake document lines on the clipboard and should not be used directly if fake text is disallowed; s03 and s04 have simpler clipboard silhouettes.
+- s04 is the cleanest restrained uniform direction but has a less formal jacket silhouette; s03 is a usable stern/audit-officer direction with simpler fake-text risk; s01 has strong student-council energy but a busier pose.
 
-### `bg_summoning_hall`
+Candidate note:
+- Best anchor-direction candidates for the next iteration: s03 or s04.
+- Not final sprite quality. A chosen anchor still needs transparent sprite generation, expression consistency, alpha QA, and Ren'Py screenshot QA.
 
-Second-run contact sheet files: `bg_summoning_hall_candidates_00005.png` through `00008.png`.
+## `bg_summoning_hall_candidates`
 
-- `00005`: strong blue measurement-circle mood, clean no-people read, good ceremony focus. Lower third appears usable but should be checked in Ren'Py with the textbox.
-- `00006`: warm and formal, clear platform/circle, no obvious text/people; slightly less distinctive than `00005`.
-- `00007`: clean empty hall, but weaker measurement-circle/event identity.
-- `00008`: balanced composition with circle and pedestal, clean no-people read, good route background candidate.
+Files:
+- `bg_summoning_hall_s01_00001_.png`
+- `bg_summoning_hall_s02_00001_.png`
+- `bg_summoning_hall_s03_00001_.png`
+- `bg_summoning_hall_s04_00001_.png`
 
-Recommended next direction: keep `00005` and `00008` as S01 background direction candidates. Before promotion, pre-scale/copy only one semantic PNG and run actual Ren'Py screenshot QA with dialogue box and Harin sprite.
+Observed:
+- s01, s03, and s04 have no visible people in the contact sheet.
+- s02 contains a dark human-like statue/figure silhouette near the center; reject for no-people policy unless the concept is intentionally revised.
+- No obvious fake text/UI is visible at contact-sheet scale.
+- Lower-third textbox readability: s01 and s03 have bright/simple lower areas; s04 is darker but visually strong and may still work with textbox overlay; s02 is rejected due to the figure.
 
-### `cg_measurement_orb`
+Candidate note:
+- Best summoning-hall direction candidates: s03 for warm ceremonial hall readability, s04 for stronger magical pedestal mood.
+- Full-size inspection and Ren'Py textbox screenshot QA are still required before semantic promotion.
 
-First orb batch had strong blue orb visuals but failed the no-text/no-UI requirement in some candidates (`00001`, `00004` showed generated textbox/subtitle contamination), and most candidates did not clearly show the “goes dark / thin golden line” story beat.
+## `cg_measurement_orb_candidates`
 
-Dark-refine contact sheet files: `cg_measurement_orb_dark_refine_candidates_00001.png` through `00004.png`.
+Files:
+- `cg_measurement_orb_s01_00001_.png`
+- `cg_measurement_orb_s02_00001_.png`
+- `cg_measurement_orb_s03_00001_.png`
+- `cg_measurement_orb_s04_00001_.png`
 
-- `00001`: clean object read, no fake text/UI; pedestal is strong. Still more glowing than fully dark, but usable direction.
-- `00002`: good dark orb mood and ring/crack silhouette; no text/people. Pedestal crop is less elegant but concept is close.
-- `00003`: clear dark orb, but blue flame effect may distract from the thin-golden-line requirement.
-- `00004`: strongest dark-orb feel and clean close-up, but golden crack is not obvious and crop is tight.
+Observed:
+- Measurement orb/pedestal concept reads clearly in all four candidates.
+- No people/hands/UI visible in the contact sheet.
+- s03 has small fake-glyph/text-like marks near the lower pedestal area; reject unless cropped/cleaned.
+- s01/s02/s04 avoid obvious text contamination at contact-sheet scale, but all are more blue-glowing than the intended 'going dark / thin golden crack' beat.
+- s02 has the cleanest centered pedestal/table staging; s04 has a clean orb silhouette; s01 has a strong magical-circle read.
 
-Recommended next direction: use dark-refine `00002` or `00004` as the next prompt/reference direction. Need one more refinement if the script requires a clearly visible thin golden line; otherwise use Ren'Py text to describe the line and keep the CG as the dark measurement device.
+Candidate note:
+- Best candidates for temporary direction: s02 or s04.
+- Story-beat accuracy still needs refinement if the image itself must show the darkened orb and thin golden crack clearly.
 
-## Gate status
+QA gate:
+- Candidate/contact-sheet review only.
+- Do not promote any file into `demo/game/images/...` before user selection and Ren'Py screenshot QA.
+- Character candidates are design/anchor candidates, not expression/pose-ready sprites yet.
+- Background and CG candidates still need textbox readability and fake-text inspection at full size.
 
-- Candidate generation: PASS
-- Contact sheets: PASS
-- Visual-direction QA: PARTIAL PASS
-- Ren'Py semantic asset promotion: NOT STARTED
-- Ren'Py screenshot QA: NOT STARTED
-- Final art quality claim: NOT ALLOWED YET
-
-## Next recommended step
-
-1. Ask user to choose Harin direction between `00005`, `00008`, and optionally `00006` as suspicious-pose influence.
-2. Generate a stricter front-facing Harin neutral master from the chosen direction.
-3. Run BiRefNet/alpha QA only after a source sprite is selected.
-4. Promote one selected `bg_summoning_hall` candidate into a temporary semantic Ren'Py path and run screenshot QA with text box.
-5. Refine `cg_measurement_orb` once more if the golden-line beat must be visible in the image itself.
+Next step:
+1. User selects Harin anchor direction, recommended from s03/s04.
+2. Generate transparent neutral/suspicious sprite candidates from the chosen anchor using the workflow pack's alpha/expression route.
+3. Select a summoning hall candidate, recommended s03 or s04, then run Ren'Py screenshot QA.
+4. Select or refine measurement-orb candidate, recommended s02/s04 if accepting blue-glow candidate direction; otherwise run a stricter dark-orb/golden-crack refinement.

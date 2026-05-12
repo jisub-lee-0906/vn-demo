@@ -1,0 +1,82 @@
+scene_id: ch01_s04_harin_watch
+status: DRAFT
+location: 왕립 마법 학원 본관 복도와 학생회 임시 감찰 구역
+purpose: >
+  하린과 주인공의 관계 축을 본격적으로 만든다. 하린은 감시자지만, 주인공이 진짜로
+  이세계 상식을 모른다는 단서를 얻고, 플레이어는 하린의 냉정함 뒤에 책임감이 있음을 본다.
+
+flow_position:
+  previous: ch01_s03_special_observation
+  next: ch01_s05_demo_ending_hook
+  production_policy: scene-flow-first, scene-by-scene production
+
+characters:
+  - id: protagonist
+    role: 학원 규칙을 몰라 사소한 행동마다 오해를 만든다.
+  - id: harin
+    role: 감시자이자 안내자. 의심을 유지하면서도 사고를 막기 위해 곁에 선다.
+  - id: students
+    role: 복도 소문을 퍼뜨리는 관찰자.
+  - id: noble_student_shadow
+    role: 직접 대면 전, 주인공을 견제하는 파벌의 시선.
+
+required_beats:
+  - 하린이 특별 관찰 대상 규칙을 간단히 설명한다.
+  - 주인공은 학원 상식을 몰라 금지 표식/계급 표식/마법 회로를 잘못 이해한다.
+  - 하린은 주인공의 반응이 연기라기엔 너무 일관되다는 점을 기록한다.
+  - 학생들은 하린이 주인공을 전담한다는 사실을 다른 의미로 오해한다.
+  - 귀족반 또는 라이벌의 시선이 처음으로 직접 압박처럼 들어온다.
+
+choice:
+  variable: choice_harin_answer
+  options:
+    - text: "감시받는 이유를 이해했습니다."
+      value: accept_watch
+      actual_intent: 더 이상 사고 치지 않으려는 수긍.
+      outside_interpretation: 규칙을 파악하고 감찰을 받아들인 침착함.
+      effects:
+        - harin_trust += 1
+        - reputation += 1
+    - text: "하린 씨는 저를 믿나요?"
+      value: ask_trust
+      actual_intent: 자신이 얼마나 위험하게 보이는지 확인.
+      outside_interpretation: 감찰 담당의 심리를 떠보는 질문.
+      effects:
+        - harin_trust += 1
+        - harin_suspicion += 1
+    - text: "저 소문은 어떻게 멈추죠?"
+      value: stop_rumor
+      actual_intent: 평범하게 살고 싶다.
+      outside_interpretation: 소문 통제 전략을 묻는 사람.
+      effects:
+        - misunderstanding_score += 1
+        - rival_pressure += 1
+
+asset_needs:
+  minimum:
+    - bg_academy_corridor
+    - sprite_harin_neutral
+    - sprite_harin_suspicious
+    - sprite_harin_softened_or_surprised
+  optional:
+    - crowd_silhouette_students
+    - noble_student_shadow
+    - sfx_corridor_murmur
+    - bgm_academy_daily_tension
+
+relationship_progression:
+  start: 하린은 주인공을 위험 가능성으로 본다.
+  end: 하린은 주인공이 악의는 없을 수 있다고 판단하지만, 감시 필요성은 더 커진다.
+
+misunderstanding_rule: >
+  이 장면의 착각은 큰 사고가 아니라 일상 규칙의 정보 비대칭에서 나온다. 작은 질문과
+  행동이 주변에는 정치적 계산처럼 보이고, 하린만 그 균열을 관찰한다.
+
+tone_guardrails:
+  - 하린을 츤데레 클리셰처럼 단순화하지 않는다. 책임감과 관찰력이 먼저다.
+  - 주인공은 비굴하지 않게, 불안하지만 최대한 예의 있게 반응한다.
+  - 소문 장면은 과한 하렘 분위기보다 파벌/감시 압박으로 읽히게 한다.
+
+next_hook:
+  label: ch01_s05_demo_ending_hook
+  summary: 귀족반의 견제 또는 학원장 호출이 들어오며 데모 마지막 후크로 이어진다.

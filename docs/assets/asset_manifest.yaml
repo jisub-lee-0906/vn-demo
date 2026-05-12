@@ -1,0 +1,170 @@
+status: DRAFT
+production_policy: scene-flow-first, scene-by-scene production
+summary: >
+  데모 전체 장면 흐름을 먼저 잠근 뒤, S01부터 장면 단위로 에셋 제작/구현/QA를 진행한다.
+  이 문서는 현재 데모에 필요한 최소 에셋 범위와 제작 우선순위를 정의한다.
+
+asset_gate_policy:
+  visible_story_assets: ComfyUI candidate generation + contact sheet review + Ren'Py screenshot QA before promotion
+  placeholders: placeholder_ok_until_scene_lock
+  final_quality_claim: only after artifact review and in-game screenshot/listening QA
+  local_outputs: generated outputs and review sheets stay gitignored unless explicitly promoted
+
+minimum_demo_assets:
+  backgrounds:
+    - id: bg_summoning_hall
+      scenes: [ch01_s01_summoning_measurement]
+      purpose: 소환/측정식이 열리는 왕립 마법 학원 강당
+      priority: P1
+      production_route: ComfyUI background candidate batch, no fake text
+      status: planned
+    - id: bg_artifact_lab
+      scenes: [ch01_s02_artifact_lab]
+      purpose: 봉인 마도구가 있는 실습동/보관실
+      priority: P1
+      production_route: ComfyUI background candidate batch, no fake text
+      status: planned
+    - id: bg_report_room_or_headmaster_seal
+      scenes: [ch01_s03_special_observation]
+      purpose: 특별 관찰 결정이 내려지는 보고실 또는 권위 있는 인장 배경
+      priority: P2
+      production_route: ComfyUI or semantic placeholder until S03 implementation
+      status: planned
+    - id: bg_academy_corridor
+      scenes: [ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
+      purpose: 하린 감시 관계와 소문 압박이 보이는 복도
+      priority: P2
+      production_route: ComfyUI candidate batch, reusable corridor background
+      status: planned
+    - id: bg_academy_corridor_or_notice_board
+      scenes: [ch01_s05_demo_ending_hook]
+      purpose: 특별 관찰 공지/게시판 후크
+      priority: P2
+      production_route: reuse bg_academy_corridor or generate notice-board variant
+      status: planned
+
+  character_sprites:
+    - id: sprite_harin_neutral
+      scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
+      purpose: 기본 감찰 담당 포즈
+      priority: P0
+      production_route: ComfyUI main reference selection, transparent sprite proof
+      status: planned
+    - id: sprite_harin_suspicious
+      scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
+      purpose: 의심/추궁 표정
+      priority: P0
+      production_route: expression consistency workflow from neutral master
+      status: planned
+    - id: sprite_harin_surprised
+      scenes: [ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
+      purpose: 주인공의 무지/우연한 해결을 보고 흔들리는 표정
+      priority: P1
+      production_route: expression consistency workflow from neutral master
+      status: planned
+    - id: sprite_harin_softened_or_surprised
+      scenes: [ch01_s04_harin_watch]
+      purpose: 신뢰가 아주 조금 생긴 순간의 미묘한 변화
+      priority: P2
+      production_route: may reuse sprite_harin_surprised until later QA
+      status: planned
+
+  cgs_and_props:
+    - id: cg_measurement_orb
+      scenes: [ch01_s01_summoning_measurement]
+      purpose: 측정구 오류/측정 불능 핵심 소품
+      priority: P1
+      production_route: ComfyUI prop/CG candidate, no readable fake text
+      status: planned
+    - id: cg_sealed_artifact
+      scenes: [ch01_s02_artifact_lab]
+      purpose: 봉인 마도구 폭주/정지 핵심 소품
+      priority: P1
+      production_route: ComfyUI prop/CG candidate, screenshot at danger ramp and shutdown
+      status: planned
+    - id: cg_special_observation_seal
+      scenes: [ch01_s03_special_observation]
+      purpose: 특별 관찰 지정 인장/문서
+      priority: P2
+      production_route: abstract seal/crest; avoid fake Korean text
+      status: planned
+    - id: cg_special_observation_notice
+      scenes: [ch01_s05_demo_ending_hook]
+      purpose: 데모 엔딩 공지 후크
+      priority: P2
+      production_route: abstract notice board/crest; textbox carries readable Korean
+      status: planned
+
+  audio:
+    - id: sfx_measurement_overflow
+      scenes: [ch01_s01_summoning_measurement]
+      purpose: 측정구가 꺼지는 순간
+      priority: P2
+      production_route: procedural or generated SFX, ffprobe/non-silence check
+      status: planned
+    - id: sfx_artifact_shutdown
+      scenes: [ch01_s02_artifact_lab]
+      purpose: 봉인 마도구 정지 순간
+      priority: P2
+      production_route: procedural or generated SFX, ffprobe/non-silence check
+      status: planned
+    - id: sfx_document_stamp
+      scenes: [ch01_s03_special_observation, ch01_s05_demo_ending_hook]
+      purpose: 공식 지정/문서 인장
+      priority: P3
+      production_route: procedural placeholder acceptable
+      status: planned
+    - id: bgm_academy_tension
+      scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation]
+      purpose: 마법 학원 긴장감
+      priority: P2
+      production_route: generated/procedural loop; listening QA required before quality claim
+      status: planned
+    - id: bgm_demo_ending_hook
+      scenes: [ch01_s05_demo_ending_hook]
+      purpose: 데모 마지막 후크 분위기
+      priority: P3
+      production_route: generated/procedural loop; listening QA required before quality claim
+      status: planned
+
+production_priority:
+  P0:
+    - sprite_harin_neutral
+    - sprite_harin_suspicious
+  P1:
+    - bg_summoning_hall
+    - bg_artifact_lab
+    - cg_measurement_orb
+    - cg_sealed_artifact
+    - sprite_harin_surprised
+  P2:
+    - bg_report_room_or_headmaster_seal
+    - bg_academy_corridor
+    - bg_academy_corridor_or_notice_board
+    - cg_special_observation_seal
+    - cg_special_observation_notice
+    - sfx_measurement_overflow
+    - sfx_artifact_shutdown
+    - bgm_academy_tension
+  P3:
+    - sfx_document_stamp
+    - bgm_demo_ending_hook
+    - crowd_silhouette_students
+    - noble_student_shadow
+
+scene_by_scene_plan:
+  - scene: ch01_s01_summoning_measurement
+    asset_focus: [bg_summoning_hall, cg_measurement_orb, sprite_harin_neutral, sprite_harin_suspicious]
+    qa: contact sheet review + Ren'Py screenshot QA
+  - scene: ch01_s02_artifact_lab
+    asset_focus: [bg_artifact_lab, cg_sealed_artifact, sprite_harin_neutral, sprite_harin_suspicious]
+    qa: danger ramp screenshot + shutdown screenshot
+  - scene: ch01_s03_special_observation
+    asset_focus: [bg_report_room_or_headmaster_seal, cg_special_observation_seal]
+    qa: official-document beat readability without fake text
+  - scene: ch01_s04_harin_watch
+    asset_focus: [bg_academy_corridor, sprite_harin_surprised]
+    qa: two-person staging and choice-box overlap
+  - scene: ch01_s05_demo_ending_hook
+    asset_focus: [bg_academy_corridor_or_notice_board, cg_special_observation_notice]
+    qa: ending hook screenshot and text readability

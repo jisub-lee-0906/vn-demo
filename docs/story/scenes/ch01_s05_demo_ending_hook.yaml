@@ -1,0 +1,90 @@
+scene_id: ch01_s05_demo_ending_hook
+status: DRAFT
+location: 왕립 마법 학원 중앙 복도 또는 학생회 게시판 앞
+purpose: >
+  데모의 끝맛을 만든다. 주인공은 특별 관찰 대상이 되었고, 하린은 감시를 자처했으며,
+  귀족반/학원장/봉인 기록이 다음 챕터의 갈등으로 열린다.
+
+flow_position:
+  previous: ch01_s04_harin_watch
+  next: chapter_02_planned
+  production_policy: scene-flow-first, scene-by-scene production
+
+characters:
+  - id: protagonist
+    role: 오늘 하루를 끝내고 싶지만, 소문과 공식 기록이 이미 퍼졌음을 깨닫는다.
+  - id: harin
+    role: 감시자. 주인공 곁에 서며 다음 실습까지 책임지겠다고 말한다.
+  - id: noble_student_or_notice
+    role: 다음 갈등의 얼굴 또는 문서. 직접 등장은 silhouette/게시문으로 대체 가능.
+  - id: students
+    role: 소문을 확산시키는 배경 압력.
+
+required_beats:
+  - 게시판/복도에서 특별 관찰 대상 공지가 공개된다.
+  - 주인공은 집에 가고 싶다는 내적 독백으로 코미디를 유지한다.
+  - 하린은 주인공을 믿는다고 단정하지 않고, 확인할 때까지 옆에 있겠다고 말한다.
+  - 귀족반 또는 라이벌 측의 견제 문구/시선이 들어온다.
+  - 마지막 한 줄은 다음 실습/첫 정식 수업/봉인 기록의 진짜 의미를 암시한다.
+
+choice:
+  variable: choice_demo_ending_attitude
+  options:
+    - text: "조용히 고개를 끄덕인다."
+      value: quiet_acceptance
+      actual_intent: 더 말하면 오해가 커질 것 같아 침묵.
+      outside_interpretation: 모든 반응을 계산하고 받아들이는 대담함.
+      effects:
+        - reputation += 1
+        - misunderstanding_score += 1
+    - text: "하린에게 작은 목소리로 도움을 요청한다."
+      value: ask_private_help
+      actual_intent: 최소한 한 명은 진실을 알아줬으면 한다.
+      outside_interpretation: 감찰 담당과 비밀 협의를 시작했다.
+      effects:
+        - harin_trust += 1
+        - rival_pressure += 1
+    - text: "소문을 정정하려고 한다."
+      value: correct_rumor
+      actual_intent: 대현자 오해를 부정한다.
+      outside_interpretation: 공식 발표 전 정보 통제를 시도한다.
+      effects:
+        - harin_suspicion += 1
+        - misunderstanding_score += 1
+
+asset_needs:
+  minimum:
+    - bg_academy_corridor_or_notice_board
+    - sprite_harin_neutral
+    - sprite_harin_suspicious
+    - cg_special_observation_notice
+  optional:
+    - noble_student_shadow
+    - crowd_silhouette_students
+    - sfx_notice_board_stamp
+    - bgm_demo_ending_hook
+
+ending_variants:
+  great_sage_rumor:
+    condition: reputation >= 3 or misunderstanding_score >= 3
+    summary: 소문이 가장 크게 퍼지고, 주인공은 대현자 후보로 취급된다.
+  harin_suspicion:
+    condition: harin_suspicion >= 2
+    summary: 하린은 주인공이 위험하거나 중요한 정보를 숨긴다고 판단한다.
+  balanced_hook:
+    condition: harin_trust >= 1 and harin_suspicion <= 1
+    summary: 하린은 의심을 유지하지만, 주인공이 악의적이지 않을 가능성을 인정한다.
+
+misunderstanding_rule: >
+  데모 마지막의 오해는 선택지의 결과를 정리하는 기능을 한다. 플레이어가 어떤 선택을
+  했든 주인공은 공식적으로 더 유명해지고, 하린과의 관계 방향만 미세하게 달라진다.
+
+tone_guardrails:
+  - 엔딩은 완결이 아니라 다음 챕터를 누르고 싶게 만드는 후크여야 한다.
+  - 코미디 후에도 감시/파벌/봉인 기록이라는 진지한 비용을 남긴다.
+  - 하린의 마지막 대사는 애정 고백이 아니라 책임과 의심이 섞인 약속이어야 한다.
+
+demo_end:
+  summary: >
+    특별 관찰 대상 공지와 함께 데모 종료. 다음 목표는 첫 정식 수업과 귀족반 견제,
+    그리고 봉인 마도구 기록의 진짜 의미를 파헤치는 챕터 2.

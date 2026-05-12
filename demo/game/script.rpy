@@ -7,12 +7,15 @@ define p = Character("[player_name]", color="#d8e8ff")
 define h = Character("윤하린", color="#b7d7ff")
 define prof = Character("교수", color="#e8d8b0")
 define stu = Character("학생들", color="#d0d0d0")
+define seal = Character("봉인 인장", color="#c9b37a")
 
 # Placeholder-safe 이미지 정의.
 # 실제 배경/스프라이트는 ComfyUI QA 후 semantic PNG로 교체합니다.
 image bg summoning_hall_placeholder = Solid("#1b2038")
 image bg artifact_lab_placeholder = Solid("#141a24")
+image bg report_room_placeholder = Solid("#202436")
 image cg sealed_artifact_placeholder = Solid("#3f2f5f")
+image cg special_observation_seal_placeholder = Solid("#4a3a2a")
 image harin neutral_placeholder = Solid("#334c7a")
 image harin suspicious_placeholder = Solid("#26395f")
 
@@ -293,27 +296,105 @@ label ch01_s02_artifact_lab:
 
     prof "하지만 이건 단순한 편입 절차가 아니다. 학원장 보고가 필요하겠군."
 
-    $ event_special_observation = True
     $ rival_pressure += 1
 
     stu "측정 불능 편입생이 마도구까지 멈췄대."
-
     stu "귀족반 쪽에서 가만히 있지 않겠는데?"
-
     h "축하한다고 해야 할지 모르겠군요."
-
     p "저는 그냥 집에 가고 싶은데요."
-
     h "그 말이 진심이라면, 더더욱 혼자 두면 안 되겠습니다."
-
     "하린은 기록판을 닫고 나를 똑바로 보았다."
-
     h "윤하린, 학생회 감찰 담당 권한으로 임시 감시를 신청하겠습니다."
-
     "그 순간, 실습동 문 너머에서 낮은 종소리가 울렸다."
 
-    "내가 이 세계에서 얻은 첫 공식 신분은 학생도, 손님도 아니었다."
+    jump ch01_s03_special_observation
 
+
+label ch01_s03_special_observation:
+
+    scene bg report_room_placeholder
+    with dissolve
+
+    "임시 보고실의 공기는 실습동보다 더 무거웠다."
+    "벽면의 기록석에는 방금 전 사건 두 줄이 이미 떠 있었다."
+
+    show harin suspicious_placeholder at right
+    with dissolve
+
+    prof "편입 측정식 결과, 측정 불능."
+    prof "훈련용 3호 봉인 마도구 반응, 외부 개입 없이 정지."
+    p "외부 개입이 없었다면 그냥 사고가 멈춘 거 아닌가요?"
+    h "그렇게 기록하면 더 위험합니다."
+    h "학원은 원인을 모르는 안전보다, 원인을 아는 위험을 선호하니까요."
+
+    "나는 그 말이 무슨 뜻인지 바로 이해하지 못했다."
+    "그러나 교수의 펜끝은 이미 나를 원인 쪽에 놓고 있었다."
+
+    show cg special_observation_seal_placeholder
+    with dissolve
+
+    seal "학원장 직인 확인."
+    seal "측정 불능 편입생 서진을 임시 특별 관찰 대상으로 지정한다."
+
+    $ event_special_observation = True
+    $ rival_pressure += 1
+
+    "갈색 봉인 문장이 문서 아래에 찍히자, 방 안의 공기가 한 번 더 가라앉았다."
+    "내가 이 세계에서 얻은 첫 공식 신분은 학생도, 손님도 아니었다."
     "특별 관찰 대상."
+
+    hide cg special_observation_seal_placeholder
+    show harin suspicious_placeholder at right
+    with dissolve
+
+    prof "귀족반에도 사고 보고가 공유될 거다. 소문보다 문서가 먼저 도착하길 바라야겠군."
+    p "그럼 저는 이제 어떻게 하면 되나요?"
+    h "대답 하나를 고르셔야 합니다."
+    h "공식 기록은 당신의 의도보다, 당신이 남긴 결과를 먼저 읽습니다."
+
+    menu:
+        "일단 시키는 대로 하겠습니다.":
+            $ choice_final_response = "comply"
+            $ reputation += 1
+            $ misunderstanding_score += 1
+
+            p "일단 시키는 대로 하겠습니다."
+            "나는 괜히 일을 키우지 않으려고 최대한 얌전히 말했다."
+            prof "상황 판단이 빠르군. 자신의 위치를 알고 움직인다는 뜻인가."
+            h "...순응도 전략일 수 있습니다."
+            "아니다. 그냥 더 혼나기 싫을 뿐이다."
+
+        "저는 정말 아무것도 모릅니다.":
+            $ choice_final_response = "deny_knowledge"
+            $ harin_suspicion += 1
+            $ harin_trust += 1
+
+            p "저는 정말 아무것도 모릅니다."
+            h "그 말이 거짓이라면 너무 어설프고, 진실이라면 너무 위험합니다."
+            prof "정보 공개 범위를 제한한다고 기록하지."
+            "솔직하게 말했는데 문장이 점점 더 딱딱해졌다."
+
+        "하린 씨가 봐주시면 안 되나요?":
+            $ choice_final_response = "ask_harin_help"
+            $ harin_trust += 1
+            $ rival_pressure += 1
+
+            p "하린 씨가 봐주시면 안 되나요?"
+            "내가 보기에는 이 방에서 그나마 말이 통하는 사람이 하린뿐이었다."
+            h "감찰 담당을 사적으로 지명하는 발언은 기록에 남습니다."
+            prof "벌써 담당자를 자기 편으로 끌어들이는 건가. 흥미롭군."
+            "도움을 요청했을 뿐인데 협상처럼 번역됐다."
+
+    hide harin suspicious_placeholder
+    show harin neutral_placeholder at right
+    with dissolve
+
+    h "임시 감시는 제가 맡겠습니다."
+    h "다만 믿어서가 아닙니다. 혼자 두는 쪽이 더 위험하다고 판단했을 뿐이에요."
+    p "그 차이가 큰가요?"
+    h "네. 아주 큽니다."
+
+    "보고실 문이 열리자, 복도 너머에서 학생들의 낮은 웅성거림이 흘러들어왔다."
+    "다음 장면 후보: ch01_s04_harin_watch. 하린의 감시 아래 학원 복도로 나간다."
 
     return

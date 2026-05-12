@@ -1,7 +1,7 @@
 {
   "project_root": "/home/jisub-lee/workspace/vn-demo",
   "renpy_project": "demo",
-  "status": "playable_two_scene_draft",
+  "status": "s03_special_observation_playable_draft",
   "canonical_docs": [
     "docs/01_project_brief.md",
     "docs/story/characters/character_sheets.md",
@@ -11,7 +11,11 @@
     "docs/design/system_ui_resolution.md",
     "docs/story/routes/main_route_blueprint.md",
     "docs/story/scenes/ch01_s01_summoning_measurement.yaml",
-    "docs/story/scenes/ch01_s02_artifact_lab.yaml"
+    "docs/story/scenes/ch01_s02_artifact_lab.yaml",
+    "docs/assets/asset_manifest.yaml",
+    "docs/story/scenes/ch01_s03_special_observation.yaml",
+    "docs/story/scenes/ch01_s04_harin_watch.yaml",
+    "docs/story/scenes/ch01_s05_demo_ending_hook.yaml"
   ],
   "renpy_current_files": {
     "script": "demo/game/script.rpy",
@@ -26,9 +30,23 @@
     "heroine_role": "학생회 감찰 담당",
     "first_incident": "측정구 오류 + 봉인 마도구 사고"
   },
-  "current_playable_range": "ch01_s01_summoning_measurement and ch01_s02_artifact_lab implemented; demo ends at special observation hook",
+  "current_playable_range": "ch01_s01_summoning_measurement, ch01_s02_artifact_lab, and ch01_s03_special_observation implemented; ch01_s04-ch01_s05 planned as scene cards before asset production",
   "verification": {
-    "static_contract_tests": "PASS: python3 tools/run_static_tests.py (5 passed)",
-    "renpy_lint": "PASS: RenPy 8.5.2 lint exit 0, no warnings for ch01_s02_artifact_lab"
-  }
+    "static_contract_tests": "PASS: python3 tools/run_static_tests.py -q (9 passed)",
+    "renpy_lint": "PASS: RenPy 8.5.2 lint exit 0, no warnings after ch01_s03_special_observation implementation"
+  },
+  "production_policy": "scene-flow-first, scene-by-scene production",
+  "planned_scene_flow": [
+    "ch01_s01_summoning_measurement",
+    "ch01_s02_artifact_lab",
+    "ch01_s03_special_observation",
+    "ch01_s04_harin_watch",
+    "ch01_s05_demo_ending_hook"
+  ],
+  "asset_scope": "minimum demo asset scope defined in docs/assets/asset_manifest.yaml",
+  "next_step": "Implement ch01_s04_harin_watch, then begin S01 asset production after flow review.",
+  "implementation_notes": [
+    "ch01_s03_special_observation implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy",
+    "ch01_s02_artifact_lab implemented as placeholder-safe PLAYABLE DRAFT in demo/game/script.rpy"
+  ]
 }

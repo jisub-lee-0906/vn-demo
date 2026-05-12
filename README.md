@@ -48,6 +48,7 @@
 - 이 문서들은 초안입니다. 사용자가 승인하거나 수정한 내용만 canon으로 승격합니다.
 - 스토리/캐릭터/변수는 먼저 문서에서 안정화한 뒤 `script.rpy`에 반영합니다.
 - 플레이어에게 보이는 배경/캐릭터/CG는 ComfyUI 산출물 + contact sheet review + Ren'Py screenshot QA 후 승격합니다.
+- VN 에셋 생성/투명화/표정/배경/CG 작업은 먼저 repo-local canonical workflow pack `workflow_packs/renpy_asset_workflows/`의 `USAGE.md`와 `api_workflows/*.json`에서 출발합니다. Windows ComfyUI 쪽 pack은 fallback/reference일 뿐입니다.
 - 초반 목표는 거대한 완성작이 아니라 10~15분 안팎의 PC용 vertical slice입니다.
 - GitHub 업로드는 private repo 기준이며, 루트 `.gitignore`가 Ren'Py 캐시/세이브/비밀 파일/로컬 생성물을 제외합니다.
 

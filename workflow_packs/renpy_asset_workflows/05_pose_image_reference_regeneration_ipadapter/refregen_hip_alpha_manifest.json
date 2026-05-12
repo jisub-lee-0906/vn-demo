@@ -1,0 +1,34 @@
+{
+  "toonout": {
+    "model": "BiRefNet_toonout",
+    "mask_offset": 0,
+    "mask_blur": 0,
+    "refine_foreground": false
+  },
+  "runs": [
+    {
+      "label": "d0p32_w0p65",
+      "source": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/hip_refregen_d0p32_w0p65_00001_.png",
+      "prompt_id": "6b4efb9a-7ef5-40b5-84bc-dae268b27f69",
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn\\refregen_ipadapter_pose_donor/alpha_hip_refregen_d0p32_w0p65_toonout_o0_b0_ref0_00001_.png"
+      ]
+    },
+    {
+      "label": "d0p42_w0p6",
+      "source": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/hip_refregen_d0p42_w0p6_00001_.png",
+      "prompt_id": "e0a7e704-053a-484b-b479-6a246a56ee32",
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn\\refregen_ipadapter_pose_donor/alpha_hip_refregen_d0p42_w0p6_toonout_o0_b0_ref0_00001_.png"
+      ]
+    },
+    {
+      "label": "d0p5_w0p55",
+      "source": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/hip_refregen_d0p5_w0p55_00001_.png",
+      "prompt_id": "7a95f950-253e-4cf5-a0aa-231bf915ea04",
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn\\refregen_ipadapter_pose_donor/alpha_hip_refregen_d0p5_w0p55_toonout_o0_b0_ref0_00001_.png"
+      ]
+    }
+  ]
+}

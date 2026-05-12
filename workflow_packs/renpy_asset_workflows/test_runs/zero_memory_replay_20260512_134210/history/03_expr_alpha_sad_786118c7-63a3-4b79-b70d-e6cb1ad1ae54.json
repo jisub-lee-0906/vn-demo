@@ -1,0 +1,96 @@
+{
+  "786118c7-63a3-4b79-b70d-e6cb1ad1ae54": {
+    "prompt": [
+      222,
+      "786118c7-63a3-4b79-b70d-e6cb1ad1ae54",
+      {
+        "1": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "hermes_expr_selected_sad.png"
+          }
+        },
+        "2": {
+          "class_type": "BiRefNetRMBG",
+          "inputs": {
+            "image": [
+              "1",
+              0
+            ],
+            "model": "BiRefNet_toonout",
+            "mask_offset": 0,
+            "mask_blur": 0,
+            "invert_output": false,
+            "refine_foreground": false,
+            "background": "Alpha",
+            "background_color": "#222222"
+          }
+        },
+        "3": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "images": [
+              "2",
+              0
+            ],
+            "filename_prefix": "hermes_vn_zero_memory_replay/03_expr_alpha_sad"
+          }
+        }
+      },
+      {
+        "client_id": "zero-memory-replay-20260512-134210-03_expr_alpha_sad",
+        "create_time": 1778561036316
+      },
+      [
+        "3"
+      ]
+    ],
+    "outputs": {
+      "3": {
+        "images": [
+          {
+            "filename": "03_expr_alpha_sad_00003_.png",
+            "subfolder": "hermes_vn_zero_memory_replay",
+            "type": "output"
+          }
+        ]
+      }
+    },
+    "status": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "786118c7-63a3-4b79-b70d-e6cb1ad1ae54",
+            "timestamp": 1778561036317
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [],
+            "prompt_id": "786118c7-63a3-4b79-b70d-e6cb1ad1ae54",
+            "timestamp": 1778561036332
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "786118c7-63a3-4b79-b70d-e6cb1ad1ae54",
+            "timestamp": 1778561036766
+          }
+        ]
+      ]
+    },
+    "meta": {
+      "3": {
+        "node_id": "3",
+        "display_node": "3",
+        "parent_node": null,
+        "real_node_id": "3"
+      }
+    }
+  }
+}

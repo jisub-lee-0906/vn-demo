@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 """Regenerate S01 VN asset candidates from the canonical Ren'Py ComfyUI workflow pack.
 
-This script intentionally derives every executable workflow from:
-C:\\Users\\Desktop\\Documents\\ComfyUI\\workflow_packs\\renpy_asset_workflows
+This script intentionally derives every executable workflow from the repo-local
+pack first:
+
+    workflow_packs/renpy_asset_workflows
+
+That pack includes the API templates plus per-workflow USAGE.md files explaining
+when each workflow should be used. The Windows ComfyUI copy is only a fallback
+for older checkouts.
 
 The generated outputs are candidate/contact-sheet QA only. They are not semantic
 Ren'Py assets until user selection and screenshot QA.
@@ -21,7 +27,9 @@ from pathlib import Path
 from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[1]
-PACK_ROOT = Path("/mnt/c/Users/Desktop/Documents/ComfyUI/workflow_packs/renpy_asset_workflows")
+REPO_PACK_ROOT = ROOT / "workflow_packs" / "renpy_asset_workflows"
+WINDOWS_PACK_ROOT = Path("/mnt/c/Users/Desktop/Documents/ComfyUI/workflow_packs/renpy_asset_workflows")
+PACK_ROOT = REPO_PACK_ROOT if REPO_PACK_ROOT.exists() else WINDOWS_PACK_ROOT
 PACK_API = PACK_ROOT / "api_workflows"
 OUT_ROOT = ROOT / "generated" / "comfyui" / "s01_asset_candidates_2026-05-12"
 QA_DOC = ROOT / "docs" / "assets" / "s01_asset_candidate_qa_2026-05-12.md"
@@ -322,6 +330,8 @@ def main() -> int:
         "status": "GENERATED_UNREVIEWED_CANDIDATES",
         "host": host,
         "workflow_pack_wsl": str(PACK_ROOT),
+        "workflow_pack_source": "repo-local" if PACK_ROOT == REPO_PACK_ROOT else "windows-fallback",
+        "workflow_pack_repo": str(REPO_PACK_ROOT.relative_to(ROOT)),
         "workflow_pack_windows": "C:\\Users\\Desktop\\Documents\\ComfyUI\\workflow_packs\\renpy_asset_workflows",
         "policy": "All executable workflows are derived from canonical workflow-pack API templates; outputs are candidate QA only.",
         "jobs": [],

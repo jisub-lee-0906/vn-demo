@@ -1,0 +1,158 @@
+{
+  "e811ff18-088b-40a4-b060-9caf6d2ae6af": {
+    "prompt": [
+      214,
+      "e811ff18-088b-40a4-b060-9caf6d2ae6af",
+      {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "novaAnimeXL_ilV125.safetensors"
+          }
+        },
+        "2": {
+          "class_type": "CLIPSetLastLayer",
+          "inputs": {
+            "clip": [
+              "1",
+              1
+            ],
+            "stop_at_clip_layer": -2
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "clip": [
+              "2",
+              0
+            ],
+            "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, waist-up to upper-thigh visible, full head visible, complete hair visible, large centered character, hands inside canvas, auburn medium-length wavy hair, warm brown eyes, clean face, ivory knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, relaxed standing pose, hands below frame, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop"
+          }
+        },
+        "4": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "clip": [
+              "2",
+              0
+            ],
+            "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, cropped hands, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, green clothes, green cardigan, green uniform, green hair, teal hair, green highlights, green reflection, green rim light, background color bleeding into hair, translucent green edges, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, inset, profile card"
+          }
+        },
+        "5": {
+          "class_type": "EmptyLatentImage",
+          "inputs": {
+            "width": 1152,
+            "height": 1536,
+            "batch_size": 1
+          }
+        },
+        "6": {
+          "class_type": "KSampler",
+          "inputs": {
+            "model": [
+              "1",
+              0
+            ],
+            "positive": [
+              "3",
+              0
+            ],
+            "negative": [
+              "4",
+              0
+            ],
+            "latent_image": [
+              "5",
+              0
+            ],
+            "seed": 719238043,
+            "steps": 28,
+            "cfg": 6.0,
+            "sampler_name": "euler_ancestral",
+            "scheduler": "normal",
+            "denoise": 1.0
+          }
+        },
+        "7": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": [
+              "6",
+              0
+            ],
+            "vae": [
+              "1",
+              2
+            ]
+          }
+        },
+        "8": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "images": [
+              "7",
+              0
+            ],
+            "filename_prefix": "hermes_vn_zero_memory_replay/01_anchor_seed719238043"
+          }
+        }
+      },
+      {
+        "client_id": "zero-memory-replay-20260512-134210-01_anchor_seed719238043",
+        "create_time": 1778560931353
+      },
+      [
+        "8"
+      ]
+    ],
+    "outputs": {
+      "8": {
+        "images": [
+          {
+            "filename": "01_anchor_seed719238043_00003_.png",
+            "subfolder": "hermes_vn_zero_memory_replay",
+            "type": "output"
+          }
+        ]
+      }
+    },
+    "status": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "e811ff18-088b-40a4-b060-9caf6d2ae6af",
+            "timestamp": 1778560931354
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [],
+            "prompt_id": "e811ff18-088b-40a4-b060-9caf6d2ae6af",
+            "timestamp": 1778560932389
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "e811ff18-088b-40a4-b060-9caf6d2ae6af",
+            "timestamp": 1778560951266
+          }
+        ]
+      ]
+    },
+    "meta": {
+      "8": {
+        "node_id": "8",
+        "display_node": "8",
+        "parent_node": null,
+        "real_node_id": "8"
+      }
+    }
+  }
+}

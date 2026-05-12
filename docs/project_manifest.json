@@ -16,7 +16,9 @@
     "docs/story/scenes/ch01_s03_special_observation.yaml",
     "docs/story/scenes/ch01_s04_harin_watch.yaml",
     "docs/story/scenes/ch01_s05_demo_ending_hook.yaml",
-    "docs/assets/s01_asset_candidate_qa_2026-05-12.md"
+    "docs/assets/s01_asset_candidate_qa_2026-05-12.md",
+    "workflow_packs/renpy_asset_workflows/README.md",
+    "workflow_packs/renpy_asset_workflows/CANONICAL_WORKFLOW_POLICY.md"
   ],
   "renpy_current_files": {
     "script": "demo/game/script.rpy",

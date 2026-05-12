@@ -1,0 +1,62 @@
+[
+  {
+    "label": "d0.32 w0.65",
+    "file": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/alpha_arms_refregen_d0p32_w0p65_toonout_o0_b0_ref0_00001_.png",
+    "size": [
+      1152,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "bbox": [
+      154,
+      4,
+      977,
+      1536
+    ],
+    "transparent_ratio_lt5": 0.5259687635633681,
+    "opaque_ratio_ge250": 0.46458152488425924
+  },
+  {
+    "label": "d0.42 w0.60",
+    "file": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/alpha_arms_refregen_d0p42_w0p6_toonout_o0_b0_ref0_00001_.png",
+    "size": [
+      1152,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "bbox": [
+      152,
+      0,
+      976,
+      1536
+    ],
+    "transparent_ratio_lt5": 0.5252143012152778,
+    "opaque_ratio_ge250": 0.4651500560619213
+  },
+  {
+    "label": "d0.50 w0.55",
+    "file": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/alpha_arms_refregen_d0p5_w0p55_toonout_o0_b0_ref0_00001_.png",
+    "size": [
+      1152,
+      1536
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "bbox": [
+      151,
+      0,
+      979,
+      1536
+    ],
+    "transparent_ratio_lt5": 0.5258156105324074,
+    "opaque_ratio_ge250": 0.4649669505931713
+  }
+]

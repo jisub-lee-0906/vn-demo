@@ -1,0 +1,39 @@
+{
+  "host": "http://172.28.224.1:8000",
+  "identity_reference": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_toonout_other_character/source_auburn_719238043_00001_.png",
+  "pose_donor_latent_source": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn/source_hip_txt_s0_00001_.png",
+  "positive": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, full head visible, complete hair visible, large centered character, auburn medium-length wavy hair, warm brown eyes, clean face, pink knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, one hand on hip, hand on hip, other arm relaxed down, confident expression, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop",
+  "negative": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, expression sheet, inset, profile card, hands clasped together, prayer hands, both hands on chest, arms crossed, crossed arms, fingers touching in front of face",
+  "runs": [
+    {
+      "label": "hip_refregen_d0p32_w0p65",
+      "denoise": 0.32,
+      "ipadapter_weight": 0.65,
+      "seed": 8193301,
+      "prompt_id": "4ce040ed-8691-475c-9777-7f20bfe7a0b2",
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn\\refregen_ipadapter_pose_donor/hip_refregen_d0p32_w0p65_00001_.png"
+      ]
+    },
+    {
+      "label": "hip_refregen_d0p42_w0p6",
+      "denoise": 0.42,
+      "ipadapter_weight": 0.6,
+      "seed": 8193302,
+      "prompt_id": "819d3cb0-41ec-4be9-892e-2ae92547bc18",
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn\\refregen_ipadapter_pose_donor/hip_refregen_d0p42_w0p6_00001_.png"
+      ]
+    },
+    {
+      "label": "hip_refregen_d0p5_w0p55",
+      "denoise": 0.5,
+      "ipadapter_weight": 0.55,
+      "seed": 8193303,
+      "prompt_id": "a93d0329-d315-4bc1-a7d4-b006bbb6e0f4",
+      "outputs": [
+        "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_pose_smoke_auburn\\refregen_ipadapter_pose_donor/hip_refregen_d0p5_w0p55_00001_.png"
+      ]
+    }
+  ]
+}

@@ -203,6 +203,33 @@ def test_asset_manifest_defines_minimum_demo_asset_scope_and_priorities():
     assert "docs/assets/asset_manifest.yaml" in readme
 
 
+def test_repo_local_workflow_pack_is_available_as_canonical_asset_source():
+    pack = ROOT / "workflow_packs" / "renpy_asset_workflows"
+    required_files = [
+        pack / "README.md",
+        pack / "CANONICAL_WORKFLOW_POLICY.md",
+        pack / "CANONICAL_PROMPTING_GUIDE.md",
+        pack / "01_character_anchor_and_prompt" / "USAGE.md",
+        pack / "02_toonout_transparency_alpha" / "USAGE.md",
+        pack / "03_expression_variation_ipadapter_img2img" / "USAGE.md",
+        pack / "06_background_generation_no_text" / "USAGE.md",
+        pack / "08_event_cg_no_text_story_beat" / "USAGE.md",
+        pack / "api_workflows" / "01_character_anchor_seed719238043_api.json",
+        pack / "api_workflows" / "02_alpha_toonout_o0_b0_ref0_api.json",
+        pack / "api_workflows" / "06_background_generation_no_text_api.json",
+        pack / "api_workflows" / "08_event_cg_no_text_story_beat_api.json",
+    ]
+
+    for path in required_files:
+        assert path.exists(), path
+        assert path.stat().st_size > 100, path
+
+    generator = read(ROOT / "tools" / "generate_s01_asset_candidates.py")
+    assert "REPO_PACK_ROOT" in generator
+    assert "WINDOWS_PACK_ROOT" in generator
+    assert "repo-local" in generator
+
+
 def test_selected_s01_assets_are_promoted_and_wired_into_opening_scene():
     text = read(SCRIPT)
     asset_manifest = read(DOCS / "assets" / "asset_manifest.yaml")

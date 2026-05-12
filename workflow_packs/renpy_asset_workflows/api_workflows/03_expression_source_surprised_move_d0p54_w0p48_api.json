@@ -1,0 +1,146 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "novaAnimeXL_ilV125.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "CLIPSetLastLayer",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "stop_at_clip_layer": -2
+    }
+  },
+  "3": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_expr_auburn_neutral.png"
+    }
+  },
+  "4": {
+    "class_type": "IPAdapterModelLoader",
+    "inputs": {
+      "ipadapter_file": "ip-adapter-plus_sdxl_vit-h.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "CLIPVisionLoader",
+    "inputs": {
+      "clip_name": "clip-vision_vit-h.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "IPAdapterAdvanced",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "ipadapter": [
+        "4",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "clip_vision": [
+        "5",
+        0
+      ],
+      "weight": 0.48,
+      "weight_type": "style and composition",
+      "combine_embeds": "average",
+      "start_at": 0.0,
+      "end_at": 0.82,
+      "embeds_scaling": "V only"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, full head visible, complete hair visible, large centered character, auburn medium-length wavy hair, warm brown eyes, clean face, ivory knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, hands together near chest, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop, VERY surprised expression, wide open eyes, small open mouth, startled face, clearly readable surprise, not subtle expression"
+    }
+  },
+  "8": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, expression sheet, inset, profile card, neutral face, expressionless, smiling, calm face, closed mouth, angry, crying"
+    }
+  },
+  "9": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "3",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "10": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "6",
+        0
+      ],
+      "positive": [
+        "7",
+        0
+      ],
+      "negative": [
+        "8",
+        0
+      ],
+      "latent_image": [
+        "9",
+        0
+      ],
+      "seed": 928204,
+      "steps": 28,
+      "cfg": 6.0,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 0.54
+    }
+  },
+  "11": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "10",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "12": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "filename_prefix": "hermes_vn_expression_smoke_auburn/source_surprised_move_d0p54_w0p48"
+    }
+  }
+}

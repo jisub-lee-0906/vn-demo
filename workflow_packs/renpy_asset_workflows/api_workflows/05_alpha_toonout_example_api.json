@@ -1,0 +1,34 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_refregen_alpha_SOURCE_TO_PROCESS.png"
+    }
+  },
+  "2": {
+    "class_type": "BiRefNetRMBG",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "model": "BiRefNet_toonout",
+      "mask_offset": 0,
+      "mask_blur": 0,
+      "invert_output": false,
+      "refine_foreground": false,
+      "background": "Alpha",
+      "background_color": "#222222"
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ],
+      "filename_prefix": "hermes_vn_pose_smoke_auburn/refregen_ipadapter_pose_donor/alpha_OUTPUT_PREFIX_toonout_o0_b0_ref0"
+    }
+  }
+}

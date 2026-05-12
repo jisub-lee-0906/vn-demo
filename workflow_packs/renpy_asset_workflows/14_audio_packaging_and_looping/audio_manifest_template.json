@@ -1,0 +1,29 @@
+{
+  "updated": "2026-05-12",
+  "assets": [
+    {
+      "semantic_name": "bgm_school_day_loop",
+      "source_file": "",
+      "output_file": "game/audio/bgm/bgm_school_day_loop.ogg",
+      "duration_sec": null,
+      "sample_rate": null,
+      "channels": null,
+      "source_or_generator": "",
+      "license_note": "",
+      "loopable": true,
+      "notes": ""
+    },
+    {
+      "semantic_name": "ui_click",
+      "source_file": "",
+      "output_file": "game/audio/sfx/ui_click.ogg",
+      "duration_sec": null,
+      "sample_rate": null,
+      "channels": null,
+      "source_or_generator": "procedural/library/ai",
+      "license_note": "",
+      "loopable": false,
+      "notes": ""
+    }
+  ]
+}

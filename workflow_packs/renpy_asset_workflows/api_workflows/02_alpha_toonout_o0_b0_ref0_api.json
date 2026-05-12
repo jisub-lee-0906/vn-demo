@@ -1,0 +1,34 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_other_auburn_seed719238043.png"
+    }
+  },
+  "2": {
+    "class_type": "BiRefNetRMBG",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "model": "BiRefNet_toonout",
+      "mask_blur": 0,
+      "mask_offset": 0,
+      "invert_output": false,
+      "refine_foreground": false,
+      "background": "Alpha",
+      "background_color": "#222222"
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ],
+      "filename_prefix": "hermes_vn_toonout_other_character/alpha_toonout_offp0_b0_ref0"
+    }
+  }
+}

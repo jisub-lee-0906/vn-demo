@@ -1,0 +1,440 @@
+{
+  "updated": "2026-05-13",
+  "agent_entrypoint": "AGENTS.md",
+  "comfyui_endpoint_when_running": "http://172.28.224.1:8000",
+  "policy": "Minimal AI-agent pack. Per workflow README + workflow_api JSON are source of truth. No generated artifacts in reusable pack.",
+  "workflows": [
+    {
+      "id": "01",
+      "folder": "01_character_anchor_and_prompt",
+      "category": "character",
+      "title": "캐릭터 기준 앵커 생성",
+      "purpose": "새 캐릭터의 기준 이미지와 고정 prompt/seed를 만든다.",
+      "output": "02 alpha, 03 expression, 05 pose, 10 outfit의 기준 참조로 사용",
+      "test": "기준 인물성/헤어/의상 anchor가 안정적인지 확인",
+      "api_templates": [
+        {
+          "file": "01_character_anchor_seed719238043_api.json",
+          "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_seed719238043_api.json",
+          "purpose": "canonical selected character anchor using novaAnimeXL_ilV180.safetensors",
+          "required_inputs": [],
+          "status": "USER_APPROVED canonical / ilV180"
+        }
+      ],
+      "status": "USER_APPROVED_01_ANCHOR_ILV180",
+      "last_user_qa": "2026-05-13"
+    },
+    {
+      "id": "02",
+      "folder": "02_toonout_transparency_alpha",
+      "category": "character",
+      "title": "투명 스프라이트 알파/매팅",
+      "purpose": "캐릭터 이미지를 RenPy용 투명 PNG로 만든다.",
+      "output": "alpha PNG sprite",
+      "test": "밝은/어두운 배경 위 hair halo, edge 손실 확인",
+      "api_templates": [
+        {
+          "file": "02_alpha_toonout_o0_b0_ref0_api.json",
+          "path": "02_toonout_transparency_alpha/workflow_api/02_alpha_toonout_o0_b0_ref0_api.json",
+          "purpose": "canonical toonout alpha setting",
+          "required_inputs": [
+            "hermes_other_auburn_seed719238043.png"
+          ],
+          "status": "USER_APPROVED canonical alpha"
+        }
+      ],
+      "last_smoke_test": "2026-05-13",
+      "status": "USER_APPROVED_02_ALPHA",
+      "last_user_qa": "2026-05-13"
+    },
+    {
+      "id": "03",
+      "folder": "03_expression_variation_ipadapter_img2img",
+      "category": "character",
+      "title": "표정 변형",
+      "purpose": "기준 캐릭터의 smile/sad/angry/surprised 등 표정 source variation을 만든다.",
+      "output": "표정별 source PNG 후보; 투명 PNG는 02 alpha workflow로 처리",
+      "test": "contact sheet에서 동일 인물성 + 표정 차이 확인; alpha 필요 시 02로 후처리",
+      "api_templates": [
+        {
+          "file": "03_expression_source_canonical_api.json",
+          "path": "03_expression_variation_ipadapter_img2img/workflow_api/03_expression_source_canonical_api.json",
+          "purpose": "canonical generic expression source img2img/IPAdapter workflow; switch expression by README prompt preset",
+          "required_inputs": [
+            "TEMPLATE_character_anchor.png"
+          ],
+          "status": "canonical source template; alpha delegated to 02"
+        }
+      ],
+      "notes": "2026-05-13: removed duplicated 03 alpha workflows and consolidated per-expression source workflows into one canonical JSON. Emotion-specific prompts/strengths live in README.",
+      "last_smoke_test": "2026-05-13",
+      "status": "SMOKE_PASS_SOURCE_CANONICAL_PENDING_USER_QA",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_expression/source_auburn_smile_canonical_smoke_00001_.png"
+    },
+    {
+      "id": "04",
+      "folder": "04_pose_source_generation_textonly",
+      "category": "character",
+      "title": "텍스트 기반 포즈 donor/source 생성",
+      "purpose": "참조 포즈가 없을 때 donor/source 포즈 이미지를 만든다. 최종 캐릭터가 아니다.",
+      "output": "05에 넣을 pose donor/source",
+      "test": "포즈 형태만 확인. 캐릭터 일관성은 05에서 판정",
+      "api_templates": [
+        {
+          "file": "04_pose_alpha_arms_crossed_toonout_o0_b0_ref0_api.json",
+          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_alpha_arms_crossed_toonout_o0_b0_ref0_api.json",
+          "purpose": "canonical arms-crossed donor alpha",
+          "required_inputs": [
+            "hermes_pose_selected_arms_crossed.png"
+          ],
+          "status": "PASS canonical"
+        },
+        {
+          "file": "04_pose_alpha_hand_chest_toonout_o0_b0_ref0_api.json",
+          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_alpha_hand_chest_toonout_o0_b0_ref0_api.json",
+          "purpose": "canonical hand-to-chest donor alpha",
+          "required_inputs": [
+            "hermes_pose_selected_hand_chest.png"
+          ],
+          "status": "PASS canonical"
+        },
+        {
+          "file": "04_pose_alpha_one_hand_hip_toonout_o0_b0_ref0_api.json",
+          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_alpha_one_hand_hip_toonout_o0_b0_ref0_api.json",
+          "purpose": "canonical one-hand-on-hip donor alpha",
+          "required_inputs": [
+            "hermes_pose_selected_one_hand_hip.png"
+          ],
+          "status": "PASS canonical"
+        },
+        {
+          "file": "04_pose_textonly_source_cross_txt_s0_api.json",
+          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_textonly_source_cross_txt_s0_api.json",
+          "purpose": "canonical arms-crossed pose donor",
+          "required_inputs": [],
+          "status": "PASS pose source canonical"
+        },
+        {
+          "file": "04_pose_textonly_source_hand_chest_txt_s1_api.json",
+          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_textonly_source_hand_chest_txt_s1_api.json",
+          "purpose": "canonical hand-to-chest pose donor",
+          "required_inputs": [],
+          "status": "PASS pose source canonical"
+        },
+        {
+          "file": "04_pose_textonly_source_hip_txt_s0_api.json",
+          "path": "04_pose_source_generation_textonly/workflow_api/04_pose_textonly_source_hip_txt_s0_api.json",
+          "purpose": "canonical one-hand-on-hip pose donor",
+          "required_inputs": [],
+          "status": "PASS pose source canonical"
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "folder": "05_pose_image_reference_regeneration_ipadapter",
+      "category": "character",
+      "title": "이미지 참조 기반 포즈 재생성",
+      "purpose": "04 donor 또는 외부 포즈 이미지를 기존 캐릭터처럼 재생성한다.",
+      "output": "최종 포즈 variant/alpha 후보",
+      "test": "anchor와 비교해 얼굴/헤어/의상 유지, 손/edge 문제 확인",
+      "api_templates": [
+        {
+          "file": "05_alpha_toonout_example_api.json",
+          "path": "05_pose_image_reference_regeneration_ipadapter/workflow_api/05_alpha_toonout_example_api.json",
+          "purpose": "canonical reusable alpha for ref-generated pose outputs",
+          "required_inputs": [
+            "hermes_refregen_alpha_SOURCE_TO_PROCESS.png"
+          ],
+          "status": "PASS canonical alpha step"
+        },
+        {
+          "file": "05_pose_refregen_arms_crossed_d0p42_w0p60_api.json",
+          "path": "05_pose_image_reference_regeneration_ipadapter/workflow_api/05_pose_refregen_arms_crossed_d0p42_w0p60_api.json",
+          "purpose": "canonical arms-crossed same-character ref-generation",
+          "required_inputs": [
+            "hermes_refregen_pose_arms_crossed_source.png",
+            "hermes_refregen_identity_auburn_719238043.png"
+          ],
+          "status": "PASS production-direction canonical"
+        },
+        {
+          "file": "05_pose_refregen_one_hand_hip_d0p42_w0p60_api.json",
+          "path": "05_pose_image_reference_regeneration_ipadapter/workflow_api/05_pose_refregen_one_hand_hip_d0p42_w0p60_api.json",
+          "purpose": "canonical one-hand-on-hip same-character ref-generation",
+          "required_inputs": [
+            "hermes_refregen_pose_one_hand_hip_source.png",
+            "hermes_refregen_identity_auburn_719238043.png"
+          ],
+          "status": "PASS production-direction canonical"
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "folder": "06_background_generation_no_text",
+      "category": "background",
+      "title": "텍스트 없는 배경 생성",
+      "purpose": "VN 장면 배경을 새로 만든다.",
+      "output": "텍스트/UI/로고 없는 background",
+      "test": "RenPy 대사창을 얹어 focal point와 fake text 확인",
+      "api_templates": [
+        {
+          "file": "06_background_generation_no_text_api.json",
+          "path": "06_background_generation_no_text/workflow_api/06_background_generation_no_text_api.json",
+          "purpose": "minimal-smoke no-text classroom background baseline; also day/night base-generation route",
+          "required_inputs": [],
+          "status": "SMOKE PASS: ilV180 minimal txt2img; use separate 06 generations for day/night; RenPy textbox QA still required"
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "folder": "07_background_variation_img2img_layout_lock",
+      "category": "background",
+      "title": "레이아웃 고정 배경 변형",
+      "purpose": "기존 배경 구도를 유지하며 시간/날씨/분위기만 바꾼다.",
+      "output": "layout-locked variation",
+      "test": "원본과 주요 오브젝트 위치/소실점 비교",
+      "api_templates": [
+        {
+          "file": "07_background_variation_img2img_layout_lock_api.json",
+          "path": "07_background_variation_img2img_layout_lock/workflow_api/07_background_variation_img2img_layout_lock_api.json",
+          "purpose": "same-location rainy/weather variation with Canny ControlNet layout lock; day/night conversion excluded",
+          "required_inputs": [
+            "TEMPLATE_bg_base_location.png"
+          ],
+          "status": "SMOKE PASS for rainy weather variation; day/night swaps fixed to separate 06 base generations"
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "folder": "08_event_cg_no_text_story_beat",
+      "category": "cg",
+      "title": "스토리 이벤트 CG",
+      "purpose": "루트/이벤트용 한 장면 CG를 만든다.",
+      "output": "텍스트 없는 event CG",
+      "test": "손/얼굴/fake UI/fake text/RenPy 화면 focal point 확인",
+      "api_templates": [
+        {
+          "file": "08_event_cg_no_text_story_beat_api.json",
+          "path": "08_event_cg_no_text_story_beat/workflow_api/08_event_cg_no_text_story_beat_api.json",
+          "purpose": "smoke-passed no-text sealed-envelope / hallway hook event CG template",
+          "required_inputs": [],
+          "status": "SMOKE PASS candidate: selected uppermid_s2 seed 812347402; RenPy route screenshot QA still required"
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "folder": "09_support_character_generation",
+      "category": "character",
+      "title": "서포트 캐릭터 생성",
+      "purpose": "교사/친구/NPC 등 보조 캐릭터 anchor/alpha를 만든다.",
+      "output": "support character anchor/alpha",
+      "test": "메인 캐릭터와 구분되면서 같은 VN 스타일인지 확인",
+      "api_templates": [
+        {
+          "file": "09_support_character_alpha_toonout_api.json",
+          "path": "09_support_character_generation/workflow_api/09_support_character_alpha_toonout_api.json",
+          "purpose": "toonout alpha for selected support-character source",
+          "required_inputs": [
+            "hermes_support_teacher_SOURCE_TO_PROCESS.png"
+          ],
+          "status": "SMOKE PASS candidate on v2 teacher source; not game-promotion-ready"
+        },
+        {
+          "file": "09_support_character_anchor_teacher_api.json",
+          "path": "09_support_character_generation/workflow_api/09_support_character_anchor_teacher_api.json",
+          "purpose": "scaffold support-character teacher neutral anchor",
+          "required_inputs": [],
+          "status": "SMOKE PASS candidate after v2 prompt seed91420932; not game-promotion-ready"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "folder": "10_outfit_costume_variation",
+      "category": "character",
+      "title": "의상/코스튬 변형",
+      "purpose": "기존 캐릭터에 hoodie/jacket/dress 등 의상 차이를 준다.",
+      "output": "outfit variant/alpha",
+      "test": "얼굴/헤어 유지, torso mask 경계, 의상 오염 확인",
+      "api_templates": [
+        {
+          "file": "10_outfit_alpha_toonout_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_alpha_toonout_api.json",
+          "purpose": "toonout alpha for selected outfit variation source",
+          "required_inputs": [
+            "hermes_outfit_casual_SOURCE_TO_PROCESS.png"
+          ],
+          "status": "AVAILABLE for selected outfit candidates; alpha/RenPy QA required for any game-promoted outfit"
+        },
+        {
+          "file": "10_outfit_masked_torso_tight_inpaint_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_masked_torso_tight_inpaint_api.json",
+          "purpose": "preferred tight-mask torso inpaint route for casual pullover/sweater",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "SMOKE PASS direction candidate; preserves face/hair and improves outfit change; collar/tie remnants and RenPy QA remain"
+        },
+        {
+          "file": "10_outfit_pulid_i2i_lavender_hoodie_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_lavender_hoodie_api.json",
+          "purpose": "PuLID face-anchored full-image i2i for distinct hoodie costume target",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "USER-ACCEPTED COMPLETE direction: PuLID+i2i face retention is acceptable for workflow 10; final outfit use still needs alpha/RenPy QA before game promotion"
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety2_black_leather_jacket_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety2_black_leather_jacket_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "REJECT for VN safe/default set: leather jacket obeyed partly but became overly revealing crop/bikini-like; identity also softer."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety2_blue_denim_jacket_strong_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety2_blue_denim_jacket_strong_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS direction: actual blue denim jacket + white tee, good candidate; face/hair acceptable."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety2_purple_witchy_capelet_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety2_purple_witchy_capelet_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS direction: fantasy capelet/dress vibe; face slightly softer but acceptable."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety2_yellow_summer_dress_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety2_yellow_summer_dress_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS direction: clear yellow dress/top; lower skirt layering remains but outfit change is strong."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety_black_bomber_jacket_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety_black_bomber_jacket_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS-ish but prompt drift: became cream/white puffer/bomber, not black; face/hair close, school feel mostly gone."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety_denim_jacket_white_tee_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety_denim_jacket_white_tee_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS for casual outfit but denim jacket prompt collapsed to white tee + denim shorts; strong outfit change, face close."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety_green_field_jacket_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety_green_field_jacket_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS direction: clear green jacket, strong clothing change, face/hair acceptable."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety_pink_ribbon_blouse_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety_pink_ribbon_blouse_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS direction: distinct cute pink blouse/dress-like top, face/hair acceptable; hands changed but usable."
+        },
+        {
+          "file": "10_outfit_pulid_i2i_variety_red_track_jacket_api.json",
+          "path": "10_outfit_costume_variation/workflow_api/10_outfit_pulid_i2i_variety_red_track_jacket_api.json",
+          "purpose": "PuLID+i2i outfit variety batch candidate",
+          "required_inputs": [
+            "hermes_outfit_identity_source.png"
+          ],
+          "status": "PASS direction: clear sporty track jacket, good face/hair retention, clean silhouette."
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "folder": "11_effect_prop_overlay_generation",
+      "category": "prop_effect",
+      "title": "소품/효과 오버레이",
+      "purpose": "VN 화면에 얹을 단일 소품/key item/magic shimmer를 만든다.",
+      "output": "overlay prop/effect",
+      "test": "alpha/blend, 좌표 배치, 가독성 확인",
+      "api_templates": [
+        {
+          "file": "11_effect_magic_shimmer_black_bg_api.json",
+          "path": "11_effect_prop_overlay_generation/workflow_api/11_effect_magic_shimmer_black_bg_api.json",
+          "purpose": "scaffold black-background magical shimmer additive overlay",
+          "required_inputs": [],
+          "status": "SMOKE PASS candidate as black-background additive effect overlay"
+        },
+        {
+          "file": "11_prop_alpha_toonout_api.json",
+          "path": "11_effect_prop_overlay_generation/workflow_api/11_prop_alpha_toonout_api.json",
+          "purpose": "toonout alpha for selected prop source",
+          "required_inputs": [
+            "hermes_prop_key_SOURCE_TO_PROCESS.png"
+          ],
+          "status": "SMOKE PASS on minimal key candidates seed61124024/61124021; RenPy placement QA still required"
+        },
+        {
+          "file": "11_prop_single_object_key_minimal_api.json",
+          "path": "11_effect_prop_overlay_generation/workflow_api/11_prop_single_object_key_minimal_api.json",
+          "purpose": "preferred minimal single old brass key prop source",
+          "required_inputs": [],
+          "status": "SMOKE PASS: single key source seed61124024; alpha candidate passed black/gray/checker QA; RenPy placement QA still required"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "folder": "12_sfx_generation",
+      "category": "audio",
+      "title": "SFX 생성",
+      "purpose": "짧은 UI/문/마법/알림 효과음을 만든다.",
+      "output": "wav/ogg SFX 후보",
+      "test": "피크/노이즈/RenPy 재생 지연 확인",
+      "api_templates": []
+    },
+    {
+      "id": "13",
+      "folder": "13_bgm_generation",
+      "category": "audio",
+      "title": "BGM 프롬프트 설계",
+      "purpose": "장면/루트 분위기에 맞는 BGM 프롬프트를 설계한다.",
+      "output": "BGM prompt template",
+      "test": "loop 가능성, 대사 가독성 방해 여부 확인",
+      "api_templates": []
+    },
+    {
+      "id": "14",
+      "folder": "14_audio_packaging_and_looping",
+      "category": "audio",
+      "title": "오디오 패키징/루프",
+      "purpose": "SFX/BGM 파일명, manifest, loop 정보를 RenPy 투입 전 정리한다.",
+      "output": "audio manifest",
+      "test": "경로/볼륨/loop_start/loop_end 확인",
+      "api_templates": []
+    }
+  ]
+}

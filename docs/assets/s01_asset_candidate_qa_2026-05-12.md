@@ -51,11 +51,15 @@ Prototype game promotion (2026-05-12):
 - Measurement orb CG promoted from s01:
   - `demo/game/images/cg/cg_measurement_orb.png`
   - scaled to 1920x1080 and wired as `image cg measurement_orb` during the S01 measurement beat.
-- Harin anchor s04 promoted as prototype card-style sprites:
+- Harin anchor s04 promoted through the workflow-pack transparency route:
   - `demo/game/images/characters/harin/harin_neutral.png`
   - `demo/game/images/characters/harin/harin_suspicious.png`
   - wired as `image harin neutral` and `image harin suspicious`.
-  - Alpha caveat: simple chromakey damaged hair/clothes too much, so the current promoted version intentionally preserves the original light background as a temporary card-style prototype. This is suitable for route/composition QA, not final sprite quality.
+  - Source: `generated/comfyui/s01_asset_candidates_2026-05-12/selected/harin_anchor_selected_s04.png`.
+  - Transparency node: Windows ComfyUI `BiRefNetRMBG`, model `BiRefNet_toonout`, `mask_offset=0`, `mask_blur=0`, `refine_foreground=false`, `background=Alpha`.
+  - Output: `C:\Users\Desktop\Documents\ComfyUI\output\vn_demo_s01_harin_alpha\harin_s04_toonout_o0_b0_ref0_00001_.png` (`/mnt/c/Users/Desktop/Documents/ComfyUI/output/vn_demo_s01_harin_alpha/harin_s04_toonout_o0_b0_ref0_00001_.png`).
+  - Alpha proof after promotion: PNG color type RGBA, alpha min/max `(0, 255)`, transparent pixels `1,134,471`, opaque pixels `617,267`, semi-transparent matte pixels `17,734`.
+  - Expression caveat: `harin_suspicious.png` currently reuses the transparent neutral anchor as a route/staging prototype; a distinct suspicious expression still requires expression-generation QA.
 - Approximate composition previews:
   - `generated/renpy_s01_asset_promotion_qa_2026-05-12/s01_hall_harin_textbox_preview.png`
   - `generated/renpy_s01_asset_promotion_qa_2026-05-12/s01_measurement_orb_textbox_preview.png`

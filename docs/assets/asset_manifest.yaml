@@ -51,8 +51,8 @@ minimum_demo_assets:
       scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
       purpose: 기본 감찰 담당 포즈
       priority: P0
-      production_route: ComfyUI main reference selection, transparent sprite proof
-      status: promoted_card_prototype_pending_transparent_sprite
+      production_route: ComfyUI main reference selection, BiRefNet_toonout transparent sprite proof
+      status: promoted_transparent_prototype_pending_renpy_screenshot_qa
       selected_candidate: harin_anchor_s04
       game_path: demo/game/images/characters/harin/harin_neutral.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
@@ -60,8 +60,8 @@ minimum_demo_assets:
       scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
       purpose: 의심/추궁 표정
       priority: P0
-      production_route: expression consistency workflow from neutral master
-      status: promoted_card_prototype_pending_expression_generation
+      production_route: expression consistency workflow from neutral master after transparent anchor proof
+      status: promoted_transparent_neutral_reuse_pending_expression_generation
       selected_anchor: harin_anchor_s04
       game_path: demo/game/images/characters/harin/harin_suspicious.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md

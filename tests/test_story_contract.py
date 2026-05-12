@@ -1,3 +1,5 @@
+import struct
+import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -7,6 +9,65 @@ DOCS = ROOT / "docs"
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8-sig")
+
+
+def png_alpha_counts(path: Path) -> tuple[int, int, int]:
+    data = path.read_bytes()
+    assert data[:8] == b"\x89PNG\r\n\x1a\n"
+    pos = 8
+    idat = []
+    width = height = bit_depth = color_type = None
+    while pos < len(data):
+        length = struct.unpack(">I", data[pos : pos + 4])[0]
+        chunk_type = data[pos + 4 : pos + 8]
+        chunk = data[pos + 8 : pos + 8 + length]
+        pos += 12 + length
+        if chunk_type == b"IHDR":
+            width, height, bit_depth, color_type, *_ = struct.unpack(">IIBBBBB", chunk)
+        elif chunk_type == b"IDAT":
+            idat.append(chunk)
+        elif chunk_type == b"IEND":
+            break
+
+    assert color_type == 6, f"{path} must be RGBA PNG, got color_type={color_type}"
+    assert bit_depth == 8, f"{path} must be 8-bit PNG, got bit_depth={bit_depth}"
+
+    raw = zlib.decompress(b"".join(idat))
+    bpp = 4
+    stride = width * bpp
+    prev = bytearray(stride)
+    offset = 0
+    transparent = opaque = semi = 0
+    for _y in range(height):
+        filter_type = raw[offset]
+        offset += 1
+        scanline = bytearray(raw[offset : offset + stride])
+        offset += stride
+        for i in range(stride):
+            left = scanline[i - bpp] if i >= bpp else 0
+            up = prev[i]
+            up_left = prev[i - bpp] if i >= bpp else 0
+            if filter_type == 1:
+                scanline[i] = (scanline[i] + left) & 255
+            elif filter_type == 2:
+                scanline[i] = (scanline[i] + up) & 255
+            elif filter_type == 3:
+                scanline[i] = (scanline[i] + ((left + up) // 2)) & 255
+            elif filter_type == 4:
+                pred = left + up - up_left
+                pa, pb, pc = abs(pred - left), abs(pred - up), abs(pred - up_left)
+                predictor = left if pa <= pb and pa <= pc else (up if pb <= pc else up_left)
+                scanline[i] = (scanline[i] + predictor) & 255
+        for x in range(width):
+            alpha = scanline[x * 4 + 3]
+            if alpha == 0:
+                transparent += 1
+            elif alpha == 255:
+                opaque += 1
+            else:
+                semi += 1
+        prev = scanline
+    return transparent, opaque, semi
 
 
 def test_script_replaces_default_renpy_template_with_academy_misunderstanding_opening():
@@ -156,6 +217,12 @@ def test_selected_s01_assets_are_promoted_and_wired_into_opening_scene():
     for path in promoted_assets:
         assert path.exists(), path
         assert path.stat().st_size > 1000, path
+
+    for path in promoted_assets[-2:]:
+        transparent, opaque, semi = png_alpha_counts(path)
+        assert transparent > 0, f"{path} must have real transparent pixels"
+        assert opaque > 0, f"{path} must retain opaque character pixels"
+        assert semi > 0, f"{path} should preserve anti-aliased matte edge pixels"
 
     assert 'image bg summoning_hall = "images/backgrounds/bg_summoning_hall.png"' in text
     assert 'image cg measurement_orb = "images/cg/cg_measurement_orb.png"' in text

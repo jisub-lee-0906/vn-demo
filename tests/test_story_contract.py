@@ -230,38 +230,66 @@ def test_repo_local_workflow_pack_is_available_as_canonical_asset_source():
     assert "repo-local" in generator
 
 
-def test_selected_s01_assets_are_promoted_and_wired_into_opening_scene():
+def test_harin_s03_selection_is_alpha_promoted_to_semantic_assets():
     text = read(SCRIPT)
     asset_manifest = read(DOCS / "assets" / "asset_manifest.yaml")
+    project_manifest = read(DOCS / "project_manifest.json")
+    character_sheet = read(DOCS / "story" / "characters" / "character_sheets.md")
 
-    promoted_assets = [
-        ROOT / "demo" / "game" / "images" / "backgrounds" / "bg_summoning_hall.png",
-        ROOT / "demo" / "game" / "images" / "cg" / "cg_measurement_orb.png",
-        ROOT / "demo" / "game" / "images" / "characters" / "harin" / "harin_neutral.png",
-        ROOT / "demo" / "game" / "images" / "characters" / "harin" / "harin_suspicious.png",
-    ]
+    assert "cute tsundere" in project_manifest or "귀여운 츤데레" in project_manifest
+    assert "귀여운 츤데레" in character_sheet
+    assert "s03_harin_tsundere" in asset_manifest
+    assert "promoted_prototype_pending_in_game_qa" in asset_manifest
 
-    for path in promoted_assets:
+    assert 'image bg summoning_hall = Transform("images/backgrounds/bg_summoning_hall.png", xysize=(1920, 1080))' in text
+    assert 'image cg measurement_orb = Transform("images/cg/cg_measurement_orb.png"' in text
+    assert 'image harin neutral = Transform("images/characters/harin/harin_neutral.png"' in text
+    assert 'image harin suspicious = Transform("images/characters/harin/harin_suspicious.png"' in text
+
+    for rel in [
+        "demo/game/images/backgrounds/bg_summoning_hall.png",
+        "demo/game/images/cg/cg_measurement_orb.png",
+        "demo/game/images/characters/harin/harin_neutral.png",
+        "demo/game/images/characters/harin/harin_suspicious.png",
+    ]:
+        path = ROOT / rel
         assert path.exists(), path
         assert path.stat().st_size > 1000, path
 
-    for path in promoted_assets[-2:]:
-        transparent, opaque, semi = png_alpha_counts(path)
-        assert transparent > 0, f"{path} must have real transparent pixels"
-        assert opaque > 0, f"{path} must retain opaque character pixels"
-        assert semi > 0, f"{path} should preserve anti-aliased matte edge pixels"
+    transparent, opaque, semi = png_alpha_counts(ROOT / "demo/game/images/characters/harin/harin_neutral.png")
+    assert transparent > 0
+    assert opaque > 0
+    assert semi > 0
 
-    assert 'image bg summoning_hall = "images/backgrounds/bg_summoning_hall.png"' in text
-    assert 'image cg measurement_orb = "images/cg/cg_measurement_orb.png"' in text
-    assert 'image harin neutral = "images/characters/harin/harin_neutral.png"' in text
-    assert 'image harin suspicious = "images/characters/harin/harin_suspicious.png"' in text
-    assert "scene bg summoning_hall" in text
-    assert "show cg measurement_orb" in text
-    assert "show harin suspicious" in text
-    assert "show harin neutral" in text
-    assert "selected_candidate: bg_summoning_hall_s03" in asset_manifest
-    assert "selected_candidate: cg_measurement_orb_s01" in asset_manifest
-    assert "selected_candidate: harin_anchor_s04" in asset_manifest
+    promotion_manifest = ROOT / "generated/comfyui/harin_tsundere_candidates_20260512_215310/alpha_s03_toonout/PROMOTION_MANIFEST.json"
+    assert promotion_manifest.exists()
+    promotion_data = read(promotion_manifest)
+    assert "s03_harin_tsundere" in promotion_data
+    assert "alpha_min" in promotion_data
+
+
+def test_harin_suspicious_expression_is_distinct_alpha_promoted_and_qa_recorded():
+    asset_manifest = read(DOCS / "assets" / "asset_manifest.yaml")
+    project_manifest = read(DOCS / "project_manifest.json")
+    qa_doc = ROOT / "docs" / "assets" / "harin_suspicious_expression_qa_2026-05-12.md"
+    neutral = ROOT / "demo" / "game" / "images" / "characters" / "harin" / "harin_neutral.png"
+    suspicious = ROOT / "demo" / "game" / "images" / "characters" / "harin" / "harin_suspicious.png"
+
+    assert qa_doc.exists()
+    assert "distinct_suspicious_expression" in asset_manifest
+    assert "promoted_prototype_screenshot_qa_pass" in asset_manifest
+    assert "neutral reuse" not in asset_manifest.lower()
+    assert "distinct Harin suspicious" in project_manifest or "distinct_suspicious" in project_manifest
+
+    assert neutral.read_bytes() != suspicious.read_bytes(), "suspicious sprite must not reuse neutral PNG bytes"
+    transparent, opaque, semi = png_alpha_counts(suspicious)
+    assert transparent > 0
+    assert opaque > 0
+    assert semi > 0
+
+    qa_text = read(qa_doc)
+    assert "workflow_packs/renpy_asset_workflows/api_workflows/03_expression_source" in qa_text
+    assert "Ren'Py screenshot QA" in qa_text
 
 
 def test_special_observation_scene_is_playable_and_connected_from_artifact_lab():

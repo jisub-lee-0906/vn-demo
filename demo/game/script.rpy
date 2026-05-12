@@ -9,12 +9,13 @@ define prof = Character("교수", color="#e8d8b0")
 define stu = Character("학생들", color="#d0d0d0")
 define seal = Character("봉인 인장", color="#c9b37a")
 
-# Placeholder-safe 이미지 정의.
-# S01 선택 에셋은 후보 승격 상태이며, 최종 품질은 Ren'Py 스크린샷 QA 후 판단합니다.
-image bg summoning_hall = "images/backgrounds/bg_summoning_hall.png"
-image cg measurement_orb = "images/cg/cg_measurement_orb.png"
-image harin neutral = "images/characters/harin/harin_neutral.png"
-image harin suspicious = "images/characters/harin/harin_suspicious.png"
+# S01 selected prototype images.
+# 하린은 사용자 선택 s03 anchor를 BiRefNet_toonout alpha 처리한 prototype입니다.
+# suspicious는 아직 별도 표정 workflow 전이므로 s03 neutral anchor를 임시 재사용합니다.
+image bg summoning_hall = Transform("images/backgrounds/bg_summoning_hall.png", xysize=(1920, 1080))
+image cg measurement_orb = Transform("images/cg/cg_measurement_orb.png", xysize=(1280, 720), xalign=0.5, yalign=0.5)
+image harin neutral = Transform("images/characters/harin/harin_neutral.png", zoom=0.40)
+image harin suspicious = Transform("images/characters/harin/harin_suspicious.png", zoom=0.40)
 image bg summoning_hall_placeholder = Solid("#1b2038")
 image bg artifact_lab_placeholder = Solid("#141a24")
 image bg report_room_placeholder = Solid("#202436")
@@ -97,15 +98,15 @@ label start:
     show harin suspicious at right
     with dissolve
 
-    h "학생회 감찰 담당 윤하린입니다."
+    h "학생회 감찰 담당, 윤하린입니다."
 
-    h "측정 불능 판정은 기록상 세 번뿐입니다. 그리고 세 번 모두 학원 재난으로 이어졌죠."
+    h "측, 측정 불능 판정은 기록상 세 번뿐입니다. 그리고 세 번 모두 학원 재난으로 이어졌죠."
 
     "하린은 다른 학생들처럼 들떠 있지 않았다."
 
-    "오히려 내가 정말 아무것도 모른다는 표정을 놓치지 않은 것 같았다."
+    "작은 체구에 단정한 제복 차림이었지만, 시선만큼은 기록석보다 날카로웠다. 다만 내가 정말 아무것도 모른다는 표정을 보자, 아주 잠깐 눈썹이 흔들렸다."
 
-    h "당신, 방금 결과를 예상했나요?"
+    h "당신, 방금 결과를 예상했나요? 아, 아니면 그런 얼굴까지 계산인가요?"
 
     menu:
         "침묵한다.":
@@ -119,7 +120,7 @@ label start:
 
             stu "자기 힘을 숨길 생각인가 봐."
 
-            h "...침묵으로 상황을 통제하겠다는 건가요?"
+            h "...침묵으로 상황을 통제하겠다는 건가요? 그런 식으로 어른스러운 척해도 기록에는 남습니다."
 
             "아니다. 그냥 모르는 것이다."
 
@@ -130,7 +131,7 @@ label start:
 
             p "저도 잘 모르겠습니다. 정말로요."
 
-            h "그렇게 평범하게 당황하는 사람치고는 결과가 너무 비정상적이군요."
+            h "그렇게 평범하게 당황하는 사람치고는 결과가 너무 비정상적이군요. 보통은... 그렇게 눈을 동그랗게 뜨지 않습니다."
 
             stu "정체를 숨기려고 일부러 모른 척하는 거야?"
 
@@ -150,7 +151,7 @@ label start:
 
             stu "재측정이 아니라 측정구를 시험한 거였어?"
 
-            h "잠깐만요. 당신, 지금 뭘 한 거죠?"
+            h "자, 잠깐만요. 당신, 지금 뭘 한 거죠? 방금 건 우연이라고 하기엔 너무 정확했습니다."
 
             "나도 알고 싶었다."
 
@@ -160,22 +161,22 @@ label start:
 
     prof "학생회 감찰 담당은 이 학생을 실습동까지 안내하도록. 봉인 마도구 반응도 확인해야겠군."
 
-    h "...제가요?"
+    h "...제가요? 아니, 규정상 맞긴 하지만요."
 
     prof "감찰 담당이라면 가장 적합하겠지."
 
     hide harin suspicious
     show harin neutral at right
 
-    h "좋습니다. 대신 제 질문에는 전부 대답해 주세요."
+    h "좋습니다. 대신 제 질문에는 전부 대답해 주세요. 감찰 대상이 제멋대로 사라지면 곤란하니까요."
 
     p "제가 대답할 수 있는 거라면요."
 
-    h "그 말도 애매하군요."
+    h "그 말도 애매하군요. 정말... 사람을 피곤하게 만드는 답입니다."
 
-    "하린의 눈빛은 여전히 차가웠다."
+    "하린의 눈빛은 여전히 날카로웠다. 그런데 말끝은 조금 삐친 것처럼 올라가 있었다."
 
-    "하지만 그 안에는 단순한 적의보다 더 복잡한 의심이 섞여 있었다."
+    "하지만 그 안에는 단순한 적의보다, 걱정과 의심이 뒤섞인 이상한 성실함이 있었다."
 
     "나는 이제야 깨달았다."
 
@@ -193,38 +194,38 @@ label ch01_s02_artifact_lab:
 
     "벽마다 낡은 마법진이 금속판처럼 박혀 있었고, 중앙에는 검은 천으로 덮인 봉인 마도구가 놓여 있었다."
 
-    show harin suspicious_placeholder at right
+    show harin suspicious at right
     with dissolve
 
-    h "여기부터는 장난으로 넘어갈 수 없습니다."
+    h "여기부터는 장난으로 넘어갈 수 없습니다. 그러니까 제 뒤에서 딱 세 걸음 이상 떨어지지 마세요."
 
-    h "측정 불능 판정 뒤에 바로 봉인 마도구 반응까지 확인하는 건, 원래 금지된 절차예요."
+    h "측정 불능 판정 뒤에 바로 봉인 마도구 반응까지 확인하는 건, 원래 금지된 절차예요. 정말이지, 교수님들은 보고서 쓰는 사람이 누군지 모르신다니까요."
 
     p "그럼 하지 않으면 안 되나요?"
 
-    h "그 말을 교수님 앞에서 했으면, 더 수상해졌을 겁니다."
+    h "그 말을 교수님 앞에서 했으면, 더 수상해졌을 겁니다. 그러니까... 그런 질문은 저한테만 하세요."
 
     "나는 입을 다물었다."
 
-    "하린의 말투는 차가웠지만, 적어도 내가 뭘 모르는지 확인하려는 눈빛이었다."
+    "하린의 말투는 딱딱했지만, 내가 넘어지지 않게 옆걸음을 맞추는 속도는 묘하게 친절했다."
 
-    h "마지막으로 묻겠습니다. 측정구가 꺼지기 직전, 무언가 보였나요?"
+    h "마지막으로 묻겠습니다. 측정구가 꺼지기 직전, 무언가 보였나요? 제대로 대답하면... 기록을 조금 덜 무섭게 써드릴 수도 있습니다."
 
     if choice_measurement_reaction == "retry":
         p "금빛 선 같은 게 잠깐 보였습니다."
         $ clue_artifact_safety_line_seen = True
         $ harin_suspicion += 1
-        h "그걸 보고도 다시 손을 올렸다고요?"
-        "하린의 의심이 한층 날카로워졌다."
+        h "그걸 보고도 다시 손을 올렸다고요? 바, 바보인가요? 아니면 정말 계산인가요?"
+        "하린의 의심이 한층 날카로워졌다. 동시에 그녀는 내 손끝을 한 번 확인하고는 작게 한숨을 쉬었다."
     else:
         p "솔직히 정신이 없어서 잘 모르겠습니다."
         $ harin_trust += 1
-        h "...거짓말이라기엔 너무 그대로군요."
+        h "...거짓말이라기엔 너무 그대로군요. 그런 얼굴로 속이면 반칙입니다."
 
     prof "기록석을 켠다. 훈련용 3호 봉인 마도구, 반응 확인."
 
-    hide harin suspicious_placeholder
-    show harin neutral_placeholder at right
+    hide harin suspicious
+    show harin neutral at right
 
     "검은 천이 걷히자, 둥근 금속 장치가 모습을 드러냈다."
 
@@ -271,7 +272,7 @@ label ch01_s02_artifact_lab:
 
             "하린이 반사적으로 몸을 틀었다. 그녀가 있던 자리로 푸른 빛이 지나가고, 곧바로 바닥의 안전선에 흡수됐다."
 
-            h "방향을... 읽은 건가요?"
+            h "방향을... 읽은 건가요? 아니, 방금 저를 먼저 본 건... 착각이겠죠."
 
             stu "폭주 궤도를 먼저 봤어!"
 
@@ -292,12 +293,12 @@ label ch01_s02_artifact_lab:
 
             prof "잔여 회로를 직접 닫았다?"
 
-            h "방금 건... 모른 척으로 설명하기 어렵습니다."
+            h "방금 건... 모른 척으로 설명하기 어렵습니다. 설명하기 어렵다고요. 제가 어려워하는 게 아니라, 기록이 어려운 겁니다."
 
             "나도 그렇게 생각했다. 그래서 더 무서웠다."
 
     hide cg sealed_artifact_placeholder
-    show harin suspicious_placeholder at right
+    show harin suspicious at right
     with dissolve
 
     prof "봉인 마도구 반응 정지. 사고 등급은 보류한다."
@@ -308,11 +309,11 @@ label ch01_s02_artifact_lab:
 
     stu "측정 불능 편입생이 마도구까지 멈췄대."
     stu "귀족반 쪽에서 가만히 있지 않겠는데?"
-    h "축하한다고 해야 할지 모르겠군요."
+    h "축하한다고 해야 할지, 혼내야 할지 모르겠군요."
     p "저는 그냥 집에 가고 싶은데요."
-    h "그 말이 진심이라면, 더더욱 혼자 두면 안 되겠습니다."
+    h "그 말이 진심이라면, 더더욱 혼자 두면 안 되겠습니다. 길도 모르면서 또 어디론가 가버릴 것 같으니까요."
     "하린은 기록판을 닫고 나를 똑바로 보았다."
-    h "윤하린, 학생회 감찰 담당 권한으로 임시 감시를 신청하겠습니다."
+    h "윤하린, 학생회 감찰 담당 권한으로 임시 감시를 신청하겠습니다. 어디까지나 감찰입니다. 오해하지 마세요."
     "그 순간, 실습동 문 너머에서 낮은 종소리가 울렸다."
 
     jump ch01_s03_special_observation
@@ -326,14 +327,14 @@ label ch01_s03_special_observation:
     "임시 보고실의 공기는 실습동보다 더 무거웠다."
     "벽면의 기록석에는 방금 전 사건 두 줄이 이미 떠 있었다."
 
-    show harin suspicious_placeholder at right
+    show harin suspicious at right
     with dissolve
 
     prof "편입 측정식 결과, 측정 불능."
     prof "훈련용 3호 봉인 마도구 반응, 외부 개입 없이 정지."
     p "외부 개입이 없었다면 그냥 사고가 멈춘 거 아닌가요?"
-    h "그렇게 기록하면 더 위험합니다."
-    h "학원은 원인을 모르는 안전보다, 원인을 아는 위험을 선호하니까요."
+    h "그렇게 기록하면 더 위험합니다. 문서는 귀엽게 봐주는 법이 없거든요."
+    h "학원은 원인을 모르는 안전보다, 원인을 아는 위험을 선호하니까요. 그래서 저 같은 사람이 밤새 보고서를 쓰게 됩니다."
 
     "나는 그 말이 무슨 뜻인지 바로 이해하지 못했다."
     "그러나 교수의 펜끝은 이미 나를 원인 쪽에 놓고 있었다."
@@ -352,13 +353,13 @@ label ch01_s03_special_observation:
     "특별 관찰 대상."
 
     hide cg special_observation_seal_placeholder
-    show harin suspicious_placeholder at right
+    show harin suspicious at right
     with dissolve
 
     prof "귀족반에도 사고 보고가 공유될 거다. 소문보다 문서가 먼저 도착하길 바라야겠군."
     p "그럼 저는 이제 어떻게 하면 되나요?"
-    h "대답 하나를 고르셔야 합니다."
-    h "공식 기록은 당신의 의도보다, 당신이 남긴 결과를 먼저 읽습니다."
+    h "대답 하나를 고르셔야 합니다. 너무 이상한 답은 고르지 마세요. 제가 수습해야 하니까요."
+    h "공식 기록은 당신의 의도보다, 당신이 남긴 결과를 먼저 읽습니다. 억울해 보여도 소용없습니다. ...조금은 알겠지만요."
 
     menu:
         "일단 시키는 대로 하겠습니다.":
@@ -369,7 +370,7 @@ label ch01_s03_special_observation:
             p "일단 시키는 대로 하겠습니다."
             "나는 괜히 일을 키우지 않으려고 최대한 얌전히 말했다."
             prof "상황 판단이 빠르군. 자신의 위치를 알고 움직인다는 뜻인가."
-            h "...순응도 전략일 수 있습니다."
+            h "...순응도 전략일 수 있습니다. 아니면 그냥 혼나기 싫은 얼굴이거나요."
             "아니다. 그냥 더 혼나기 싫을 뿐이다."
 
         "저는 정말 아무것도 모릅니다.":
@@ -378,7 +379,7 @@ label ch01_s03_special_observation:
             $ harin_trust += 1
 
             p "저는 정말 아무것도 모릅니다."
-            h "그 말이 거짓이라면 너무 어설프고, 진실이라면 너무 위험합니다."
+            h "그 말이 거짓이라면 너무 어설프고, 진실이라면 너무 위험합니다. 어느 쪽이든 제가 편해지는 선택지는 아니네요."
             prof "정보 공개 범위를 제한한다고 기록하지."
             "솔직하게 말했는데 문장이 점점 더 딱딱해졌다."
 
@@ -389,18 +390,18 @@ label ch01_s03_special_observation:
 
             p "하린 씨가 봐주시면 안 되나요?"
             "내가 보기에는 이 방에서 그나마 말이 통하는 사람이 하린뿐이었다."
-            h "감찰 담당을 사적으로 지명하는 발언은 기록에 남습니다."
+            h "감찰 담당을 사적으로 지명하는 발언은 기록에 남습니다. 그런 식으로 갑자기 기대하지 마세요."
             prof "벌써 담당자를 자기 편으로 끌어들이는 건가. 흥미롭군."
             "도움을 요청했을 뿐인데 협상처럼 번역됐다."
 
-    hide harin suspicious_placeholder
-    show harin neutral_placeholder at right
+    hide harin suspicious
+    show harin neutral at right
     with dissolve
 
     h "임시 감시는 제가 맡겠습니다."
-    h "다만 믿어서가 아닙니다. 혼자 두는 쪽이 더 위험하다고 판단했을 뿐이에요."
+    h "다만 믿어서가 아닙니다. 혼자 두는 쪽이 더 위험하다고 판단했을 뿐이에요. 제 보고서를 위해서입니다."
     p "그 차이가 큰가요?"
-    h "네. 아주 큽니다."
+    h "네. 아주 큽니다. 그러니까 고맙다는 얼굴도 하지 마세요."
 
     "보고실 문이 열리자, 복도 너머에서 학생들의 낮은 웅성거림이 흘러들어왔다."
     "다음 장면 후보: ch01_s04_harin_watch. 하린의 감시 아래 학원 복도로 나간다."

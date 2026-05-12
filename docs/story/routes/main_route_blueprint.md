@@ -18,7 +18,7 @@
 ## 확정된 방향
 
 - 주인공: 초반은 평범/운 중심, 후반에 작은 숨은 재능 떡밥.
-- 하린: 학생회 감찰 담당.
+- 하린: 학생회 감찰 담당. 기존의 차갑기만 한 감시자보다, 작고 야무진 귀여운 츤데레 감찰관으로 재정의한다.
 - 첫 사건: 측정구 오류 + 봉인 마도구 사고.
 - 톤: 착각 코미디를 유지하되, 공식 감시/파벌 압박/봉인 기록이라는 진지한 비용을 남긴다.
 
@@ -26,10 +26,10 @@
 
 | Scene ID | 상태 | 목적 | 주인공 실제 의도 | 주변 해석 | 선택지/변수 | 주요 에셋 |
 |---|---|---|---|---|---|---|
-| `ch01_s01_summoning_measurement` | PLAYABLE DRAFT | 이세계 학원 도입 + 측정 불능 | 상황 파악, 시키는 대로 손 올림 | 침착한 등장, 대마력 은폐 | `choice_measurement_reaction` | `bg_summoning_hall`, `cg_measurement_orb`, 하린 기본/의심 |
+| `ch01_s01_summoning_measurement` | PLAYABLE DRAFT | 이세계 학원 도입 + 측정 불능 | 상황 파악, 시키는 대로 손 올림 | 침착한 등장, 대마력 은폐 | `choice_measurement_reaction` | `bg_summoning_hall`, `cg_measurement_orb`, 하린 neutral_pout/suspicious_blush |
 | `ch01_s02_artifact_lab` | PLAYABLE DRAFT | 봉인 마도구 폭주와 우연한 정지 | 위험에서 벗어나기 | 고대 봉인식 해석 | `choice_artifact_action` | `bg_artifact_lab`, `cg_sealed_artifact` |
 | `ch01_s03_special_observation` | PLAYABLE DRAFT | 특별 관찰 대상 공식 지정 | 오해를 풀거나 조용히 넘어가기 | 위험 인물의 계산된 대응 | `choice_final_response` | 보고실/인장, 특별 관찰 문서 CG |
-| `ch01_s04_harin_watch` | PLANNED CARD | 하린 감시 관계와 일상 정보 비대칭 | 학원 규칙을 배우기 | 규칙/소문 통제 전략 | `choice_harin_answer` | 학원 복도, 하린 미묘한 표정 |
+| `ch01_s04_harin_watch` | PLANNED CARD | 하린 감시 관계와 일상 정보 비대칭 | 학원 규칙을 배우기 | 규칙/소문 통제 전략 | `choice_harin_answer` | 학원 복도, 하린 당황/삐짐/작은 미소 표정 |
 | `ch01_s05_demo_ending_hook` | PLANNED CARD | 데모 종료 후크와 다음 챕터 압박 | 하루를 끝내고 싶음 | 대현자 후보/파벌 견제 대상 | `choice_demo_ending_attitude` | 게시판/공지 CG, 엔딩 후크 음악 |
 
 ## 장면 카드 파일
@@ -46,7 +46,7 @@
 
 핵심 원칙:
 
-- 하린 기본/의심 스프라이트가 최우선이다.
+- 하린 neutral_pout/suspicious_blush 스프라이트가 최우선이다.
 - 그다음 강당 배경, 실습동 배경, 측정구 CG, 봉인 마도구 CG를 만든다.
 - S03~S05 배경/문서 CG는 S01~S02 시각 품질이 확인된 뒤 제작한다.
 - 생성 이미지에 가짜 한글/가짜 UI가 보이면 Ren'Py 텍스트박스로 의미를 전달하고, 이미지 안 글자는 피한다.
@@ -63,20 +63,20 @@
 
 조건: `harin_suspicion >= 2` 또는 `reputation < 3`
 
-하린은 주변의 과대평가를 그대로 믿지 않는다. 하지만 주인공이 사고를 막은 것은 사실이라, 직접 감시하겠다고 선언한다.
+하린은 주변의 과대평가를 그대로 믿지 않는다. 하지만 주인공이 너무 허술하게 위험에 휘말리는 모습을 보고, “감찰일 뿐”이라고 우기며 직접 따라붙는다.
 
 ### `ending_balanced_hook`
 
 조건: `harin_trust >= 1`, `reputation >= 2`, `harin_suspicion <= 1`
 
-하린은 주인공이 수상하지만 악의는 없다고 판단한다. 다음 실습부터 주인공 옆에 서겠다고 말한다.
+하린은 주인공이 수상하지만 악의는 없다고 판단한다. 다만 그걸 인정하기 싫어서 “보고서 작성을 줄이기 위한 조치”라며 옆에 서겠다고 말한다.
 
 ## 변수 흐름
 
 - 착각이 커질수록 `misunderstanding_score` 증가.
 - 공식 평판/소문은 `reputation` 증가.
-- 하린이 “정말 모르는 사람 같다”고 느끼면 `harin_trust` 증가.
-- 하린이 “연기일 수 있다”고 느끼면 `harin_suspicion` 증가.
+- 하린이 “정말 모르는 사람 같다/혼자 두면 위험하다”고 느끼면 `harin_trust` 증가.
+- 하린이 “연기일 수 있다/수상하지만 신경 쓰인다”고 느끼면 `harin_suspicion` 증가.
 - 파벌/귀족반의 견제는 `rival_pressure` 증가.
 - 작은 진짜 재능 떡밥은 `hidden_talent_hint` 증가.
 
@@ -84,5 +84,5 @@
 
 1. S04 `ch01_s04_harin_watch`를 TDD로 실제 Ren'Py 장면으로 확장.
 2. S04 구현 후 정적 테스트와 Ren'Py lint 실행.
-3. S01 시각화용 에셋 제작 시작: 하린 기본/의심 스프라이트, 강당 배경, 측정구 CG.
+3. S01 시각화용 에셋 제작 시작: 하린 neutral_pout/suspicious_blush 스프라이트, 강당 배경, 측정구 CG.
 4. S01 screenshot QA 후 S02 에셋으로 이동.

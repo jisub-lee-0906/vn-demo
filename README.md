@@ -16,9 +16,9 @@
 
 ## 현재 플레이 가능 범위
 
-- `ch01_s01_summoning_measurement`: 구현됨, placeholder-safe
-- `ch01_s02_artifact_lab`: 구현됨, placeholder-safe
-- `ch01_s03_special_observation`: 구현됨, placeholder-safe
+- `ch01_s01_summoning_measurement`: 구현됨, S01 prototype bg/CG/Harin s03 + distinct suspicious 적용
+- `ch01_s02_artifact_lab`: 구현됨, 하린 s03 prototype neutral/suspicious sprite 적용
+- `ch01_s03_special_observation`: 구현됨, 하린 s03 prototype neutral/suspicious sprite 적용
 - `ch01_s04_harin_watch`: scene card 작성됨, 아직 미구현
 - `ch01_s05_demo_ending_hook`: scene card 작성됨, 아직 미구현
 
@@ -64,8 +64,4 @@ python3 tools/run_static_tests.py
 
 1. `ch01_s04_harin_watch`를 TDD로 실제 Ren'Py 장면으로 구현합니다.
 2. S04 구현 후 정적 테스트와 Ren'Py lint를 통과시킵니다.
-3. 그다음 S01 에셋 제작을 시작합니다.
-   - `sprite_harin_neutral`
-   - `sprite_harin_suspicious`
-   - `bg_summoning_hall`
-   - `cg_measurement_orb`
+3. S01 prototype 에셋은 적용/QA 완료: `bg_summoning_hall`, `cg_measurement_orb`, Harin s03 transparent neutral, distinct suspicious expression. 다음 에셋 게이트는 S04용 복도/softened 또는 surprised 표정입니다.

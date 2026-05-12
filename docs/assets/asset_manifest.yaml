@@ -49,22 +49,34 @@ minimum_demo_assets:
   character_sprites:
     - id: sprite_harin_neutral
       scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
-      purpose: 기본 감찰 담당 포즈
+      purpose: 새로 재정의한 귀여운 츤데레 감찰 담당 기본 포즈
       priority: P0
       production_route: ComfyUI main reference selection, BiRefNet_toonout transparent sprite proof
-      status: promoted_transparent_prototype_pending_renpy_screenshot_qa
-      selected_candidate: harin_anchor_s04
+      status: promoted_prototype_screenshot_qa_pass
+      selected_candidate: s03_harin_tsundere
+      alpha_workflow: workflow_packs/renpy_asset_workflows/api_workflows/02_alpha_toonout_o0_b0_ref0_api.json
+      alpha_output: generated/comfyui/harin_tsundere_candidates_20260512_215310/alpha_s03_toonout/s03_harin_tsundere_alpha.png
+      alpha_stats: min=0 max=255 transparent=1045771 opaque=705440 semi=18261
+      renpy_screenshot_qa: generated/renpy_s01_asset_promotion_qa_2026-05-12/qa_s01_harin_s03_assets.png
       game_path: demo/game/images/characters/harin/harin_neutral.png
       qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
     - id: sprite_harin_suspicious
       scenes: [ch01_s01_summoning_measurement, ch01_s02_artifact_lab, ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
-      purpose: 의심/추궁 표정
+      purpose: 의심/추궁 + 살짝 홍조/삐짐 표정
       priority: P0
-      production_route: expression consistency workflow from neutral master after transparent anchor proof
-      status: promoted_transparent_neutral_reuse_pending_expression_generation
-      selected_anchor: harin_anchor_s04
+      production_route: distinct_suspicious_expression via workflow-pack 03 IPAdapter img2img, then BiRefNet_toonout alpha
+      status: promoted_prototype_screenshot_qa_pass
+      selected_anchor: s03_harin_tsundere
+      selected_candidate: suspicious_b
+      expression_workflow: workflow_packs/renpy_asset_workflows/api_workflows/03_expression_source_angry_move_d0p54_w0p48_api.json
+      expression_output: generated/comfyui/harin_suspicious_expression_20260512_222032/suspicious_b_source.png
+      alpha_workflow: workflow_packs/renpy_asset_workflows/api_workflows/03_expression_alpha_angry_toonout_o0_b0_ref0_api.json
+      alpha_output: generated/comfyui/harin_suspicious_expression_20260512_222032/suspicious_b_alpha.png
+      alpha_stats: min=0 max=255 transparent=1045603 opaque=706136 semi=17733
+      contact_sheet: generated/comfyui/harin_suspicious_expression_20260512_222032/harin_suspicious_source_contact_sheet.png
+      renpy_screenshot_qa: generated/renpy_harin_suspicious_expression_qa_2026-05-12/qa_harin_suspicious_expression.png
       game_path: demo/game/images/characters/harin/harin_suspicious.png
-      qa_note: docs/assets/s01_asset_candidate_qa_2026-05-12.md
+      qa_note: docs/assets/harin_suspicious_expression_qa_2026-05-12.md
     - id: sprite_harin_surprised
       scenes: [ch01_s03_special_observation, ch01_s04_harin_watch, ch01_s05_demo_ending_hook]
       purpose: 주인공의 무지/우연한 해결을 보고 흔들리는 표정

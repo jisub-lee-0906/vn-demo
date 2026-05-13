@@ -26,7 +26,7 @@ Category: `character`
 
 ## API template
 
-- `workflow_api/02_alpha_toonout_o0_b0_ref0_api.json`
+- `workflow_api/02_alpha_toonout_b1_ref1_api.json`
   - role: shared ToonOut/BiRefNet alpha/background-removal workflow
   - input node: `1` LoadImage `inputs.image`
   - processing node: `2` BiRefNetRMBG
@@ -51,7 +51,8 @@ Category: `character`
 - `invert_output`
 - `refine_foreground`
 - `background`
-- `background_color`
+
+`background_color`는 canonical JSON에서 의도적으로 제거되어 있다.
 
 ## Fixed canonical settings
 
@@ -138,7 +139,7 @@ ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
 1. root `AGENTS.md`와 `WORKFLOW_INDEX.json`을 확인한다.
 2. alpha 처리할 source PNG를 선택한다.
 3. source PNG가 ComfyUI `input` 폴더에 없으면 복사한다.
-4. `workflow_api/02_alpha_toonout_o0_b0_ref0_api.json`을 로드한다.
+4. `workflow_api/02_alpha_toonout_b1_ref1_api.json`을 로드한다.
 5. node `1` `LoadImage.image`를 실제 input-relative filename으로 바꾼다.
 6. node `3` `SaveImage.filename_prefix`를 output naming 규칙에 맞춘다.
 7. ComfyUI `/queue`가 비어 있는지 확인한다. 공유 Windows ComfyUI를 함부로 interrupt/clear하지 않는다.

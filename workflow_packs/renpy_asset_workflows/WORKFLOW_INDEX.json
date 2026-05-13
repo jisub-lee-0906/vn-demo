@@ -18,7 +18,7 @@
           "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_apose_neutral_api.json",
           "purpose": "canonical Danbooru-only neutral character anchor using novaAnimeXL_ilV190.safetensors",
           "required_inputs": [],
-          "status": "accepted v19 Danbooru-only canonical template; visual QA + 2-character smoke test passed"
+          "status": "accepted v19 Danbooru-only canonical template; visual QA + 2-character smoke test passed; SaveImage prefix uses TEMPLATE placeholders"
         }
       ],
       "status": "V190_DANBOORU_ACCEPTED_CANONICAL_TEMPLATE_DARKGREY_OUTLINE",
@@ -78,13 +78,13 @@
       "test": "밝은/어두운 배경 위 hair halo, edge 손실 확인",
       "api_templates": [
         {
-          "file": "02_alpha_toonout_o0_b0_ref0_api.json",
-          "path": "02_toonout_transparency_alpha/workflow_api/02_alpha_toonout_o0_b0_ref0_api.json",
+          "file": "02_alpha_toonout_b1_ref1_api.json",
+          "path": "02_toonout_transparency_alpha/workflow_api/02_alpha_toonout_b1_ref1_api.json",
           "purpose": "canonical toonout alpha setting",
           "required_inputs": [
-            "hermes_other_auburn_seed719238043.png"
+            "TEMPLATE_source_image.png"
           ],
-          "status": "USER_APPROVED canonical alpha"
+          "status": "USER_APPROVED canonical alpha; LoadImage and output prefix use TEMPLATE placeholders"
         }
       ],
       "last_smoke_test": "2026-05-13 v19 silver-bob alpha smoke on 01 accepted anchor",

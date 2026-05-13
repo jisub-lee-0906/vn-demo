@@ -2,7 +2,7 @@
   "1": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "hermes_other_auburn_seed719238043.png"
+      "image": "TEMPLATE_source_image.png"
     }
   },
   "2": {
@@ -27,7 +27,7 @@
         "2",
         0
       ],
-      "filename_prefix": "hermes_vn_toonout_other_character/alpha_toonout_o0_b1_ref1"
+      "filename_prefix": "hermes_vn_toonout_other_character/alpha_TEMPLATE_CHARACTER_VARIANT_b1_ref1"
     }
   }
 }

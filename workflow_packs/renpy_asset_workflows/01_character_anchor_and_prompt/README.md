@@ -6,7 +6,7 @@ Category: `character`
 
 새 캐릭터의 재사용 가능한 기준 source 이미지를 만든다.
 
-이 workflow의 목적은 “가장 화려한 일러스트”가 아니라 후속 workflow에서 안정적으로 재사용하기 쉬운 `A-pose + neutral expression` character anchor 생성이다.
+이 workflow의 목적은 “가장 화려한 일러스트”가 아니라 후속 workflow에서 안정적으로 재사용하기 쉬운 `front_view + neutral/expressionless + closed_mouth` character anchor 생성이다.
 
 01에서 만든 source PNG는 다음 단계의 기준 이미지가 된다.
 
@@ -27,10 +27,23 @@ Category: `character`
 ## API template
 
 - `workflow_api/01_character_anchor_apose_neutral_api.json`
-  - checkpoint: `novaAnimeXL_ilV180.safetensors`
-  - role: canonical A-pose neutral character anchor
+  - checkpoint: `novaAnimeXL_ilV190.safetensors`
+  - model family: Nova Anime XL — IL v19.0
+  - prompt style: Danbooru tag only
+  - role: canonical front/neutral character anchor
   - ComfyUI endpoint when running from WSL: usually `http://172.28.224.1:8000`
-  - status: user-approved canonical baseline; prompt-ablation kept set applied
+  - status: v19 Danbooru-only candidate accepted by agent visual QA and cross-character smoke test
+
+## Fixed settings
+
+특별한 이유가 없으면 아래는 유지한다.
+
+- checkpoint: `novaAnimeXL_ilV190.safetensors`
+- image size: `1152 x 1536`
+- sampler/settings: `steps 28`, `cfg 5.0`, `euler_ancestral`, `normal`, `denoise 1.0`
+- clip skip: 1 equivalent, direct checkpoint CLIP; no `CLIPSetLastLayer`
+- rating tag: `rating_questionable` for 15세 target tone
+- background: `simple_background, grey_background`
 
 ## Editable nodes
 
@@ -38,230 +51,159 @@ Category: `character`
 
 | Node | Field | What to edit |
 | --- | --- | --- |
-| `3` CLIPTextEncode positive | `inputs.text` | 캐릭터 정체성 block만 교체 |
+| `3` CLIPTextEncode positive | `inputs.text` | character identity tags만 교체 |
 | `6` KSampler | `inputs.seed` | 새 후보/새 캐릭터 seed |
 | `8` SaveImage | `inputs.filename_prefix` | 출력 prefix |
 
-특별한 이유가 없으면 아래는 유지한다.
-
-- checkpoint: `novaAnimeXL_ilV180.safetensors`
-- image size: `1152 x 1536`
-- sampler/settings: `steps 28`, `cfg 6.0`, `euler_ancestral`, `normal`, `denoise 1.0`
-- A-pose / neutral expression wording
-- style/background wording
-- negative prompt의 pose/hand/crop/sheet/text 방지 구간
-
 ## Positive prompt structure
 
-positive prompt는 세 구간으로 본다.
+반드시 Danbooru-style comma-separated tags만 쓴다. 자연어 문장 금지.
 
 ```text
-[fixed composition/pose/expression block], [character identity block], [fixed VN sprite style/background block]
+[quality block], [fixed composition/expression block], [character identity tags], [fixed outfit/background tags], BREAK depth_of_field, volumetric_lighting
 ```
 
-### 1. Fixed composition/pose/expression block
-
-이 구간은 01 anchor의 목적을 고정한다. 보통 수정하지 않는다.
+### 1. Fixed quality block
 
 ```text
-masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style,
-cowboy shot, upper body character portrait, waist-up to upper-thigh visible,
-full head visible, complete hair visible, whole torso visible, large centered character,
-front view, relaxed A-pose, arms naturally down at both sides,
-arms slightly away from body, visible open hands at sides,
-straight posture, shoulders level,
-neutral expression, closed mouth, calm blank face, looking at viewer
+masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest
+```
+
+주의:
+- IL v19에서는 Pony score tags 금지: `score_9`, `score_8_up` 등을 넣지 않는다.
+- plain gray background 목적에서는 `scenery`를 넣지 않는다.
+
+### 2. Fixed composition/expression block
+
+```text
+rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture
 ```
 
 목표:
-
 - 정면
 - 무표정 / 닫힌 입
 - 후속 표정/포즈 변형에 방해되지 않는 기준 자세
 - 손이 화면 밖으로 잘리지 않는 상반신~허벅지 구도
-- full body가 아니라 `cowboy shot / upper body to upper-thigh` 기준
+- full body가 아니라 `cowboy_shot` 기준
 
-### 2. Character identity block
+### 3. Character identity tags
 
 새 캐릭터를 만들 때는 이 구간만 교체한다.
 
-현재 template 예시:
+현재 canonical silver-bob 예시:
 
 ```text
-short silver bob hair, cool blue eyes, clean face,
-navy cardigan over white blouse, charcoal pleated skirt,
-modest bust, simple school-inspired uniform
+short_hair, bob_cut, silver_hair, blue_eyes
 ```
 
-권장 작성 순서:
+다른 캐릭터 예시:
 
 ```text
-[hair color + hairstyle], [eye color/shape], [face feature],
-[adult body silhouette only if needed], [outfit], simple school-inspired uniform or outfit descriptor
-```
-
-좋은 예:
-
-```text
-long straight black hime-cut hair, deep violet eyes, calm clean face,
-tall slender build, modest bust, dark navy sailor uniform with white collar,
-pleated skirt, simple school-inspired uniform
+long_hair, twintails, pink_hair, green_eyes
 ```
 
 ```text
-shoulder-length honey blonde wavy hair, emerald green eyes, soft clean face,
-average build, medium bust, cream cardigan over white blouse,
-plaid pleated skirt, simple school-inspired uniform
+medium_hair, green_hair, brown_eyes, glasses
 ```
 
-```text
-chin-length dusty blue bob hair, gray blue eyes, cool clean face,
-petite build, modest bust, pale gray cardigan over navy blouse,
-charcoal pleated skirt, simple school-inspired uniform
-```
-
-주의:
-
-- `novaAnimeXL_ilV180`은 프롬프트에 민감하다. 한 번에 많은 문구를 추가하지 않는다.
-- 여러 캐릭터용 template에서는 특정 머리색/옷색을 negative에 넣지 않는다. 예: `green hair`, `teal clothes` 같은 색상 금지어는 다른 캐릭터를 막을 수 있다.
+규칙:
+- Danbooru tags only.
+- tag가 결과를 바꾸지 않거나 drift만 만들면 제거한다.
 - 01에서는 표정을 바꾸지 않는다. smile/happy/sad/angry/surprised/fearful은 03에서 만든다.
-- 01에서는 포즈를 바꾸지 않는다. crossed arms/hand on hip/pointing 등은 04에서 만든다.
+- 01에서는 포즈를 바꾸지 않는다. crossed_arms/hand_on_hip/pointing 등은 04에서 만든다.
 - 의상 variation은 10에서 만든다. 01에서는 기준 의상만 정한다.
 
-### 3. Fixed VN sprite style/background block
+### 4. Fixed outfit/background tags
 
-현재 user-approved 01 상태에서는 아래 style block을 유지한다.
+현재 accepted baseline:
 
 ```text
-consistent modern visual novel sprite style,
-simple anime cel shading,
-polished visual novel character sprite,
-delicate clean face, symmetrical eyes, detailed irises,
-refined hair strands, clean sharp anime lineart,
-soft cel shading, clean color separation,
-flat solid medium gray background, plain uniform gray backdrop
+beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, simple_background, grey_background
 ```
 
-프롬프트 ablation 결과 유지된 문구:
+QA 결과:
+- `black_pantyhose`는 15세 게임 톤 안정화에 유효했다.
+- `long_skirt`는 skirt 색/형태 drift가 커서 제외했다.
+- `loose_clothes`는 변화가 작거나 얼굴/몸 비율 drift가 있어 제외했다.
+- `medium_breasts`는 15세 톤에 불필요해서 제외했다.
+- `school_uniform`은 결과 변화가 크지 않아 baseline에서는 더 구체적인 outfit tags만 유지한다.
+- `badge`, `emblem`, `logo`는 작은 마크 drift를 만들 수 있어 negative에 둔다.
 
-- `consistent modern visual novel sprite style`
-- `simple anime cel shading`
-
-이 두 문구는 5-character fixed-seed test에서 baseline 대비 큰 변화는 아니지만 평균적으로 같거나 조금 더 안정적인 VN/cel rendering을 보여서 유지한다.
-
-Reject했던 문구는 다시 넣지 않는다. 특히 아래는 무의미하거나 작은 drift만 만들었다.
-
-```text
-medium eye size
-thin consistent lineart
-clean flat colors
-low detail uniform design
-same face proportion style
-centered full body sprite
-same camera distance
-high resolution anime game sprite
-```
-
-negative 쪽에서도 아래는 거의 no-op이라 기본 template에 넣지 않는다.
+### Full canonical positive prompt
 
 ```text
-painterly shading
-semi-realistic face
+masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, simple_background, grey_background, BREAK depth_of_field, volumetric_lighting
 ```
 
 ## Negative prompt rules
 
-A-pose neutral 기준에서는 아래 계열을 유지한다.
+현재 accepted baseline:
 
 ```text
-smile, smiling, open mouth,
-dynamic pose, tilted body, crossed arms,
-hands together, hands near face,
-hands on hips, hands on waist, hands in pockets,
-akimbo, elbows bent, hidden hands, cropped hands,
-clenched fists, fist, dramatic pose, sassy pose, leaning,
-three-quarter view,
-text, watermark, logo,
-multiple girls, duplicate character,
-cropped head, cut off hair, cropped arms, out of frame,
-extra arms, extra hands, bad hands,
-asymmetrical eyes, deformed face, blurry face,
-muddy shading, overrendered,
-low quality, worst quality,
-full body, tiny character, chibi, feet visible, shoes,
-white background, bright background, gradient background,
-background color bleeding into hair, color cast on character edges,
-headwear, object above head, ribbon on head, bow on head, hair ornament,
-reference sheet, character sheet, sprite sheet, inset, profile card
+modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, smile, open_mouth, dynamic_pose, crossed_arms, hands_on_hips, hands_in_pockets, hands_near_face, large_breasts, huge_breasts, cleavage, nsfw, nude, nipples, badge, emblem, logo, (worst quality, bad quality:1.2)
 ```
 
-색상별 금지어는 넣지 않는다.
+주의:
+- positive에 `simple_background`를 쓰므로 negative에는 `simple_background`를 넣지 않는다.
+- 색상별 금지어는 넣지 않는다. 다른 캐릭터를 막을 수 있다.
+- `badge`, `emblem`, `logo`는 기준 cardigan의 작은 마크 drift 방지용이다. 특정 캐릭터가 badge를 반드시 가져야 한다면 이 세 태그를 제거하고 별도 실험한다.
+
+## Accepted visual QA
+
+Silver-bob canonical candidate:
+
+- seed: `719251035`
+- output: `/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_character_anchor/iter5_pantyhose_anchor_seed719251035_00001_.png`
+- contact sheet: `/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_character_anchor/contact_iter5_pantyhose_6seeds.png`
+
+Agent visual QA summary:
+- 고퀄리티 얼굴/머리/의상 렌더링.
+- 정면, 닫힌 입, 무표정 기준에 적합.
+- 회색 배경이 단순하고 02 alpha 전처리에 적합.
+- 손/팔이 보이고 후속 03/04에 방해되는 과한 포즈가 없음.
+- `black_pantyhose` 적용 후 15세 게임 톤이 더 안정적.
+
+Cross-character smoke test:
+
+- contact sheet: `/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_character_anchor/contact_generalize_2chars_3seeds_each.png`
+- `pink_twinbraids`: best seed `719251102`
+- `green_glasses`: best seed `719251104`
+
+둘 다 정면/무표정/회색배경/단순 의상/15세 톤 기준에 합격했다. 따라서 prompt 구조는 다른 캐릭터에도 사용 가능하다.
 
 ## Output naming
 
 권장 prefix:
 
 ```text
-hermes_vn_toonout_other_character/source_{character_slug}_apose_neutral_ilV180_{seed}
-```
-
-예시:
-
-```text
-hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV180_719242400
+hermes_vn_toonout_other_character/source_{character_slug}_v190_danbooru_anchor_seed{seed}
 ```
 
 실험/ablation이면 별도 run folder를 쓴다.
 
 ```text
-hermes_vn_prompt_ablation_01/{test_id}/source_{character_slug}_{test_id}_{seed}
+hermes_vn_experiments/nova_t2i_il_v190_character_anchor/{test_id}_{character_slug}_seed{seed}
 ```
 
 ## Agent recipe
 
-1. root `AGENTS.md`와 `WORKFLOW_INDEX.json`을 먼저 확인한다.
-2. `workflow_api/01_character_anchor_apose_neutral_api.json`을 로드한다.
-3. ComfyUI `/queue`가 비어 있는지 확인한다. 공유 Windows ComfyUI를 함부로 interrupt/clear하지 않는다.
-4. positive prompt에서 character identity block만 교체한다.
-5. seed와 `SaveImage.filename_prefix`를 변경한다.
-6. style block과 negative prompt는 유지한다.
-7. `POST /prompt`로 실행하고 `/history/{prompt_id}`에서 output path를 확인한다.
-8. 사용자에게 `prompt_id`, seed, output path를 전달한다.
-9. 사용자가 QA를 맡겠다고 했으면 자동 vision QA를 하지 않는다.
-10. 사용자가 후보를 승인하면 `WORKFLOW_INDEX.json`에는 대표 상태/output만 짧게 반영한다.
+1. ComfyUI가 켜져 있는지 확인한다.
+2. Queue가 비어 있는지 확인한다.
+3. `workflow_api/01_character_anchor_apose_neutral_api.json`를 load한다.
+4. 새 캐릭터면 positive의 identity tags만 교체한다.
+5. seed 후보 3~6개를 생성한다.
+6. contact sheet를 만들고 vision QA한다.
+7. 태그를 하나씩만 추가/삭제한다.
+8. 추가한 태그가 결과를 바꾸지 않거나 drift만 만들면 제거한다.
+9. 합격 후보가 나오면 다른 캐릭터 1~2개로 smoke test한다.
+10. 둘 다 합격하면 01 canonical template에만 반영한다.
 
-## Multi-character prompt check recipe
+## V190 Danbooru edge/background tuning note
 
-새 prompt가 다양한 캐릭터에 일반화되는지 볼 때는 아래처럼 한다.
+2026-05-13 tuning for 01→02 alpha:
 
-1. character identity block만 다른 5개 이상 캐릭터를 준비한다.
-2. seed를 고정 목록으로 둔다.
-3. 한 번에 prompt phrase를 1개만 추가한다.
-4. 각 후보마다 전체 캐릭터를 생성한다.
-5. previous-kept top row / candidate bottom row contact sheet를 만든다.
-6. 평균적으로 유의미한 개선이 없거나 identity/A-pose/neutral이 흔들리면 reject한다.
-7. 최종 kept set만 workflow JSON에 반영한다.
-
-현재 01의 최종 kept set은 위 style block의 두 문구다.
-
-## QA checklist
-
-생성 결과가 아래 기준을 만족해야 한다.
-
-- 단일 캐릭터인가
-- 무표정/닫힌 입인가
-- 정면 기준인가
-- A-pose 또는 팔 내림 reference pose인가
-- 양손이 보이고 크게 깨지지 않았는가
-- 머리/얼굴/손/치마가 잘리지 않았는가
-- 상반신~허벅지 구도가 유지되는가
-- 배경, 글자, 로고, 워터마크가 없는가
-- 과한 headwear/object/ribbon/hair ornament가 생기지 않았는가
-- 02/03/04/10의 기준 이미지로 재사용하기 쉬운가
-
-## Notes for agents
-
-- README는 사용법 문서다. 긴 테스트 결과나 보고서는 여기에 누적하지 않는다.
-- 승인 상태, 대표 prompt_id, 대표 output은 `WORKFLOW_INDEX.json`에 짧게 둔다.
-- 생성된 PNG/contact sheet는 reusable pack 안에 저장하지 않는다.
-- detailed ablation artifacts were saved outside the reusable pack under Windows ComfyUI output, not in this folder.
+- Keep `thick_outline`: it slightly improves hair/body edge readability without visible identity drift.
+- Use `simple_background, grey_background, dark_background` for the current silver-hair anchor when a darker gray source background is needed.
+- Add `gradient_background, patterned_background` to negative for this darker-background variant; it reduced background texture without reintroducing badge drift in the accepted smoke.
+- Do not use `solid_background` here: in the v19 silver-bob test it reintroduced badge/emblem drift despite the negative prompt.
+- Do not use `black_background` for this anchor: it becomes too black/blue and is less suitable as a neutral source background.

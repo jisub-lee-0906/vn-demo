@@ -59,20 +59,20 @@ Category: `character`
 
 ```text
 model: BiRefNet_toonout
-mask_blur: 0
+mask_blur: 1
 mask_offset: 0
 invert_output: false
-refine_foreground: false
+refine_foreground: true
 background: Alpha
-background_color: #222222
+# background_color intentionally omitted for Alpha output
 ```
 
 의미:
 
 - `background: Alpha`가 실제 투명 PNG를 만든다.
-- `mask_blur: 0`, `mask_offset: 0`은 hair/detail 손실을 줄이는 기준값이다.
-- `refine_foreground: false`는 과한 foreground 재색칠/edge 오염을 피하기 위한 현재 기준값이다.
-- `background_color`는 Alpha 출력에서는 주 배경색이 아니라 노드 설정값이다. 투명 PNG QA는 반드시 별도 밝은/어두운 배경 위에 올려 확인한다.
+- `mask_blur: 1`, `mask_offset: 0`은 hair/detail 손실을 줄이는 기준값이다.
+- `refine_foreground: true`는 v19 은발 anchor에서 어두운 배경 composite의 edge/rim을 줄인 현재 기준값이다.
+- `background_color`는 `background: Alpha` 출력에서는 matte 개선에 도움이 되지 않아 canonical JSON에서 제거했다. 투명 PNG QA는 반드시 별도 밝은/어두운 배경 위에 올려 확인한다.
 
 hair edge, halo, 손/옷 외곽선 문제가 심할 때만 새 실험 JSON 또는 별도 테스트 run을 만든다. canonical JSON을 덮어쓰기 전에는 사용자 승인을 받는다.
 
@@ -89,13 +89,13 @@ WSL에서 보이는 input root:
 ComfyUI API에 넣는 `LoadImage.image` 값 예:
 
 ```text
-hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV180_719242400_00001_.png
+hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png
 ```
 
 실제 WSL 파일 위치 예:
 
 ```text
-/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV180_719242400_00001_.png
+/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png
 ```
 
 source PNG가 ComfyUI `output` 폴더에만 있으면 실행 전에 `input` 폴더로 복사한다. 같은 subfolder 구조를 쓰면 관리가 쉽다.
@@ -104,14 +104,14 @@ source PNG가 ComfyUI `output` 폴더에만 있으면 실행 전에 `input` 폴�
 
 ```bash
 mkdir -p /mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character
-cp /mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV180_719242400_00001_.png \
+cp /mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png \
    /mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/
 ```
 
 그 다음 JSON의 `LoadImage.image`는 아래처럼 쓴다.
 
 ```text
-hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV180_719242400_00001_.png
+hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png
 ```
 
 ## Output naming
@@ -119,16 +119,16 @@ hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV180_7192424
 권장 prefix:
 
 ```text
-hermes_vn_toonout_other_character/alpha_{character_slug}_{variant}_ilV180_{seed}
+hermes_vn_toonout_other_character/alpha_{character_slug}_{variant}_ilV190_{seed}
 ```
 
 예시:
 
 ```text
-hermes_vn_toonout_other_character/alpha_silver_bob_apose_neutral_ilV180_719242400
-hermes_vn_expression/alpha_silver_bob_happy_ilV180_719242400
-hermes_vn_pose/alpha_silver_bob_arms_crossed_ilV180_719242400
-hermes_vn_outfit/alpha_silver_bob_lavender_hoodie_ilV180_719242400
+hermes_vn_toonout_other_character/alpha_silver_bob_apose_neutral_ilV190_719242400
+hermes_vn_expression/alpha_silver_bob_happy_ilV190_719242400
+hermes_vn_pose/alpha_silver_bob_arms_crossed_ilV190_719242400
+hermes_vn_outfit/alpha_silver_bob_lavender_hoodie_ilV190_719242400
 ```
 
 ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
@@ -187,4 +187,20 @@ QA용 quick composite는 pack 밖의 임시/output 폴더에서 만든다. gener
 - README는 사용법 문서다. 긴 테스트 결과나 보고서는 여기에 누적하지 않는다.
 - 승인 상태, 대표 prompt_id, 대표 output은 `WORKFLOW_INDEX.json`에 짧게 둔다.
 - 생성된 PNG/contact sheet는 reusable pack 안에 저장하지 않는다.
-- 02는 현재 합격 상태이므로 canonical JSON은 그대로 유지한다. README 점검/보강만으로 충분하다.
+- 02는 v19 은발 anchor smoke 이후 `mask_blur: 1`, `refine_foreground: true`, no `background_color` 기준으로 갱신된 canonical이다. 추가 튜닝은 비교 output과 사용자 승인이 있을 때만 반영한다.
+
+## V190 silver-hair alpha tuning note
+
+2026-05-13 canonical update after 01 v19 Danbooru silver-hair smoke:
+
+- Use `mask_blur: 1` instead of `0`.
+- Use `refine_foreground: true` instead of `false`.
+- Remove `background_color`; with `background: Alpha` it does not improve matte extraction and can confuse docs.
+- Keep `mask_offset: 0`, `invert_output: false`, `background: Alpha`, `model: BiRefNet_toonout`.
+- Reason: on the accepted silver-bob v19 anchor, this reduced visible edge/rim artifacts on dark composite without noticeable hair/hand/clothing loss.
+
+Accepted smoke artifacts:
+
+- Source: `/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_background_test/source_grey_dark_neg_gradient_seed719251035_00001_.png`
+- Alpha: `/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_toonout_other_character/alpha_grey_dark_neg_gradient_rftrue_blur1_seed719251035_00001_.png`
+- QA sheet: `/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_background_test/contact_grey_dark_neg_gradient_source_alpha.png`

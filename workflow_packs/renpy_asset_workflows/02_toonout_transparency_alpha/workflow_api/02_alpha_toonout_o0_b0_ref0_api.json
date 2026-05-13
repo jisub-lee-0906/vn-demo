@@ -13,12 +13,11 @@
         0
       ],
       "model": "BiRefNet_toonout",
-      "mask_blur": 0,
+      "mask_blur": 1,
       "mask_offset": 0,
       "invert_output": false,
-      "refine_foreground": false,
-      "background": "Alpha",
-      "background_color": "#222222"
+      "refine_foreground": true,
+      "background": "Alpha"
     }
   },
   "3": {
@@ -28,7 +27,7 @@
         "2",
         0
       ],
-      "filename_prefix": "hermes_vn_toonout_other_character/alpha_toonout_offp0_b0_ref0"
+      "filename_prefix": "hermes_vn_toonout_other_character/alpha_toonout_o0_b1_ref1"
     }
   }
 }

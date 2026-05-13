@@ -16,35 +16,35 @@
         {
           "file": "01_character_anchor_apose_neutral_api.json",
           "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_apose_neutral_api.json",
-          "purpose": "canonical A-pose neutral character anchor using novaAnimeXL_ilV180.safetensors",
+          "purpose": "canonical Danbooru-only neutral character anchor using novaAnimeXL_ilV190.safetensors",
           "required_inputs": [],
-          "status": "USER_APPROVED canonical; 2026-05-13 prompt-ablation kept set applied"
+          "status": "accepted v19 Danbooru-only canonical template; visual QA + 2-character smoke test passed"
         }
       ],
-      "status": "USER_APPROVED_01_APOSE_NEUTRAL_CANONICAL_PROMPT_ABLATION_APPLIED",
+      "status": "V190_DANBOORU_ACCEPTED_CANONICAL_TEMPLATE_DARKGREY_OUTLINE",
       "last_user_qa": "2026-05-13",
-      "last_smoke_test": "2026-05-13 prompt ablation c01-c05 fixed seeds",
-      "last_smoke_output": "ComfyUI/output/hermes_vn_prompt_ablation_01/final_kept_set/compare_baseline_top_final_kept_bottom.png",
-      "notes": "2026-05-13: 01 remains A-pose + neutral expression canonical anchor. Slow prompt ablation on c01-c05 fixed seeds kept only `consistent modern visual novel sprite style` and `simple anime cel shading`; rejected no-op/drift phrases. README documents exact identity-block editing, fixed style block, negative prompt rules, and QA checklist for AI agents.",
-      "canonical_prompt_id": "ee3d0faf-7ea8-4ec8-8751-7da594e5b643",
+      "last_smoke_test": "2026-05-13 Nova Anime XL IL v19 Danbooru-only visual QA + 2-character generalization",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_background_test/contact_grey_dark_neg_gradient_source_alpha.png",
+      "notes": "2026-05-13: Added thick_outline and darker gray source background tags (`grey_background, dark_background`) after source+02 alpha QA. Negative adds gradient_background/patterned_background. Rejected solid_background (badge drift), black_background (too dark/blue), cel_shading (drift).",
+      "canonical_prompt_id": "8ae0fb57-baeb-4a25-b39e-3f63da93f0ce",
       "cross_character_prompt_checks": [
         {
           "slug": "silver_bob",
-          "seed": 719238145,
-          "prompt_id": "6139ddca-183a-441a-9848-8209d077905d",
-          "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_promptmatch_ilV180_719238145_00001_.png"
+          "seed": 719251035,
+          "prompt_id": "8ae0fb57-baeb-4a25-b39e-3f63da93f0ce",
+          "output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_character_anchor/iter5_pantyhose_anchor_seed719251035_00001_.png"
         },
         {
           "slug": "pink_twinbraids",
-          "seed": 719238245,
-          "prompt_id": "84f1fb91-2bd1-44c4-9da2-c7bb38b8487f",
-          "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_pink_twinbraids_apose_neutral_promptmatch_ilV180_719238245_00001_.png"
+          "seed": 719251102,
+          "prompt_id": "468b3fde-dfa4-43b0-9f8c-15bd1d394d15",
+          "output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_character_anchor/generalize_pink_twinbraids_seed719251102_00001_.png"
         },
         {
           "slug": "green_glasses",
-          "seed": 719238345,
-          "prompt_id": "aaf37d63-4442-4a9e-9f77-7b1a0e81c0dc",
-          "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_green_glasses_apose_neutral_promptmatch_ilV180_719238345_00001_.png"
+          "seed": 719251104,
+          "prompt_id": "e50fed32-74ad-4a2f-a63f-ef4595d79851",
+          "output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_character_anchor/generalize_green_glasses_seed719251104_00001_.png"
         }
       ],
       "prompt_ablation_2026_05_13": {
@@ -87,34 +87,45 @@
           "status": "USER_APPROVED canonical alpha"
         }
       ],
-      "last_smoke_test": "2026-05-13",
-      "status": "USER_APPROVED_02_ALPHA",
-      "last_user_qa": "2026-05-13"
+      "last_smoke_test": "2026-05-13 v19 silver-bob alpha smoke on 01 accepted anchor",
+      "status": "USER_APPROVED_02_ALPHA_V190_CANONICAL_B1_REF1",
+      "last_user_qa": "2026-05-13",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_background_test/contact_grey_dark_neg_gradient_source_alpha.png",
+      "notes": "2026-05-13: User approved improved alpha settings after v19 silver-hair smoke. mask_blur 1 + refine_foreground true + no background_color produced better edge/rim result than old b0/ref0/#222222.",
+      "canonical_settings": {
+        "model": "BiRefNet_toonout",
+        "mask_blur": 1,
+        "mask_offset": 0,
+        "invert_output": false,
+        "refine_foreground": true,
+        "background": "Alpha",
+        "background_color": "removed"
+      }
     },
     {
       "id": "03",
-      "folder": "03_expression_variation_ipadapter_img2img",
+      "folder": "03_expression_variation_face_composite",
       "category": "character",
       "title": "표정 변형",
-      "purpose": "기준 캐릭터의 기본 표정 세트(neutral + happy/sad/angry/disgusted/surprised/fearful) source variation을 만든다.",
-      "output": "표정별 source PNG 후보; 투명 PNG는 02 alpha workflow로 처리",
-      "test": "contact sheet에서 동일 인물성 + 표정 차이 확인; alpha 필요 시 02로 후처리",
+      "purpose": "01 source/anchor의 얼굴 표정만 Florence-2 face mask + inpaint + masked composite로 바꿔 VN 기본 표정 source PNG를 만든다.",
+      "output": "표정별 source PNG 후보; 최종 후보는 composited output, 투명 PNG는 02 alpha workflow로 처리",
+      "test": "mask preview에서 얼굴만 잡힘 확인; contact sheet에서 동일 인물성 + 표정 차이 + 비얼굴 보존 확인; alpha 필요 시 02로 후처리",
       "api_templates": [
         {
           "file": "03_expression_source_canonical_api.json",
-          "path": "03_expression_variation_ipadapter_img2img/workflow_api/03_expression_source_canonical_api.json",
-          "purpose": "canonical generic expression source img2img/IPAdapter workflow; switch expression by README prompt preset",
+          "path": "03_expression_variation_face_composite/workflow_api/03_expression_source_canonical_api.json",
+          "purpose": "canonical generic Florence2 face-mask inpaint + ImageCompositeMasked expression source workflow; switch expression by README preset",
           "required_inputs": [
-            "TEMPLATE_character_anchor.png"
+            "TEMPLATE_character_anchor_source.png"
           ],
-          "status": "canonical source template; alpha delegated to 02"
+          "status": "canonical 03 face-composite template promoted from successful silver-bob sandbox tests; one JSON only, expression presets in README"
         }
       ],
-      "notes": "2026-05-13: Active canonical workflow is only 03_expression_source_canonical_api.json. silver_bob 7-expression nova-safe v1 batch was user-accepted as usable. Use v1 presets first: short expression mechanics, no color words/strong emotion terms, low denoise, high IPAdapter weight/end_at=1.0; alpha remains delegated to 02.",
-      "last_smoke_test": "2026-05-13 silver_bob nova-sensitive v1 7-expression batch",
-      "status": "USER_QA_PASS_SILVER_BOB_NOVASAFE_V1",
-      "last_smoke_output": "ComfyUI/output/hermes_vn_expression/contact_silver_bob_novasafe_7expressions.png",
-      "last_user_qa": "2026-05-13"
+      "notes": "2026-05-13: Replaced legacy IPAdapter/img2img 03 content with one canonical Florence2 face-mask composite workflow. README now documents editable nodes, prompt structure, and default expression presets; do not create one workflow per expression. Tested silver-bob candidates: happy, surprised, sad_crying, fearful_wide_open, angry, and provisional disgust_nauseated. 02 alpha smoke passed technically for candidates; second-character smoke/user QA still recommended before broad production use.",
+      "last_smoke_test": "2026-05-13 silver_bob Florence2 face-mask composite batch1-3 + 02 alpha smoke",
+      "status": "CANONICAL_FLORENCE_FACE_COMPOSITE_TEMPLATE_PROMOTED_PENDING_FINAL_USER_QA",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_expression_florence2_alpha_smoke/contact_batch3_disgust_alpha_light_dark.png",
+      "last_user_qa": "pending final candidate QA"
     },
     {
       "id": "04",
@@ -174,7 +185,7 @@
           "path": "06_background_generation_no_text/workflow_api/06_background_generation_no_text_api.json",
           "purpose": "minimal-smoke no-text classroom background baseline; also day/night base-generation route",
           "required_inputs": [],
-          "status": "SMOKE PASS: ilV180 minimal txt2img; use separate 06 generations for day/night; RenPy textbox QA still required"
+          "status": "SMOKE PASS: ilV190 minimal txt2img; use separate 06 generations for day/night; RenPy textbox QA still required"
         }
       ]
     },

@@ -2,37 +2,27 @@
   "1": {
     "class_type": "CheckpointLoaderSimple",
     "inputs": {
-      "ckpt_name": "novaAnimeXL_ilV180.safetensors"
-    }
-  },
-  "2": {
-    "class_type": "CLIPSetLastLayer",
-    "inputs": {
-      "clip": [
-        "1",
-        1
-      ],
-      "stop_at_clip_layer": -2
+      "ckpt_name": "novaAnimeXL_ilV190.safetensors"
     }
   },
   "3": {
     "class_type": "CLIPTextEncode",
     "inputs": {
       "clip": [
-        "2",
-        0
+        "1",
+        1
       ],
-      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, waist-up to upper-thigh visible, full head visible, complete hair visible, whole torso visible, large centered character, front view, relaxed A-pose, arms naturally down at both sides, arms slightly away from body, visible open hands at sides, straight posture, shoulders level, neutral expression, closed mouth, calm blank face, looking at viewer, short silver bob hair, cool blue eyes, clean face, navy cardigan over white blouse, charcoal pleated skirt, modest bust, simple school-inspired uniform, consistent modern visual novel sprite style, simple anime cel shading, polished visual novel character sprite, delicate clean face, symmetrical eyes, detailed irises, refined hair strands, clean sharp anime lineart, soft cel shading, clean color separation, flat solid medium gray background, plain uniform gray backdrop"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, simple_background, grey_background, dark_background, BREAK depth_of_field, volumetric_lighting"
     }
   },
   "4": {
     "class_type": "CLIPTextEncode",
     "inputs": {
       "clip": [
-        "2",
-        0
+        "1",
+        1
       ],
-      "text": "smile, smiling, open mouth, dynamic pose, tilted body, crossed arms, hands together, hands near face, hands on hips, hands on waist, hands in pockets, akimbo, elbows bent, hidden hands, cropped hands, clenched fists, fist, dramatic pose, sassy pose, leaning, three-quarter view, text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, asymmetrical eyes, deformed face, blurry face, muddy shading, overrendered, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, background color bleeding into hair, color cast on character edges, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, inset, profile card"
+      "text": "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, smile, open_mouth, dynamic_pose, crossed_arms, hands_on_hips, hands_in_pockets, hands_near_face, large_breasts, huge_breasts, cleavage, nsfw, nude, nipples, badge, emblem, logo, (worst quality, bad quality:1.2), gradient_background, patterned_background"
     }
   },
   "5": {
@@ -62,9 +52,9 @@
         "5",
         0
       ],
-      "seed": 719242400,
+      "seed": 719251035,
       "steps": 28,
-      "cfg": 6.0,
+      "cfg": 5.0,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
       "denoise": 1.0
@@ -90,7 +80,7 @@
         "7",
         0
       ],
-      "filename_prefix": "hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_v4_quality_generalcolors_ilV180_719242400"
+      "filename_prefix": "hermes_vn_toonout_other_character/source_silver_bob_v190_danbooru_anchor_darkgrey_outline_seed719251035"
     }
   }
 }

@@ -28,7 +28,7 @@ Read `AGENTS.md` first, then `WORKFLOW_INDEX.json`, then the target numbered fol
 |---|---|---|---|---:|
 | 01 | `01_character_anchor_and_prompt/` | character | 캐릭터 기준 앵커 생성 | 1 |
 | 02 | `02_toonout_transparency_alpha/` | character | 투명 스프라이트 알파/매팅 | 1 |
-| 03 | `03_expression_variation_ipadapter_img2img/` | character | 표정 변형 | 2 |
+| 03 | `03_expression_variation_face_composite/` | character | 표정 변형 | 1 |
 | 04 | `04_pose_variation_reference_and_regeneration/` | character | 포즈 reference 생성 + 캐릭터 재생성 | 2 |
 | 06 | `06_background_generation_no_text/` | background | 텍스트 없는 배경 생성 | 1 |
 | 07 | `07_background_variation_img2img_layout_lock/` | background | 레이아웃 고정 배경 변형 | 1 |

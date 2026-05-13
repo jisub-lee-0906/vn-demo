@@ -43,7 +43,7 @@ Category: `character`
 - sampler/settings: `steps 28`, `cfg 5.0`, `euler_ancestral`, `normal`, `denoise 1.0`
 - clip skip: 1 equivalent, direct checkpoint CLIP; no `CLIPSetLastLayer`
 - rating tag: `rating_questionable` for 15세 target tone
-- background: `simple_background, grey_background`
+- background: `grey_background` only in positive; conflicting/redundant background tags stay negative-only
 
 ## Editable nodes
 
@@ -118,7 +118,7 @@ medium_hair, green_hair, brown_eyes, glasses
 현재 accepted baseline:
 
 ```text
-beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, simple_background, grey_background
+beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, grey_background
 ```
 
 QA 결과:
@@ -132,7 +132,7 @@ QA 결과:
 ### Full canonical positive prompt
 
 ```text
-masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, simple_background, grey_background, BREAK depth_of_field, volumetric_lighting
+masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, grey_background, BREAK depth_of_field, volumetric_lighting
 ```
 
 ## Negative prompt rules
@@ -144,8 +144,8 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 ```
 
 주의:
-- positive에 `simple_background`를 쓰므로 negative에는 `simple_background`를 넣지 않는다.
-- 색상별 금지어는 넣지 않는다. 다른 캐릭터를 막을 수 있다.
+- positive에는 `grey_background`만 둔다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 04 same-seed sweep 기준으로 중복/충돌 가능성이 있어 01/03 canonical에서도 제외한다.
+- 색상별 금지어는 캐릭터 identity 색상에는 넣지 않는다. 단, background-only 금지어(`white_background`, `bright_background`, `black_background`, `dark_background`, `vignette`, `gradient_background`, `patterned_background`)는 회색 소스/alpha 안정화를 위해 유지한다.
 - `badge`, `emblem`, `logo`는 기준 cardigan의 작은 마크 drift 방지용이다. 특정 캐릭터가 badge를 반드시 가져야 한다면 이 세 태그를 제거하고 별도 실험한다.
 
 ## Accepted visual QA
@@ -202,8 +202,8 @@ hermes_vn_experiments/nova_t2i_il_v190_character_anchor/{test_id}_{character_slu
 
 2026-05-13 tuning for 01→02 alpha:
 
+- Use `grey_background` only in positive for 01 canonical. Earlier `simple_background, grey_background, dark_background` was removed because the 04 same-seed sweep showed redundant/competing background tags can worsen neutral-gray consistency.
+- Add/keep background-only negatives: `white_background`, `bright_background`, `gradient_background`, `patterned_background`, `black_background`, `dark_background`, `vignette`.
 - Keep `thick_outline`: it slightly improves hair/body edge readability without visible identity drift.
-- Use `simple_background, grey_background, dark_background` for the current silver-hair anchor when a darker gray source background is needed.
-- Add `gradient_background, patterned_background` to negative for this darker-background variant; it reduced background texture without reintroducing badge drift in the accepted smoke.
 - Do not use `solid_background` here: in the v19 silver-bob test it reintroduced badge/emblem drift despite the negative prompt.
 - Do not use `black_background` for this anchor: it becomes too black/blue and is less suitable as a neutral source background.

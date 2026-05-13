@@ -155,7 +155,7 @@ masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution,
 현재 silver-bob 기준 예시:
 
 ```text
-rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, simple_background, grey_background, dark_background
+rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, grey_background
 ```
 
 다른 캐릭터를 실행할 때는 hair/eyes/outfit tags를 해당 01 source에 맞게 교체한다. 표정 preset만 바꾸고 캐릭터 tags를 silver-bob 그대로 두면 얼굴/눈 색 drift가 생길 수 있다.
@@ -181,6 +181,8 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 주의:
 
 - target expression을 negative에 넣지 않는다.
+- 03도 01/04와 맞춰 positive background는 `grey_background`만 사용한다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 positive에서 제외한다.
+- `white_background`, `bright_background`, `gradient_background`, `patterned_background`, `black_background`, `dark_background`, `vignette`는 background-only negative로 유지한다.
 - `changed_clothes`, `different_clothes`, `badge`, `emblem`, `logo`는 outfit/badge drift 방지용이다.
 - 다른 캐릭터가 badge/logo를 실제로 가져야 한다면 이 negative는 별도 검토한다.
 

@@ -1,0 +1,220 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "novaAnimeXL_ilV190.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "masterpiece, best_quality, very_aesthetic, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, looking_at_viewer, long_hair, twin_braids, pink_hair, blue_eyes, white_sailor_shirt, sailor_collar, blue_sailor_collar, pink_bowtie, navy_skirt, pleated_skirt, short_sleeves, small_breasts, arms_crossed, crossed_arms, folded_arms, thick_outline, clean_lineart, anime_coloring, simple_background, grey_background, flat_background"
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "lowres, low_quality, worst_quality, bad_quality, very_displeasing, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, fused_fingers, extra_arms, extra_hands, long_body, deformed, mutated, disfigured, ugly, cropped, cropped_head, cropped_hair, out_of_frame, multiple_girls, duplicate_character, text, signature, watermark, username, logo, smile, open_mouth, large_breasts, huge_breasts, cleavage, nude, nipples, badge, emblem, white_background, bright_background, gradient_background, patterned_background, black_background, dark_background, vignette, spotlight, dramatic_lighting, rim_lighting, headwear, hair_ornament, object_above_head, black_pantyhose, hands_on_hips, hands_in_pockets, hands_near_face"
+    }
+  },
+  "4": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_identity_multi04b_pink_twinbraids.png"
+    }
+  },
+  "5": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_pose_ref_multi04b_pink_twinbraids_arms_crossed.png"
+    }
+  },
+  "6": {
+    "class_type": "OpenposePreprocessor",
+    "inputs": {
+      "image": [
+        "5",
+        0
+      ],
+      "detect_hand": "enable",
+      "detect_body": "enable",
+      "detect_face": "disable",
+      "resolution": 1024,
+      "scale_stick_for_xinsr_cn": "enable"
+    }
+  },
+  "7": {
+    "class_type": "ControlNetLoader",
+    "inputs": {
+      "control_net_name": "xinsir-controlnet-union-sdxl-1.0-promax.safetensors"
+    }
+  },
+  "8": {
+    "class_type": "SetUnionControlNetType",
+    "inputs": {
+      "control_net": [
+        "7",
+        0
+      ],
+      "type": "openpose"
+    }
+  },
+  "9": {
+    "class_type": "ControlNetApplyAdvanced",
+    "inputs": {
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ],
+      "control_net": [
+        "8",
+        0
+      ],
+      "image": [
+        "6",
+        0
+      ],
+      "strength": 1.0,
+      "start_percent": 0.0,
+      "end_percent": 0.8
+    }
+  },
+  "10": {
+    "class_type": "IPAdapterModelLoader",
+    "inputs": {
+      "ipadapter_file": "ip-adapter-plus_sdxl_vit-h.safetensors"
+    }
+  },
+  "11": {
+    "class_type": "CLIPVisionLoader",
+    "inputs": {
+      "clip_name": "clip-vision_vit-h.safetensors"
+    }
+  },
+  "12": {
+    "class_type": "IPAdapterAdvanced",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "ipadapter": [
+        "10",
+        0
+      ],
+      "image": [
+        "4",
+        0
+      ],
+      "clip_vision": [
+        "11",
+        0
+      ],
+      "weight": 0.65,
+      "weight_type": "style transfer",
+      "combine_embeds": "concat",
+      "start_at": 0.0,
+      "end_at": 0.75,
+      "embeds_scaling": "K+V",
+      "attn_mask": [
+        "18",
+        1
+      ]
+    }
+  },
+  "13": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1152,
+      "height": 1536,
+      "batch_size": 1
+    }
+  },
+  "14": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "12",
+        0
+      ],
+      "positive": [
+        "9",
+        0
+      ],
+      "negative": [
+        "9",
+        1
+      ],
+      "latent_image": [
+        "13",
+        0
+      ],
+      "seed": 719252701,
+      "steps": 28,
+      "cfg": 5.0,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 1.0
+    }
+  },
+  "15": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "14",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "16": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "15",
+        0
+      ],
+      "filename_prefix": "hermes_vn_pose_clean_second_character/pink_arms_crossed_clean_ip065_cn100_seed719252701"
+    }
+  },
+  "17": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "6",
+        0
+      ],
+      "filename_prefix": "hermes_vn_pose_clean_second_character/pink_arms_crossed_control_preview"
+    }
+  },
+  "18": {
+    "class_type": "BiRefNetRMBG",
+    "inputs": {
+      "image": [
+        "4",
+        0
+      ],
+      "model": "BiRefNet_toonout",
+      "mask_blur": 3,
+      "mask_offset": 0,
+      "invert_output": false,
+      "refine_foreground": true,
+      "background": "Alpha"
+    }
+  }
+}

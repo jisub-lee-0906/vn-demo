@@ -25,7 +25,7 @@
       "last_user_qa": "2026-05-13",
       "last_smoke_test": "2026-05-13 Nova Anime XL IL v19 Danbooru-only visual QA + 2-character generalization",
       "last_smoke_output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_background_test/contact_grey_dark_neg_gradient_source_alpha.png",
-      "notes": "2026-05-13: Added thick_outline and darker gray source background tags (`grey_background, dark_background`) after source+02 alpha QA. Negative adds gradient_background/patterned_background. Rejected solid_background (badge drift), black_background (too dark/blue), cel_shading (drift).",
+      "notes": "2026-05-13: Added thick_outline and darker gray source background tags (`grey_background, dark_background`) after source+02 alpha QA. Negative adds gradient_background/patterned_background. Rejected solid_background (badge drift), black_background (too dark/blue), cel_shading (drift). 2026-05-13: background prompt normalized to positive `grey_background` only; redundant/conflicting `simple_background`, `flat_background`, `dark_background` removed from positive and background-only negatives kept.",
       "canonical_prompt_id": "8ae0fb57-baeb-4a25-b39e-3f63da93f0ce",
       "cross_character_prompt_checks": [
         {
@@ -121,7 +121,7 @@
           "status": "canonical 03 face-composite template promoted from successful silver-bob sandbox tests; one JSON only, expression presets in README"
         }
       ],
-      "notes": "2026-05-13: Replaced legacy IPAdapter/img2img 03 content with one canonical Florence2 face-mask composite workflow. README now documents editable nodes, prompt structure, and default expression presets; do not create one workflow per expression. Tested silver-bob candidates: happy, surprised, sad_crying, fearful_wide_open, angry, and provisional disgust_nauseated. 02 alpha smoke passed technically for candidates; second-character smoke/user QA still recommended before broad production use.",
+      "notes": "2026-05-13: Replaced legacy IPAdapter/img2img 03 content with one canonical Florence2 face-mask composite workflow. README now documents editable nodes, prompt structure, and default expression presets; do not create one workflow per expression. Tested silver-bob candidates: happy, surprised, sad_crying, fearful_wide_open, angry, and provisional disgust_nauseated. 02 alpha smoke passed technically for candidates; second-character smoke/user QA still recommended before broad production use. 2026-05-13: background prompt normalized to positive `grey_background` only; redundant/conflicting `simple_background`, `flat_background`, `dark_background` removed from positive and background-only negatives kept.",
       "last_smoke_test": "2026-05-13 silver_bob Florence2 face-mask composite batch1-3 + 02 alpha smoke",
       "status": "CANONICAL_FLORENCE_FACE_COMPOSITE_TEMPLATE_PROMOTED_PENDING_FINAL_USER_QA",
       "last_smoke_output": "ComfyUI/output/hermes_vn_expression_florence2_alpha_smoke/contact_batch3_disgust_alpha_light_dark.png",
@@ -131,45 +131,46 @@
       "id": "04",
       "folder": "04_pose_variation_reference_and_regeneration",
       "category": "character",
-      "title": "포즈 variation: reference 생성 + 캐릭터 재생성",
-      "purpose": "포즈 참고 이미지가 없으면 text-only donor/source를 만들고, pose reference + 01 character anchor로 같은 캐릭터의 포즈 variant source를 재생성한다.",
-      "output": "pose donor/source PNG 또는 same-character pose source PNG; 투명 PNG는 02 alpha workflow로 처리",
-      "test": "donor 단계는 포즈 가독성만 확인; refgen 단계는 anchor와 비교해 얼굴/헤어/의상 유지, 포즈 가독성, 손/팔/edge 문제 확인",
+      "title": "포즈 variation: OpenPose + masked IPAdapter",
+      "purpose": "pose reference + 01 character anchor로 같은 캐릭터의 포즈 variant source를 만든다. Canonical route uses OpenPose ControlNet plus masked IPAdapter, not pose-reference img2img latent.",
+      "output": "same-character pose source PNG; 투명 PNG는 02 alpha workflow로 처리",
+      "test": "anchor와 비교해 얼굴/헤어/의상 유지, 포즈 가독성, 손/팔 문제 확인; stable outputs는 02 alpha light/dark composite 확인",
       "api_templates": [
         {
-          "file": "04_pose_textonly_source_canonical_api.json",
-          "path": "04_pose_variation_reference_and_regeneration/workflow_api/04_pose_textonly_source_canonical_api.json",
-          "purpose": "canonical text-only pose donor/source generation; switch pose by README preset",
-          "required_inputs": [],
-          "status": "canonical template consolidated from old 04 text-only pose variants"
-        },
-        {
-          "file": "04_pose_refregen_ipadapter_canonical_api.json",
-          "path": "04_pose_variation_reference_and_regeneration/workflow_api/04_pose_refregen_ipadapter_canonical_api.json",
-          "purpose": "canonical same-character pose regeneration using pose reference + character anchor/IPAdapter",
+          "file": "04_pose_refregen_openpose_ipadapter_masked_canonical_api.json",
+          "path": "04_pose_variation_reference_and_regeneration/workflow_api/04_pose_refregen_openpose_ipadapter_masked_canonical_api.json",
+          "purpose": "canonical same-character pose regeneration using pose reference OpenPose ControlNet + character anchor masked IPAdapter",
           "required_inputs": [
             "TEMPLATE_pose_reference.png",
             "TEMPLATE_character_anchor.png"
           ],
-          "status": "canonical template consolidated from old 05 ref-generation variants"
+          "status": "PROMOTED canonical 04 template after multi-pose, second-character, and 02 alpha gate; stable presets arms_crossed/hand_chest; caution presets pointing/one_hand_hip"
         }
       ],
-      "notes": "2026-05-13: merged old 04/05 into one pose folder. Post-merge smoke passed. Multi-character test found an important rule: shared auburn/orange donors transfer pose but contaminate other characters; character-specific donors preserve identity much better across silver_bob, pink_twinbraids, and green_glasses for arms_crossed/hand_chest/pointing. Alpha is still delegated to 02; final promotion needs user QA and alpha/RenPy QA.",
-      "last_smoke_test": "2026-05-13 post-merge execute smoke",
-      "status": "SMOKE_PASS_CHARACTER_SPECIFIC_DONORS_PENDING_USER_QA",
+      "notes": "2026-05-13: Promoted clean OpenPose + masked IPAdapter route from 00 sandbox. Failed/weak variants (PuLID combo, Depth-only, Canny-only, dirty prompt, DWPreprocessor, pose-reference VAE img2img latent) are not canonical. Clean Danbooru prompt excludes dark_background/depth_of_field/volumetric_lighting and negatives ban dark/vignette/dramatic lighting. Multi-pose smoke passed silver_bob arms_crossed/hand_chest stable and pointing/one_hand_hip caution. Second-character smoke passed pink_twinbraids arms_crossed/hand_chest stable and pointing caution. 02 alpha gate passed for silver/pink arms_crossed and hand_chest. Same-seed background sweep selected positive `grey_background` only; avoid `simple_background`, `flat_background`, and `dark_background` in 04 positive prompt. 2026-05-13 cleanup: legacy text-only and old IPAdapter JSONs moved to 00_experiment_sandbox/workflow_api/legacy_04_pose_precanonical_2026-05-13; numbered 04 folder now keeps one active canonical workflow JSON.",
+      "last_smoke_test": "2026-05-13 clean OpenPose masked-IPAdapter multi-pose + second-character + 02 alpha gate",
+      "status": "PROMOTED_CANONICAL_OPENPOSE_MASKED_IPADAPTER_STABLE_PRESETS_ALPHA_PASS",
       "last_smoke_outputs": {
-        "textonly_prompt_id": "e266fc9b-4f00-4f5c-956f-831405e84691",
-        "textonly_output": "ComfyUI/output/hermes_vn_pose_smoke_merge04/source_auburn_one_hand_hip_textonly_00001_.png",
-        "refgen_prompt_id": "581ad022-ed51-4f47-bb2f-2f2d021d4d27",
-        "refgen_output": "ComfyUI/output/hermes_vn_pose_smoke_merge04/refgen_auburn_one_hand_hip_00001_.png",
-        "contact_sheet": "ComfyUI/output/hermes_vn_pose_smoke_merge04/contact_merge04_pose_smoke.png"
+        "clean_prompt_contact": "ComfyUI/output/hermes_vn_pose_clean_prompt/contact_batch1_clean_prompt_outputs.png",
+        "multi_pose_contact": "ComfyUI/output/hermes_vn_pose_clean_multi_pose/contact_batch1_clean_multi_pose_outputs.png",
+        "second_character_contact": "ComfyUI/output/hermes_vn_pose_clean_second_character/contact_batch1_second_character_outputs.png",
+        "alpha_gate_contact": "ComfyUI/output/hermes_vn_pose_alpha_gate/contact_batch1_pose_alpha_light_dark.png"
       },
       "last_multi_character_smoke": "2026-05-13",
       "last_multi_character_outputs": {
         "failed_shared_donor_contact": "ComfyUI/output/hermes_vn_pose_smoke_multi04/contact_multi04_3chars_3poses.png",
         "character_specific_refgen_contact": "ComfyUI/output/hermes_vn_pose_smoke_multi04b/contact_multi04b_3chars_3poses_refgen.png",
         "character_specific_donor_contact": "ComfyUI/output/hermes_vn_pose_smoke_multi04b/contact_multi04b_3chars_3poses_donors.png"
-      }
+      },
+      "last_user_qa": "2026-05-13 promotion approved by user after reported alpha gate",
+      "stable_presets": [
+        "arms_crossed",
+        "hand_chest"
+      ],
+      "caution_presets": [
+        "pointing",
+        "one_hand_hip"
+      ]
     },
     {
       "id": "06",

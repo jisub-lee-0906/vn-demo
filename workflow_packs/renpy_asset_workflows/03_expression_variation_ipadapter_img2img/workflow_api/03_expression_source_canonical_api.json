@@ -52,11 +52,11 @@
         "5",
         0
       ],
-      "weight": 0.6,
+      "weight": 0.86,
       "weight_type": "style and composition",
       "combine_embeds": "average",
       "start_at": 0.0,
-      "end_at": 0.82,
+      "end_at": 1.0,
       "embeds_scaling": "V only"
     }
   },
@@ -67,7 +67,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, full head visible, complete hair visible, large centered character, clean face, consistent hair, consistent eyes, consistent outfit, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop, VERY happy expression, warm bright smile, clearly smiling mouth, happy eyes, cheerful friendly face, clearly readable happiness, not subtle expression"
+      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, full head visible, complete hair visible, large centered character, clean face, consistent hair, consistent eyes, consistent outfit, same character, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop, neutral expression, relaxed closed mouth, calm eyes"
     }
   },
   "8": {
@@ -77,7 +77,7 @@
         "2",
         0
       ],
-      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, expression sheet, inset, profile card, different hair color, changed hair color, nose bridge, nostrils, realistic nose, prominent nose, neutral face, expressionless, sad, crying, angry, surprised, open shocked mouth"
+      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, expression sheet, inset, profile card, changed hair, changed eyes, different face, face shape change, new hairstyle, different outfit, smile, happy, sad, angry, surprised, disgusted, fearful"
     }
   },
   "9": {
@@ -113,11 +113,11 @@
         0
       ],
       "seed": 933099,
-      "steps": 28,
-      "cfg": 6.0,
+      "steps": 26,
+      "cfg": 5.2,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 0.42
+      "denoise": 0.18
     }
   },
   "11": {

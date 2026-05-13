@@ -137,6 +137,25 @@ TEMPLATE_character_anchor.png
 
 ## Strength tuning rules
 
+## Pose reference identity contamination
+
+`04_pose_refregen_ipadapter_canonical_api.json` is img2img-based. A pose donor with strong hair/color/outfit identity can leak into the refgen result, especially at the default `denoise 0.42`.
+
+Preferred rule:
+
+- For each target character, generate or choose a pose reference that is already close to that character's hair length/color and outfit silhouette.
+- Do not reuse one auburn/orange donor across silver, pink, green, or other strongly different characters unless you are intentionally testing failure modes.
+- If an external pose reference has a very different identity, treat it as risky. Expect hair color/outfit contamination unless the graph is changed to a stronger pose-only route such as OpenPose/ControlNet.
+
+If contamination appears:
+
+1. Regenerate the donor with the target character's identity block.
+2. Add wrong hair/outfit terms to negative prompt.
+3. If still contaminated, raise identity strength or lower `denoise`, but watch for weaker pose transfer.
+4. For production, prefer character-specific donor -> refgen -> 02 alpha.
+
+2026-05-13 smoke note: reusing auburn donors across `silver_bob`, `pink_twinbraids`, and `green_glasses` preserved the pose but contaminated all results toward auburn/orange hair. Character-specific donors fixed identity preservation much better.
+
 ### Refgen에서 캐릭터가 무너지면
 
 - `denoise`를 낮춘다.

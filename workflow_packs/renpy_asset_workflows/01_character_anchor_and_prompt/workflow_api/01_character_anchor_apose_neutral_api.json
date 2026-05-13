@@ -22,7 +22,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, front view character sprite, standing character reference pose, upper body to mid-thigh visible, full head visible, complete hair visible, whole torso visible, large centered character, relaxed A-pose, arms straight down at both sides, arms slightly away from body, visible open hands at sides, palms facing body, straight posture, shoulders level, neutral expression, closed mouth, calm blank face, looking at viewer, auburn medium-length wavy hair, warm brown eyes, clean face, ivory knit cardigan over pale blue blouse, navy pleated skirt, simple school uniform, clean sharp anime lineart, flat solid medium gray background, plain uniform gray backdrop"
+      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, cowboy shot, upper body character portrait, waist-up to upper-thigh visible, full head visible, complete hair visible, whole torso visible, large centered character, front view, relaxed A-pose, arms naturally down at both sides, arms slightly away from body, visible open hands at sides, straight posture, shoulders level, neutral expression, closed mouth, calm blank face, looking at viewer, short silver bob hair, cool blue eyes, clean face, navy cardigan over white blouse, charcoal pleated skirt, modest bust, simple school-inspired uniform, consistent modern visual novel sprite style, simple anime cel shading, polished visual novel character sprite, delicate clean face, symmetrical eyes, detailed irises, refined hair strands, clean sharp anime lineart, soft cel shading, clean color separation, flat solid medium gray background, plain uniform gray backdrop"
     }
   },
   "4": {
@@ -32,7 +32,7 @@
         "2",
         0
       ],
-      "text": "smile, smiling, open mouth, dynamic pose, tilted body, crossed arms, hands together, hands near face, hands on hips, hands on waist, hands in pockets, akimbo, elbows bent, hidden hands, cropped hands, clenched fists, fist, dramatic pose, sassy pose, leaning, three-quarter view, text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, green background, teal background, green clothes, green cardigan, green uniform, green hair, teal hair, green highlights, green reflection, green rim light, background color bleeding into hair, translucent green edges, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, inset, profile card"
+      "text": "smile, smiling, open mouth, dynamic pose, tilted body, crossed arms, hands together, hands near face, hands on hips, hands on waist, hands in pockets, akimbo, elbows bent, hidden hands, cropped hands, clenched fists, fist, dramatic pose, sassy pose, leaning, three-quarter view, text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, cropped arms, out of frame, extra arms, extra hands, bad hands, asymmetrical eyes, deformed face, blurry face, muddy shading, overrendered, low quality, worst quality, full body, tiny character, chibi, feet visible, shoes, white background, bright background, gradient background, background color bleeding into hair, color cast on character edges, headwear, object above head, ribbon on head, bow on head, hair ornament, reference sheet, character sheet, sprite sheet, inset, profile card"
     }
   },
   "5": {
@@ -62,7 +62,7 @@
         "5",
         0
       ],
-      "seed": 719238045,
+      "seed": 719242400,
       "steps": 28,
       "cfg": 6.0,
       "sampler_name": "euler_ancestral",
@@ -90,7 +90,7 @@
         "7",
         0
       ],
-      "filename_prefix": "hermes_vn_toonout_other_character/source_auburn_apose_neutral_ilV180_719238045"
+      "filename_prefix": "hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_v4_quality_generalcolors_ilV180_719242400"
     }
   }
 }

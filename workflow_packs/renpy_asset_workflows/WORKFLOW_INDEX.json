@@ -18,14 +18,14 @@
           "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_apose_neutral_api.json",
           "purpose": "canonical A-pose neutral character anchor using novaAnimeXL_ilV180.safetensors",
           "required_inputs": [],
-          "status": "USER_APPROVED canonical"
+          "status": "USER_APPROVED canonical; 2026-05-13 prompt-ablation kept set applied"
         }
       ],
-      "status": "USER_APPROVED_01_APOSE_NEUTRAL_CANONICAL",
+      "status": "USER_APPROVED_01_APOSE_NEUTRAL_CANONICAL_PROMPT_ABLATION_APPLIED",
       "last_user_qa": "2026-05-13",
-      "last_smoke_test": "2026-05-13",
-      "last_smoke_output": "ComfyUI/output/hermes_vn_toonout_other_character/source_auburn_apose_neutral_v3_ilV180_719238045_00001_.png",
-      "notes": "2026-05-13: preferred 01 baseline changed from relaxed pose to A-pose + neutral expression for easier downstream 02/03/05/10 reuse. User approved canonical prompt_id ee3d0faf-7ea8-4ec8-8751-7da594e5b643 and confirmed 3 additional character checks kept appropriate pose/neutral expression.",
+      "last_smoke_test": "2026-05-13 prompt ablation c01-c05 fixed seeds",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_prompt_ablation_01/final_kept_set/compare_baseline_top_final_kept_bottom.png",
+      "notes": "2026-05-13: 01 remains A-pose + neutral expression canonical anchor. Slow prompt ablation on c01-c05 fixed seeds kept only `consistent modern visual novel sprite style` and `simple anime cel shading`; rejected no-op/drift phrases. README documents exact identity-block editing, fixed style block, negative prompt rules, and QA checklist for AI agents.",
       "canonical_prompt_id": "ee3d0faf-7ea8-4ec8-8751-7da594e5b643",
       "cross_character_prompt_checks": [
         {
@@ -46,7 +46,27 @@
           "prompt_id": "aaf37d63-4442-4a9e-9f77-7b1a0e81c0dc",
           "output": "ComfyUI/output/hermes_vn_toonout_other_character/source_green_glasses_apose_neutral_promptmatch_ilV180_719238345_00001_.png"
         }
-      ]
+      ],
+      "prompt_ablation_2026_05_13": {
+        "kept_positive_additions": [
+          "consistent modern visual novel sprite style",
+          "simple anime cel shading"
+        ],
+        "rejected": [
+          "medium eye size",
+          "thin consistent lineart",
+          "clean flat colors",
+          "low detail uniform design",
+          "negative:painterly shading",
+          "negative:semi-realistic face",
+          "same face proportion style",
+          "centered full body sprite",
+          "same camera distance",
+          "high resolution anime game sprite"
+        ],
+        "decision_log": "ComfyUI/output/hermes_vn_prompt_ablation_01/ablation_decisions.md",
+        "final_contact_sheet": "ComfyUI/output/hermes_vn_prompt_ablation_01/final_kept_set/compare_baseline_top_final_kept_bottom.png"
+      }
     },
     {
       "id": "02",
@@ -88,23 +108,13 @@
             "TEMPLATE_character_anchor.png"
           ],
           "status": "canonical source template; alpha delegated to 02"
-        },
-        {
-          "file": "03_face_composite_masked_api.json",
-          "path": "03_expression_variation_ipadapter_img2img/workflow_api/03_face_composite_masked_api.json",
-          "purpose": "optional face-only composite postprocess to preserve approved outfit/body while using expression candidate face",
-          "required_inputs": [
-            "TEMPLATE_neutral_anchor.png",
-            "TEMPLATE_expression_candidate.png",
-            "TEMPLATE_face_mask_inverted_alpha.png"
-          ],
-          "status": "smoke-tested optional drift-fix template"
         }
       ],
-      "notes": "2026-05-13: removed duplicated 03 alpha workflows and consolidated per-expression source workflows into one canonical JSON. Default expression set is neutral plus six emotion presets: happy, sad, angry, disgusted, surprised, fearful. Emotion-specific prompts/strengths, user-QA refinement rules, and optional face-composite outfit/body drift fix live in README.",
-      "last_smoke_test": "2026-05-13",
-      "status": "SMOKE_PASS_SOURCE_CANONICAL_PENDING_USER_QA",
-      "last_smoke_output": "ComfyUI/output/hermes_vn_expression/source_auburn_smile_canonical_smoke_00001_.png"
+      "notes": "2026-05-13: Active canonical workflow is only 03_expression_source_canonical_api.json. silver_bob 7-expression nova-safe v1 batch was user-accepted as usable. Use v1 presets first: short expression mechanics, no color words/strong emotion terms, low denoise, high IPAdapter weight/end_at=1.0; alpha remains delegated to 02.",
+      "last_smoke_test": "2026-05-13 silver_bob nova-sensitive v1 7-expression batch",
+      "status": "USER_QA_PASS_SILVER_BOB_NOVASAFE_V1",
+      "last_smoke_output": "ComfyUI/output/hermes_vn_expression/contact_silver_bob_novasafe_7expressions.png",
+      "last_user_qa": "2026-05-13"
     },
     {
       "id": "04",
@@ -133,9 +143,22 @@
           "status": "canonical template consolidated from old 05 ref-generation variants"
         }
       ],
-      "notes": "2026-05-13: merged old 04_pose_source_generation_textonly and old 05_pose_image_reference_regeneration_ipadapter into one AI-agent-friendly pose folder. Archived per-pose/alpha JSONs under 04/archive. Alpha is delegated to 02 by default. Use canonical JSON + README pose preset table instead of adding one JSON per pose.",
-      "last_smoke_test": "2026-05-13 pre-merge archived variants",
-      "status": "CONSOLIDATED_CANONICAL_TEMPLATES_PENDING_POST_MERGE_SMOKE"
+      "notes": "2026-05-13: merged old 04/05 into one pose folder. Post-merge smoke passed. Multi-character test found an important rule: shared auburn/orange donors transfer pose but contaminate other characters; character-specific donors preserve identity much better across silver_bob, pink_twinbraids, and green_glasses for arms_crossed/hand_chest/pointing. Alpha is still delegated to 02; final promotion needs user QA and alpha/RenPy QA.",
+      "last_smoke_test": "2026-05-13 post-merge execute smoke",
+      "status": "SMOKE_PASS_CHARACTER_SPECIFIC_DONORS_PENDING_USER_QA",
+      "last_smoke_outputs": {
+        "textonly_prompt_id": "e266fc9b-4f00-4f5c-956f-831405e84691",
+        "textonly_output": "ComfyUI/output/hermes_vn_pose_smoke_merge04/source_auburn_one_hand_hip_textonly_00001_.png",
+        "refgen_prompt_id": "581ad022-ed51-4f47-bb2f-2f2d021d4d27",
+        "refgen_output": "ComfyUI/output/hermes_vn_pose_smoke_merge04/refgen_auburn_one_hand_hip_00001_.png",
+        "contact_sheet": "ComfyUI/output/hermes_vn_pose_smoke_merge04/contact_merge04_pose_smoke.png"
+      },
+      "last_multi_character_smoke": "2026-05-13",
+      "last_multi_character_outputs": {
+        "failed_shared_donor_contact": "ComfyUI/output/hermes_vn_pose_smoke_multi04/contact_multi04_3chars_3poses.png",
+        "character_specific_refgen_contact": "ComfyUI/output/hermes_vn_pose_smoke_multi04b/contact_multi04b_3chars_3poses_refgen.png",
+        "character_specific_donor_contact": "ComfyUI/output/hermes_vn_pose_smoke_multi04b/contact_multi04b_3chars_3poses_donors.png"
+      }
     },
     {
       "id": "06",

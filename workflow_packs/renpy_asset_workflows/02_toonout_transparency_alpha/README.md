@@ -90,13 +90,13 @@ WSL에서 보이는 input root:
 ComfyUI API에 넣는 `LoadImage.image` 값 예:
 
 ```text
-hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png
+hermes_vn_toonout_other_character/{source_png_filename}.png
 ```
 
 실제 WSL 파일 위치 예:
 
 ```text
-/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png
+/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/{source_png_filename}.png
 ```
 
 source PNG가 ComfyUI `output` 폴더에만 있으면 실행 전에 `input` 폴더로 복사한다. 같은 subfolder 구조를 쓰면 관리가 쉽다.
@@ -105,14 +105,14 @@ source PNG가 ComfyUI `output` 폴더에만 있으면 실행 전에 `input` 폴�
 
 ```bash
 mkdir -p /mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character
-cp /mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png \
+cp /mnt/c/Users/Desktop/Documents/ComfyUI/output/{run_folder}/{source_png_filename}.png \
    /mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_toonout_other_character/
 ```
 
 그 다음 JSON의 `LoadImage.image`는 아래처럼 쓴다.
 
 ```text
-hermes_vn_toonout_other_character/source_silver_bob_apose_neutral_ilV190_719242400_00001_.png
+hermes_vn_toonout_other_character/{source_png_filename}.png
 ```
 
 ## Output naming

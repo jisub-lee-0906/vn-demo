@@ -18,14 +18,14 @@
           "path": "01_character_anchor_and_prompt/workflow_api/01_character_anchor_apose_neutral_api.json",
           "purpose": "canonical Danbooru-only neutral character anchor using novaAnimeXL_ilV190.safetensors",
           "required_inputs": [],
-          "status": "accepted v19 Danbooru-only canonical template; visual QA + 2-character smoke test passed; SaveImage prefix uses TEMPLATE placeholders"
+          "status": "runnable template; 2026-05-13 01→02 source-background retest passed after removing depth_of_field/volumetric_lighting; rerun full-chain QA before production use"
         }
       ],
-      "status": "V190_DANBOORU_ACCEPTED_CANONICAL_TEMPLATE_DARKGREY_OUTLINE",
+      "status": "RUNNABLE_01_TO_02_BACKGROUND_RETEST_PASSED__FULL_CHAIN_QA_PENDING",
       "last_user_qa": "2026-05-13",
       "last_smoke_test": "2026-05-13 Nova Anime XL IL v19 Danbooru-only visual QA + 2-character generalization",
       "last_smoke_output": "ComfyUI/output/hermes_vn_experiments/nova_t2i_il_v190_background_test/contact_grey_dark_neg_gradient_source_alpha.png",
-      "notes": "2026-05-13: Added thick_outline and darker gray source background tags (`grey_background, dark_background`) after source+02 alpha QA. Negative adds gradient_background/patterned_background. Rejected solid_background (badge drift), black_background (too dark/blue), cel_shading (drift). 2026-05-13: background prompt normalized to positive `grey_background` only; redundant/conflicting `simple_background`, `flat_background`, `dark_background` removed from positive and background-only negatives kept.",
+      "notes": "2026-05-13: Added thick_outline and darker gray source background tags (`grey_background, dark_background`) after source+02 alpha QA. Negative adds gradient_background/patterned_background. Rejected solid_background (badge drift), black_background (too dark/blue), cel_shading (drift). 2026-05-13: background prompt normalized to positive `grey_background` only; redundant/conflicting `simple_background`, `flat_background`, `dark_background` removed from positive and background-only negatives kept. 2026-05-13: removed `depth_of_field` and `volumetric_lighting` from 01 canonical after one-image 01→02 retest produced a neutral gray source and alpha composites without severe halo/rim.",
       "canonical_prompt_id": "8ae0fb57-baeb-4a25-b39e-3f63da93f0ce",
       "cross_character_prompt_checks": [
         {
@@ -66,7 +66,8 @@
         ],
         "decision_log": "ComfyUI/output/hermes_vn_prompt_ablation_01/ablation_decisions.md",
         "final_contact_sheet": "ComfyUI/output/hermes_vn_prompt_ablation_01/final_kept_set/compare_baseline_top_final_kept_bottom.png"
-      }
+      },
+      "last_chain_qa": "2026-05-13 full 01→04→03→02 run showed old 01 source background had scene-like lighting/shadow. Later one-image 01→02 retest removed depth_of_field/volumetric_lighting and passed source-background smoke; full chain still pending."
     },
     {
       "id": "02",
@@ -100,7 +101,8 @@
         "refine_foreground": true,
         "background": "Alpha",
         "background_color": "removed"
-      }
+      },
+      "last_chain_qa": "2026-05-13 full chain alpha output was valid RGBA, but 02 inherited upstream 04 rim/edge contamination; do not treat 02 alone as root cause."
     },
     {
       "id": "03",
@@ -118,14 +120,15 @@
           "required_inputs": [
             "TEMPLATE_character_anchor_source.png"
           ],
-          "status": "canonical 03 face-composite template promoted from successful silver-bob sandbox tests; one JSON only, expression presets in README"
+          "status": "runnable Florence2 face-composite template; not production-ready after 04 until expression readability passes full-chain QA"
         }
       ],
       "notes": "2026-05-13: Replaced legacy IPAdapter/img2img 03 content with one canonical Florence2 face-mask composite workflow. README now documents editable nodes, prompt structure, and default expression presets; do not create one workflow per expression. Tested silver-bob candidates: happy, surprised, sad_crying, fearful_wide_open, angry, and provisional disgust_nauseated. 02 alpha smoke passed technically for candidates; second-character smoke/user QA still recommended before broad production use. 2026-05-13: background prompt normalized to positive `grey_background` only; redundant/conflicting `simple_background`, `flat_background`, `dark_background` removed from positive and background-only negatives kept.",
       "last_smoke_test": "2026-05-13 silver_bob Florence2 face-mask composite batch1-3 + 02 alpha smoke",
-      "status": "CANONICAL_FLORENCE_FACE_COMPOSITE_TEMPLATE_PROMOTED_PENDING_FINAL_USER_QA",
+      "status": "RUNNABLE_BUT_NOT_PRODUCTION_READY_AFTER_04_EXPRESSION_TOO_WEAK",
       "last_smoke_output": "ComfyUI/output/hermes_vn_expression_florence2_alpha_smoke/contact_batch3_disgust_alpha_light_dark.png",
-      "last_user_qa": "pending final candidate QA"
+      "last_user_qa": "pending final candidate QA",
+      "last_chain_qa": "2026-05-13 full 01→04→03→02 run showed 03 happy expression change was too weak on 04 posed source."
     },
     {
       "id": "04",
@@ -144,17 +147,18 @@
             "TEMPLATE_pose_reference.png",
             "TEMPLATE_character_anchor.png"
           ],
-          "status": "PROMOTED canonical 04 template after multi-pose, second-character, and 02 alpha gate; stable presets arms_crossed/hand_chest; caution presets pointing/one_hand_hip"
+          "status": "runnable OpenPose+masked-IPAdapter template; 04→02 stable rim retest passed after removing thick_outline; 03 expression gate still separate"
         }
       ],
-      "notes": "2026-05-13: Promoted clean OpenPose + masked IPAdapter route from 00 sandbox. Failed/weak variants (PuLID combo, Depth-only, Canny-only, dirty prompt, DWPreprocessor, pose-reference VAE img2img latent) are not canonical. Clean Danbooru prompt excludes dark_background/depth_of_field/volumetric_lighting and negatives ban dark/vignette/dramatic lighting. Multi-pose smoke passed silver_bob arms_crossed/hand_chest stable and pointing/one_hand_hip caution. Second-character smoke passed pink_twinbraids arms_crossed/hand_chest stable and pointing caution. 02 alpha gate passed for silver/pink arms_crossed and hand_chest. Same-seed background sweep selected positive `grey_background` only; avoid `simple_background`, `flat_background`, and `dark_background` in 04 positive prompt. 2026-05-13 cleanup: legacy text-only and old IPAdapter JSONs moved to 00_experiment_sandbox/workflow_api/legacy_04_pose_precanonical_2026-05-13; numbered 04 folder now keeps one active canonical workflow JSON.",
+      "notes": "2026-05-13: Promoted clean OpenPose + masked IPAdapter route from 00 sandbox. Failed/weak variants (PuLID combo, Depth-only, Canny-only, dirty prompt, DWPreprocessor, pose-reference VAE img2img latent) are not canonical. Clean Danbooru prompt excludes dark_background/depth_of_field/volumetric_lighting and negatives ban dark/vignette/dramatic lighting. Multi-pose smoke passed silver_bob arms_crossed/hand_chest stable and pointing/one_hand_hip caution. Second-character smoke passed pink_twinbraids arms_crossed/hand_chest stable and pointing caution. 02 alpha gate passed for silver/pink arms_crossed and hand_chest. Same-seed background sweep selected positive `grey_background` only; avoid `simple_background`, `flat_background`, and `dark_background` in 04 positive prompt. 2026-05-13 no-rim retest: remove `thick_outline`; it caused sticker-like white exterior rim in 04 source, which 02 alpha preserved. Stable arms_crossed/hand_chest 04→02 retest passed with no `thick_outline`; keep 03 expression-strength as separate unresolved gate. 2026-05-13 cleanup: legacy text-only and old IPAdapter JSONs moved to 00_experiment_sandbox/workflow_api/legacy_04_pose_precanonical_2026-05-13; numbered 04 folder now keeps one active canonical workflow JSON.",
       "last_smoke_test": "2026-05-13 clean OpenPose masked-IPAdapter multi-pose + second-character + 02 alpha gate",
-      "status": "PROMOTED_CANONICAL_OPENPOSE_MASKED_IPADAPTER_STABLE_PRESETS_ALPHA_PASS",
+      "status": "RUNNABLE_04_TO_02_STABLE_PRESETS_PASSED_NO_THICK_OUTLINE__03_GATE_SEPARATE",
       "last_smoke_outputs": {
         "clean_prompt_contact": "ComfyUI/output/hermes_vn_pose_clean_prompt/contact_batch1_clean_prompt_outputs.png",
         "multi_pose_contact": "ComfyUI/output/hermes_vn_pose_clean_multi_pose/contact_batch1_clean_multi_pose_outputs.png",
         "second_character_contact": "ComfyUI/output/hermes_vn_pose_clean_second_character/contact_batch1_second_character_outputs.png",
-        "alpha_gate_contact": "ComfyUI/output/hermes_vn_pose_alpha_gate/contact_batch1_pose_alpha_light_dark.png"
+        "alpha_gate_contact": "ComfyUI/output/hermes_vn_pose_alpha_gate/contact_batch1_pose_alpha_light_dark.png",
+        "no_thick_stable_manifest": "ComfyUI/output/hermes_vn_chain_retest_20260513/manifest_no_thick_stable_batch.json"
       },
       "last_multi_character_smoke": "2026-05-13",
       "last_multi_character_outputs": {
@@ -170,7 +174,8 @@
       "caution_presets": [
         "pointing",
         "one_hand_hip"
-      ]
+      ],
+      "last_chain_qa": "2026-05-13 04→02 retest isolated `thick_outline` as the bright/white exterior rim contaminant; numbered 04 now removes it and stable arms_crossed/hand_chest alpha outputs passed RGBA/rim QA. 03 expression readability remains a separate full-chain gate."
     },
     {
       "id": "06",

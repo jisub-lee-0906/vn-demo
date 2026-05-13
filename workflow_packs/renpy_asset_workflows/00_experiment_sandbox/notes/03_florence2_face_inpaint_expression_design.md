@@ -250,7 +250,7 @@ Base positive should preserve the 01 identity/style and add only expression tags
 For happy first smoke:
 
 ```text
-masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, simple_background, grey_background, dark_background, smile, closed_mouth, happy, BREAK depth_of_field, volumetric_lighting
+masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_explicit, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, simple_background, grey_background, dark_background, smile, closed_mouth, happy, BREAK depth_of_field, volumetric_lighting
 ```
 
 Danbooru-only rule:

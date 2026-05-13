@@ -31,8 +31,9 @@ pose reference image
 
 - `workflow_api/04_pose_refregen_openpose_ipadapter_masked_canonical_api.json`
   - role: same-character pose regeneration from pose reference + character anchor
-  - status: promoted 2026-05-13 after multi-pose, second-character, and 02 alpha gate
-  - use when: 이미 pose reference가 있고, 기존 캐릭터 anchor로 같은 캐릭터의 새 포즈 source를 만들 때
+  - status: runnable 04→02 stable presets retested on 2026-05-13 after removing `thick_outline`; 03 expression gate remains separate
+  - prior issue: `thick_outline` created a bright/white exterior rim in 04 source PNGs, which then contaminated 02 alpha
+  - use when: generating controlled pose variants from a pose reference and character anchor; still run per-output visual QA before game promotion
   - output: source PNG plus OpenPose control preview PNG
 
 Legacy pre-canonical JSONs were moved out of this folder to keep agent selection unambiguous:
@@ -82,6 +83,8 @@ mask_blur: 3
 mask_offset: 0
 refine_foreground: true
 background: Alpha
+
+Important: node `18` is not the final transparency/alpha export step. It reads node `4` character anchor and its mask output (`18`, output slot `1`) is used only as node `12` IPAdapterAdvanced `attn_mask`. Final 04 source output is node `16` from VAEDecode node `15`; transparent sprites still require running workflow 02 afterward.
 
 PuLID: disabled
 Depth/Canny: disabled
@@ -148,10 +151,12 @@ All controllable prompt content should be Danbooru-style comma-separated tags.
 Keep this clean background/style block in positive:
 
 ```text
-thick_outline, clean_lineart, anime_coloring, grey_background
+clean_lineart, anime_coloring, grey_background
 ```
 
 Use `grey_background` as the only positive background tag for 04. A same-seed sweep found it is enough for a neutral gray source and avoids redundant/competing background semantics.
+
+Do not add `thick_outline` by default. 2026-05-13 workflow retest showed it creates a sticker-like white/bright exterior rim in 04 source PNGs, which 02 alpha then preserves as edge contamination.
 
 Do not add these to positive:
 
@@ -176,11 +181,11 @@ Target pose tags must never appear in the negative prompt.
 ### Shared positive skeleton
 
 ```text
-masterpiece, best_quality, very_aesthetic, newest, rating_questionable,
+masterpiece, best_quality, very_aesthetic, newest, rating_explicit,
 1girl, solo, cowboy_shot, standing, looking_at_viewer,
 {character_tags},
 {pose_tags},
-thick_outline, clean_lineart, anime_coloring,
+clean_lineart, anime_coloring,
 grey_background
 ```
 
@@ -304,6 +309,26 @@ Alpha PNG through 02:
 - Light background has no severe dark halo.
 - Dark background has no severe bright rim or gray residue.
 - Hands, sleeves, skirt, and clothing edges stay intact.
+
+## Current no-rim retest evidence
+
+On 2026-05-13, the active 04→02 chain was retested after full-size QA found the previous 04 pass still had a generated bright exterior outline. Root cause: the 04 positive tag `thick_outline` encouraged a sticker-like white rim; 02 only preserved that upstream contamination.
+
+Stable retest evidence outside reusable pack:
+
+```text
+ComfyUI/output/hermes_vn_chain_retest_20260513/no_thick_arms_crossed_alpha_b1_ref1_00001_.png
+ComfyUI/output/hermes_vn_chain_retest_20260513/no_thick_hand_chest_alpha_b1_ref1_00001_.png
+ComfyUI/output/hermes_vn_chain_retest_20260513/manifest_no_thick_stable_batch.json
+```
+
+Both stable retest alpha outputs are PNG 1152x1536 RGBA. `arms_crossed` and `hand_chest` passed 04→02 rim retest with only minor dark antialias edges. Keep 03 expression-readability as a separate unresolved gate.
+
+Sandbox note:
+
+```text
+00_experiment_sandbox/notes/04_pose_no_thick_outline_retest_2026-05-13.md
+```
 
 ## Promotion evidence
 

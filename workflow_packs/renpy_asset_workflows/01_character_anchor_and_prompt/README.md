@@ -30,9 +30,9 @@ Category: `character`
   - checkpoint: `novaAnimeXL_ilV190.safetensors`
   - model family: Nova Anime XL — IL v19.0
   - prompt style: Danbooru tag only
-  - role: canonical front/neutral character anchor
+  - role: runnable front/neutral character anchor template
   - ComfyUI endpoint when running from WSL: usually `http://172.28.224.1:8000`
-  - status: v19 Danbooru-only candidate accepted by agent visual QA and cross-character smoke test
+  - status: 2026-05-13 one-image 01→02 retest passed after removing `depth_of_field`/`volumetric_lighting`; still rerun full-chain QA before broad production claims
 
 ## Fixed settings
 
@@ -42,7 +42,7 @@ Category: `character`
 - image size: `1152 x 1536`
 - sampler/settings: `steps 28`, `cfg 5.0`, `euler_ancestral`, `normal`, `denoise 1.0`
 - clip skip: 1 equivalent, direct checkpoint CLIP; no `CLIPSetLastLayer`
-- rating tag: `rating_questionable` for 15세 target tone
+- rating tag: `rating_explicit` for 15세 target tone
 - background: `grey_background` only in positive; conflicting/redundant background tags stay negative-only
 
 ## Editable nodes
@@ -55,12 +55,21 @@ Category: `character`
 | `6` KSampler | `inputs.seed` | 새 후보/새 캐릭터 seed |
 | `8` SaveImage | `inputs.filename_prefix` | 출력 prefix |
 
+01은 image input이 없다. `LoadImage` node가 없으므로 특정 PNG 경로를 넣거나 복사할 필요가 없다.
+
+## Input rules
+
+- 입력 이미지 없음: txt2img anchor 생성 workflow다.
+- 새 캐릭터를 만들 때는 positive prompt의 identity tags와 seed/output prefix만 바꾼다.
+- 기존 character source를 참조해 재생성하지 않는다. 기존 source에서 표정/포즈/의상만 바꾸려면 각각 03/04/10을 사용한다.
+- output은 ComfyUI `output` 폴더 아래 `SaveImage.filename_prefix` 기준으로 저장된다.
+
 ## Positive prompt structure
 
 반드시 Danbooru-style comma-separated tags만 쓴다. 자연어 문장 금지.
 
 ```text
-[quality block], [fixed composition/expression block], [character identity tags], [fixed outfit/background tags], BREAK depth_of_field, volumetric_lighting
+[quality block], [fixed composition/expression block], [character identity tags], [fixed outfit/background tags]
 ```
 
 ### 1. Fixed quality block
@@ -76,7 +85,7 @@ masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution,
 ### 2. Fixed composition/expression block
 
 ```text
-rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture
+rating_explicit, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture
 ```
 
 목표:
@@ -132,7 +141,7 @@ QA 결과:
 ### Full canonical positive prompt
 
 ```text
-masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, grey_background, BREAK depth_of_field, volumetric_lighting
+masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_explicit, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, grey_background
 ```
 
 ## Negative prompt rules
@@ -145,6 +154,7 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 
 주의:
 - positive에는 `grey_background`만 둔다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 04 same-seed sweep 기준으로 중복/충돌 가능성이 있어 01/03 canonical에서도 제외한다.
+- plain sprite source 목적에서는 `depth_of_field`, `volumetric_lighting`도 제외한다. 2026-05-13 재테스트에서 이 두 태그를 제거한 01 source가 더 중립적인 gray background로 나왔고, 02 alpha light/dark composite에서도 심한 halo/rim은 없었다.
 - 색상별 금지어는 캐릭터 identity 색상에는 넣지 않는다. 단, background-only 금지어(`white_background`, `bright_background`, `black_background`, `dark_background`, `vignette`, `gradient_background`, `patterned_background`)는 회색 소스/alpha 안정화를 위해 유지한다.
 - `badge`, `emblem`, `logo`는 기준 cardigan의 작은 마크 drift 방지용이다. 특정 캐릭터가 badge를 반드시 가져야 한다면 이 세 태그를 제거하고 별도 실험한다.
 
@@ -198,6 +208,19 @@ hermes_vn_experiments/nova_t2i_il_v190_character_anchor/{test_id}_{character_slu
 9. 합격 후보가 나오면 다른 캐릭터 1~2개로 smoke test한다.
 10. 둘 다 합격하면 01 canonical template에만 반영한다.
 
+## QA checklist
+
+01 후보를 accepted anchor로 쓰기 전 확인한다.
+
+- 정면/front_view 또는 후속 workflow가 쓰기 쉬운 neutral framing인가
+- expressionless/closed_mouth가 유지되는가
+- arms_at_sides/straight_posture 기준에서 손·팔이 과하게 잘리지 않는가
+- 헤어/눈/의상 identity tags가 prompt와 맞는가
+- 배경이 단순한 neutral grey이며 gradient/pattern/vignette가 심하지 않은가
+- badge/emblem/logo 같은 작은 drift가 생기지 않았는가
+- 02 alpha로 넘겼을 때 halo/edge 문제가 심하지 않은가
+- 다른 캐릭터 1~2개로 identity block 교체 smoke를 해도 prompt 구조가 무너지지 않는가
+
 ## V190 Danbooru edge/background tuning note
 
 2026-05-13 tuning for 01→02 alpha:
@@ -207,3 +230,4 @@ hermes_vn_experiments/nova_t2i_il_v190_character_anchor/{test_id}_{character_slu
 - Keep `thick_outline`: it slightly improves hair/body edge readability without visible identity drift.
 - Do not use `solid_background` here: in the v19 silver-bob test it reintroduced badge/emblem drift despite the negative prompt.
 - Do not use `black_background` for this anchor: it becomes too black/blue and is less suitable as a neutral source background.
+- Remove `depth_of_field` and `volumetric_lighting` for the 01 source prompt. Retest output: `ComfyUI/output/hermes_vn_chain_retest_20260513/01_no_depth_volumetric_contact.png`; prompt IDs `58dc5b1f-e099-49d0-919b-b3b980d4fde4` (01) and `5ab7e400-08b3-4fed-97df-87a29413f505` (02 alpha). This fixes the one-image background issue enough for 01→02 smoke, but full 01→04→03→02 must still be rerun.

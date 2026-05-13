@@ -37,14 +37,14 @@ Category: `character`
 ## API template
 
 - `workflow_api/03_expression_source_canonical_api.json`
-  - role: canonical generic expression source workflow
+  - role: runnable generic expression source workflow
   - route: Florence-2 face mask → inpaint → `ImageCompositeMasked`
   - checkpoint: `novaAnimeXL_ilV190.safetensors`
   - Florence node: kijai `DownloadAndLoadFlorence2Model` + `Florence2Run`
   - mask node: `AILab_MaskEnhancer`
   - inpaint conditioning: `DifferentialDiffusion`, `InpaintModelConditioning`, SDXL Union ControlNet `repaint`
   - final node: `ImageCompositeMasked(destination=original, source=raw_inpaint, mask=face_mask)`
-  - status: silver-bob source smoke passed; candidate set created; 02 alpha smoke passed technically
+  - status: not production-ready after 04; full-chain QA on 2026-05-13 showed happy expression change was too weak on a 04 posed source
 
 ## Editable nodes
 
@@ -117,13 +117,13 @@ WSL에서 보이는 input root:
 예시:
 
 ```text
-LoadImage.image = hermes_vn_expression/source_silver_bob_v190_darkgrey_anchor_seed719251035.png
+LoadImage.image = hermes_vn_expression/{source_character_anchor}.png
 ```
 
 실제 파일:
 
 ```text
-/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_expression/source_silver_bob_v190_darkgrey_anchor_seed719251035.png
+/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_expression/{source_character_anchor}.png
 ```
 
 source PNG가 ComfyUI output 폴더에만 있으면 먼저 input 폴더로 복사한다.
@@ -155,7 +155,7 @@ masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution,
 현재 silver-bob 기준 예시:
 
 ```text
-rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, grey_background
+rating_explicit, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, thick_outline, grey_background
 ```
 
 다른 캐릭터를 실행할 때는 hair/eyes/outfit tags를 해당 01 source에 맞게 교체한다. 표정 preset만 바꾸고 캐릭터 tags를 silver-bob 그대로 두면 얼굴/눈 색 drift가 생길 수 있다.
@@ -204,7 +204,8 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 
 Preset notes:
 
-- `happy` and `surprised` are the strongest tested candidates.
+- `happy` and `surprised` are the strongest tested candidates on 01 source images.
+- After 04 pose regeneration, `happy` at denoise `0.40` can be too weak. On the fixed no-`thick_outline` arms-crossed 04 source, a denoise sweep found `0.55` as a usable mild-smile candidate and `0.65` as a slightly stronger smile candidate. Treat these as post-04 sandbox candidates pending user QA; do not change the default table globally without checking other expressions/characters.
 - `sad` reads as sad/worried, not dramatic crying.
 - `angry` reads as mild angry/annoyed.
 - `fearful` reads as anxious/scared but can overlap with surprised.

@@ -107,7 +107,7 @@ Use this for the next mask-only background-lock test. It keeps Danbooru-style ta
 Positive:
 
 ```text
-masterpiece, best_quality, very_aesthetic, newest, rating_questionable,
+masterpiece, best_quality, very_aesthetic, newest, rating_explicit,
 1girl, solo, cowboy_shot, standing, looking_at_viewer,
 short_hair, bob_cut, silver_hair, blue_eyes,
 beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose,

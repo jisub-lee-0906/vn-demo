@@ -1,0 +1,33 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_vn_04_alpha_minus_head_02_gate_20260513/seed719254292.png"
+    }
+  },
+  "2": {
+    "class_type": "BiRefNetRMBG",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "model": "BiRefNet_toonout",
+      "mask_blur": 1,
+      "mask_offset": 0,
+      "invert_output": false,
+      "refine_foreground": true,
+      "background": "Alpha"
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ],
+      "filename_prefix": "hermes_vn_04_alpha_minus_head_02_gate_20260513/alpha_seed719254292_b1_ref1"
+    }
+  }
+}

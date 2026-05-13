@@ -1,0 +1,97 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "novaAnimeXL_ilV190.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "masterpiece, best_quality, amazing_quality, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_explicit, 1girl, solo, cowboy_shot, standing, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, beige_cardigan, white_shirt, blue_bowtie, navy_skirt, pleated_skirt, black_pantyhose, long_sleeves, small_breasts, arms_crossed, crossed_arms, folded_arms, smile, happy, open_mouth, cheerful, clean_lineart, crisp_lineart, clean_outline, anime_coloring, detailed_anime_coloring, grey_background"
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "lowres, low_quality, worst_quality, bad_quality, very_displeasing, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, fused_fingers, extra_arms, extra_hands, long_body, deformed, mutated, disfigured, ugly, cropped, cropped_head, cropped_hair, out_of_frame, multiple_girls, duplicate_character, text, signature, watermark, username, logo, frown, angry, annoyed, serious, stern, pouting, sad, crying, tears, scared, disgusted, surprised, hands_on_hips, hands_in_pockets, hands_near_face, hand_on_chest, arms_relaxed, large_breasts, huge_breasts, cleavage, nude, nipples, badge, emblem, white_background, bright_background, gradient_background, patterned_background, black_background, dark_background, vignette, spotlight, dramatic_lighting, rim_lighting, headwear, hair_ornament, object_above_head"
+    }
+  },
+  "4": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_vn_04_lowdenoise_refine_20260513/04_draft_q01_crisp_ip065.png"
+    }
+  },
+  "5": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "4",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ],
+      "seed": 719253025,
+      "steps": 28,
+      "cfg": 5.0,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 0.25
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "7",
+        0
+      ],
+      "filename_prefix": "hermes_vn_04_lowdenoise_refine_20260513/refine_d25_seed719253025"
+    }
+  }
+}

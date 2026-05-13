@@ -12,7 +12,7 @@
         "1",
         1
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, neutral_expression, closed_mouth, arms_at_sides, straight_posture, full_body, short_hair, bob_cut, silver_hair, blue_eyes, cardigan, white_shirt, pleated_skirt, school_uniform, modest_bust, simple_background, grey_background, BREAK depth_of_field, volumetric_lighting"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, rating_explicit, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, neutral_expression, closed_mouth, arms_at_sides, straight_posture, full_body, short_hair, bob_cut, silver_hair, blue_eyes, cardigan, white_shirt, pleated_skirt, school_uniform, modest_bust, simple_background, grey_background, BREAK depth_of_field, volumetric_lighting"
     }
   },
   "3": {
@@ -80,7 +80,7 @@
         "6",
         0
       ],
-      "filename_prefix": "hermes_vn_experiments/nova_t2i_il_v190_character_anchor/rating_questionable_silver_bob_anchor_seed719251000"
+      "filename_prefix": "hermes_vn_experiments/nova_t2i_il_v190_character_anchor/rating_explicit_silver_bob_anchor_seed719251000"
     }
   }
 }

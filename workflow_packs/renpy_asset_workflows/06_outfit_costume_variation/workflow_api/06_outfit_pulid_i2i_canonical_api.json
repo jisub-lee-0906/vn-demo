@@ -18,7 +18,7 @@
   "3": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "hermes_outfit_identity_source.png"
+      "image": "TEMPLATE_identity_source.png"
     }
   },
   "4": {
@@ -75,7 +75,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, same auburn wavy hair, same warm brown eyes, same face, upper body character portrait, full head visible, complete hair visible, large centered character, casual weekend outfit, plain soft lavender hoodie, pullover hoodie, hood resting behind neck, no school uniform, no blouse, no necktie, no cardigan, no front buttons, relaxed standing pose, hands near chest, clean sharp anime lineart, flat medium gray background"
+      "text": "masterpiece, best quality, very aesthetic, newest, 1girl, solo, anime style, same hair, same eye color, same face, upper body character portrait, full head visible, complete hair visible, large centered character, casual weekend outfit, plain soft lavender hoodie, pullover hoodie, hood resting behind neck, no school uniform, no blouse, no necktie, no cardigan, no front buttons, relaxed standing pose, hands near chest, clean sharp anime lineart, flat medium gray background"
     }
   },
   "9": {
@@ -85,7 +85,7 @@
         "2",
         0
       ],
-      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, extra arms, extra hands, bad hands, deformed fingers, different face, different hairstyle, different eye color, headwear, object above head, school uniform, blue blouse, collared blouse, necktie, bow tie, blazer, front buttons, cardigan, cable knit cardigan, cream cardigan, beige cardigan, printed text, pattern logo, white background, green background, teal background, reference sheet, character sheet, sprite sheet, inset"
+      "text": "text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, extra arms, extra hands, bad hands, deformed fingers, different face, different hairstyle, different eye color, headwear, object above head, printed text, pattern logo, white background, green background, teal background, reference sheet, character sheet, sprite sheet, inset, school uniform, blouse, necktie, bow tie, blazer, cardigan"
     }
   },
   "10": {
@@ -148,7 +148,7 @@
         "12",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/pulid_i2i_lavender_hoodie_d0p82_w1p05_seed62018433"
+      "filename_prefix": "hermes_vn_outfit_variation/outfit_{character_slug}_{preset_slug}_seed{seed}"
     }
   }
 }

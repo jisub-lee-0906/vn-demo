@@ -4,91 +4,151 @@ Category: `character`
 
 ## Purpose
 
-기존 캐릭터 source PNG를 입력으로 받아 같은 얼굴/헤어 인상을 유지하면서 의상만 새 variant로 바꾼다.
-
-현재 06은 여러 의상별 JSON을 두지 않는다. 하나의 PuLID + img2img canonical workflow를 deep-copy해서 prompt/seed/output prefix만 바꿔 실행한다.
+기존 캐릭터 source PNG를 입력으로 받아 얼굴/헤어/배경은 최대한 보존하고, 캐릭터 실루엣 안의 의상/몸 영역을 masked inpaint로 바꾼다. 06은 범용 의상 변경 workflow이며 hoodie 전용 workflow가 아니다.
 
 ```text
-01 character source or approved sprite source
-→ 06 outfit source PNG
+01 character source or approved opaque sprite source
+→ 06 outfit/costume source PNG, final original-head + fail-closed cleanup composite
 → 02 expression if needed, or 03 alpha for transparent sprite
 ```
 
-06은 투명 PNG를 직접 만들지 않는다. 최종 Ren'Py sprite용 alpha가 필요하면 06 결과를 현재 pack의 `03_toonout_transparency_alpha` workflow로 후처리한다.
+06은 투명 PNG를 직접 만들지 않는다. Ren'Py sprite용 alpha가 필요하면 06의 final output을 `03_toonout_transparency_alpha` workflow로 후처리한다.
 
 ## Active API template
 
+Active `workflow_api/`에는 하나의 canonical JSON만 둔다.
+
 - `workflow_api/06_outfit_pulid_i2i_canonical_api.json`
-  - route: source image VAEEncode img2img + PuLID identity anchoring
+  - route: source image → BiRefNet character mask → Florence-2 face/hair/neck/hand masks → bilateral hand fallback → lower-side silhouette protection → hand/silhouette-safe full-body edit mask → masked inpaint → original head/hands composite → fail-closed auto collar/bow cleanup branch
+  - edit mask: `character_alpha - protected_face_hair_neckdiff - protected_hands - lower_side_silhouette_protect`, constrained by character alpha
+  - protection mask: Florence-2-large `face and hair` minus `the neck of the person`, union with `hair`, `face`, generic `hand`, `both hands`, `fingers`, deterministic bilateral hand fallback, and deterministic lower-side silhouette/rim protection
+  - identity: PuLID uses the source image face as weak identity bias during outfit inpaint
+  - preservation: final output composites the original face/hair and detected hands back over the outfit candidate
+  - cleanup: deterministic `VN_AutoCollarCleanupMask` searches only a dynamic neck/chest ROI based on the head/face/hair protection bbox; if no reliable old collar/bow remnant is found, the cleanup mask is empty and the branch is effectively a no-op
   - checkpoint: `novaAnimeXL_ilV190.safetensors`
   - identity adapter: `ip-adapter_pulid_sdxl_fp16.safetensors`
-  - status: single canonical workflow consolidated from the accepted lavender-hoodie PuLID+i2i route
+  - Florence model: `Florence-2-large`
+  - alpha/matting mask: `BiRefNet_toonout`
+  - custom node dependency: `VN_AutoCollarCleanupMask`, `VN_AutoHandFallbackProtectionMask`, and `VN_AutoOutfitSilhouetteProtectMask` from `ComfyUI-VN-AutoMasks`
+  - last smoke: 2026-05-14 v4c2 passed t5 green-glasses opaque QA, newly generated 01 pink-twinbraids cross-character 06 QA, and 03 alpha light/dark composite gate
 
-Superseded per-outfit JSONs were removed from the active folder. Outfit variation is now represented by README presets, not separate workflow files.
+Archived routes:
+
+```text
+workflow_packs/workflow_backup/06_outfit_costume_variation_legacy_full_i2i/06_outfit_pulid_full_image_i2i_legacy_api.json
+workflow_packs/workflow_backup/06_outfit_costume_variation_optional_cleanup_manual/06_outfit_collar_cleanup_optional_api.json
+```
+
+## Output
+
+The canonical workflow saves ten outputs per run.
+
+| Output prefix | Node | Meaning | Use |
+| --- | ---: | --- | --- |
+| `protect_*_facehair_neckdiff_*` | `33` | face/hair protection mask preview | check that face/hair are protected and neck/collar can be edited |
+| `protecthands_*` | `56` | Florence hand protection mask preview | check hands/fingers are protected without thigh/skirt false positives |
+| `handfallback_roi_*` / `handfallback_added_*` / `handfallback_debug_*` | `63`-`65` | deterministic bilateral hand fallback previews | check missed lower-side hand is added and cardigan/skirt false positives stay out |
+| `silhouette_protect_*` / `silhouette_debug_*` | `71` / `70` | lower-side rim/thigh protection previews | check old exterior contour and lower-body shrink are blocked before inpaint |
+| `protectfull_*` | `57` | full protection mask preview | check face/hair/hands are protected |
+| `mask_*_edit_nohands_*` | `34` | final hand-safe edit mask preview | check body/clothes/skirt/legs are editable, hands are black/protected, and background is not |
+| `raw_*_inpaint_*` | `35` | raw outfit inpaint image | debugging only; do not use as final |
+| `bodycomp_*` | `36` | raw outfit inpaint composited into original by edit mask | intermediate candidate |
+| `final_*_original_head_hands_*` | `37` | pre-cleanup original-head-and-hands composite | checkpoint/debug candidate |
+| `cleanup_debug_*` | `44` | auto-cleanup ROI/candidate/final mask overlay | verify cleanup did not target hoodie pocket/hem/details |
+| `cleanup_mask_*` | `45` | auto-cleanup mask preview | should be local near old collar/bow or empty on clean outputs |
+| `final_*_autoclean_*` | `46` | original-head composite plus fail-closed cleanup branch | actual 06 candidate output |
+
+Important: the actual candidate is node `46`. Node `37` is a pre-cleanup checkpoint. Node `35` is raw inpaint and should not be used as the final asset.
 
 ## Editable nodes
 
-보통 아래만 바꾼다.
+Normally edit only these nodes at runtime.
 
 | Node | Class | Field | What to edit |
-| --- | --- | --- | --- |
-| `3` | `LoadImage` | `inputs.image` | ComfyUI input 기준 identity/source PNG path |
-| `7` | `ApplyPulidAdvanced` | `inputs.weight` | identity retention strength; 보통 `1.00`-`1.05` |
-| `8` | `CLIPTextEncode` positive | `inputs.text` | character lock + outfit preset prompt |
-| `9` | `CLIPTextEncode` negative | `inputs.text` | common negative + old outfit/new outfit conflict terms |
-| `11` | `KSampler` | `inputs.seed` | outfit candidate seed |
-| `11` | `KSampler` | `inputs.denoise` | outfit change strength; 보통 `0.80`-`0.87` |
-| `13` | `SaveImage` | `inputs.filename_prefix` | output prefix |
+| ---: | --- | --- | --- |
+| `3` | `LoadImage` | `inputs.image` | ComfyUI input-relative source PNG path |
+| `6` | `Florence2Run` | `text_input` | usually keep `face and hair`; tune only if mask misses hair/face |
+| `7` | `Florence2Run` | `text_input` | usually keep `hair`; improves side/back hair protection |
+| `8` | `Florence2Run` | `text_input` | usually keep `face`; improves face protection |
+| `9` | `Florence2Run` | `text_input` | usually keep `the neck of the person`; subtracts neck from protected mask so collar/hood can regenerate |
+| `47`/`48`/`58` | `Florence2Run` | `text_input` | hand protection prompts; normally keep `hand` / `both hands` / `fingers` because `left hand` and `right hand` can miss one side on front-facing sprites |
+| `13` | `GrowMask` | `expand` | protected head/hair dilation; increase if hair is edited, decrease if collar cannot change |
+| `50` | `GrowMask` | `expand` | hand protection dilation; increase only if finger/wrist edges are edited, decrease if cuffs fail to change |
+| `16` | `GrowMask` | `expand` | edit mask dilation; increase if old outfit rims remain |
+| `22` | `ApplyPulidAdvanced` | `weight`, `end_at` | identity bias; default is conservative |
+| `23` | `CLIPTextEncode` positive | `text` | Danbooru-style character + target outfit prompt |
+| `24` | `CLIPTextEncode` negative | `text` | common negative + old outfit conflict terms |
+| `27` | `KSampler` | `seed`, `denoise`, `cfg` | main outfit candidate seed/strength |
+| `38` | `VN_AutoCollarCleanupMask` | `mode`, ROI, coverage, grow/blur | normally keep default fail-closed settings; tune only if cleanup misses/removes too much |
+| `41` | `KSampler` | `seed`, `denoise`, `cfg` | local cleanup seed/strength; normally keep default |
+| `33`-`37`, `44`-`46` | `SaveImage` | `filename_prefix` | output folder/slug/seed labels |
 
-특별한 이유가 없으면 아래는 바꾸지 않는다.
+Do not change unless debugging:
 
-- node graph structure
-- checkpoint
-- PuLID model / projection / fidelity / start_at / end_at
-- sampler type, steps, cfg, scheduler
-- VAEEncode img2img route
+- BiRefNet character-mask route (`4`)
+- Florence mask arithmetic (`10`-`18`)
+- main/final composite route (`29`, `30`, `43`)
+- checkpoint / PuLID model / inpaint conditioning route
 
 ## Fixed canonical settings
 
 ```text
 checkpoint: novaAnimeXL_ilV190.safetensors
 clip last layer: -2
-PuLID model: ip-adapter_pulid_sdxl_fp16.safetensors
-PuLID provider: CUDA
-PuLID projection: ortho_v2
-PuLID fidelity: 12
-PuLID start/end: 0.0 / 0.85
-sampler: euler_ancestral
-scheduler: normal
-steps: 30
-cfg: 5.4
-canonical default denoise: 0.82
-canonical default PuLID weight: 1.05
+character mask: BiRefNetRMBG(model=BiRefNet_toonout, mask_blur=1, refine_foreground=true)
+Florence model: Florence-2-large fp16
+protection prompts: face and hair / hair / face / the neck of the person / hand / both hands / fingers
+protected head/hair mask dilation: GrowMask expand 8, blur kernel 7 sigma 3.0
+protected hand mask dilation: GrowMask expand 2, blur kernel 5 sigma 2.0, then deterministic bilateral fallback via VN_AutoHandFallbackProtectionMask
+silhouette protection: VN_AutoOutfitSilhouetteProtectMask(lower_start_y_ratio=0.50, side_width_ratio=0.25, rim_radius=8, thigh_start_y_ratio=0.80, thigh_width_ratio=0.34, blur=3)
+edit mask: character mask - protected head/hair, then GrowMask expand 5, blur kernel 7 sigma 3.0, multiplied by character mask, then subtract protected hands and lower-side silhouette protection
+PuLID weight: 0.72
+PuLID start/end: 0.0 / 0.75
+main sampler: euler_ancestral, normal, steps 28, cfg 5.0, denoise 0.80
+pre-cleanup final: ImageCompositeMasked(destination=bodycomp, source=original, mask=protected_facehair_plus_hands)
+auto-cleanup mask: VN_AutoCollarCleanupMask(mode=hoodie_collar_bow, roi_top_pad=28, roi_height=190, roi_width_scale=0.46, max_coverage=0.055, min_coverage=0.001, grow=12, blur=9); protect_mask input must be head/face/hair node 14, not the full hand/silhouette protection mask
+cleanup sampler: euler_ancestral, normal, steps 28, cfg 4.8, denoise 0.86
+final: ImageCompositeMasked(destination=precleanup_final, source=cleanup_raw, mask=cleanup_mask)
 ```
+
+## Mask source contract
+
+06 must regenerate masks for every source image. Do not reuse mask PNGs from another character/run.
+
+In the active canonical JSON:
+
+- the only `LoadImage` node is node `3`, the source character PNG
+- there is no active `LoadImageMask` node
+- head/hair protection mask nodes `6`-`14` are computed from node `3` via Florence-2 every run
+- hand protection mask nodes `47`-`58` are computed from node `3` via Florence-2 every run; the canonical route uses generic `hand` + `both hands` + `fingers` union because side-specific `left hand` / `right hand` prompts can miss one visible hand on front-facing sprites; this is intentionally preferred over broad BodySegment arm masks because BodySegment can false-positive on thighs/skirt highlights
+- character/edit mask nodes `4`, `15`-`18`, and `53` are computed from node `3` via BiRefNet + mask arithmetic every run
+- auto-cleanup mask node `38` is computed from the current node `30` candidate plus the current run's node `4` and node `14` head/face/hair protection bbox; do not feed node `52`/`67` into cleanup ROI, because hand/silhouette masks extend the bbox downward and move cleanup to the torso/hem
+
+If a contact sheet appears to show an old mask, first check the output prefix and prompt id. Similar front-facing sprites can produce similar white silhouette masks, but the mask must still have that character's own hair/pose silhouette. Never copy node `33`, `34`, or `45` mask previews into `input/` as runtime masks for this canonical workflow.
 
 ## Input rules
 
-ComfyUI `LoadImage`는 Windows ComfyUI의 `input` 폴더 기준 상대 경로를 받는다.
+ComfyUI `LoadImage` uses paths relative to the Windows ComfyUI `input` folder.
 
-WSL에서 보이는 input root:
+WSL path:
 
 ```text
 /mnt/c/Users/Desktop/Documents/ComfyUI/input
 ```
 
-권장 input 위치:
+Recommended input location:
 
 ```text
 ComfyUI/input/hermes_vn_outfit/{source_character}.png
 ```
 
-JSON node `3` 예:
+JSON node `3` example:
 
 ```text
 LoadImage.image = hermes_vn_outfit/source_silver_bob_neutral.png
 ```
 
-source PNG가 ComfyUI output 폴더에만 있으면 먼저 input 폴더로 복사한다.
+If the source PNG exists only under ComfyUI `output`, copy it to `input` first.
 
 ```bash
 mkdir -p /mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_outfit
@@ -98,140 +158,114 @@ cp /mnt/c/Users/Desktop/Documents/ComfyUI/output/{run_folder}/{source_png}.png \
 
 ## Prompt structure
 
-Positive prompt는 아래 구조로 작성한다.
+Positive prompt should be Danbooru-style comma-separated tags.
 
 ```text
-[quality block], [identity lock], [framing], [outfit preset], [pose/background/style]
+[quality block], [source character tags], [target outfit tags], [lower-body outfit tags if full outfit change], grey_background
 ```
 
-### Quality block
+Recommended quality block:
 
 ```text
-masterpiece, best quality, very aesthetic, newest
+masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest
 ```
 
-### Identity lock
-
-소스 캐릭터에 맞춰 구체적으로 바꾼다.
+Example source character tags:
 
 ```text
-1girl, solo, anime style, same hair, same eye color, same face
+rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, small_breasts
 ```
 
-더 안정적으로 잠그고 싶으면 실제 캐릭터 태그를 쓴다.
+Example target outfit tags:
 
 ```text
-same silver bob hair, same blue eyes, same face
+lavender_hoodie, light_purple_hoodie, hoodie, pullover_hoodie, long_sleeves, casual_clothes, hood_down, front_pocket, loose_hoodie, ribbed_cuffs, ribbed_hem, black_pleated_skirt, pleated_skirt, black_pantyhose
 ```
 
-### Framing block
+Background:
 
 ```text
-upper body character portrait, full head visible, complete hair visible, large centered character
+grey_background
 ```
 
-### Pose/background/style block
+Notes:
 
-```text
-relaxed standing pose, hands near chest, clean sharp anime lineart, flat medium gray background
-```
-
-배경은 source/alpha 후처리를 위해 단순 회색 계열을 유지한다. outfit workflow에서 화려한 배경을 만들지 않는다.
+- Face/hair preservation is handled by mask/composite, not by natural-language locks.
+- Avoid natural language like `same face`, `same hair`, `casual weekend outfit` in the canonical prompt.
+- If replacing the whole outfit, include both upper and lower outfit tags. Do not clip the mask to the upper body unless the user explicitly wants the lower body preserved.
+- Add old outfit conflict tags to the negative prompt.
 
 ## Common negative prompt base
 
 ```text
-text, watermark, logo, multiple girls, duplicate character, cropped head, cut off hair, extra arms, extra hands, bad hands, deformed fingers, different face, different hairstyle, different eye color, headwear, object above head, printed text, pattern logo, white background, green background, teal background, reference sheet, character sheet, sprite sheet, inset
+modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, missing_fingers, extra_digits, fewer_digits, open_clothes, cleavage, nude, nsfw, white_background, black_background, gradient_background, patterned_background, vignette, (worst quality, bad quality:1.2)
 ```
 
-의상별로 이전 의상이나 충돌 의상 태그를 뒤에 추가한다. 예를 들어 hoodie를 만들 때는 `school uniform, blouse, necktie, cardigan`을 negative에 넣는다.
+For a hoodie replacing a school/cardigan outfit, append:
+
+```text
+school_uniform, cardigan, beige_cardigan, cream_cardigan, white_shirt, collared_shirt, bowtie, necktie, ribbon, blouse, blazer, jacket, old_clothes, previous_outfit, visible_old_clothing, leftover_clothing, shirt_collar, visible_collar, buttoned_shirt, buttons, waistband, exposed_midriff, belly_cutout
+```
 
 ## Outfit presets
 
-이 표는 과거 개별 JSON에서 쓰던 값을 단일 workflow용 preset으로 옮긴 것이다. 새 JSON을 만들지 말고 node `8`, `9`, `11`, `13`만 수정한다.
+Use one JSON. Change prompts, seed, denoise, PuLID weight, and output prefixes at runtime.
 
-| slug | positive outfit tags | negative additions | denoise | PuLID weight | seed example | status |
-| --- | --- | --- | ---: | ---: | ---: | --- |
-| `lavender_hoodie` | `casual weekend outfit, plain soft lavender hoodie, pullover hoodie, hood resting behind neck, no school uniform, no blouse, no necktie, no cardigan, no front buttons` | `school uniform, blue blouse, collared blouse, necktie, bow tie, blazer, front buttons, cardigan, cable knit cardigan, cream cardigan, beige cardigan` | 0.82 | 1.05 | 62018433 | accepted direction |
-| `blue_denim_jacket` | `blue denim jacket with visible denim texture, jean jacket over simple white t-shirt, casual outfit, front metal buttons on denim jacket, no school uniform, no blouse, no necktie, no cardigan, no hoodie` | `cream cardigan, knit cardigan, hoodie, school uniform, blouse, necktie, bow tie` | 0.86 | 1.02 | 62018457 | pass direction |
-| `green_field_jacket` | `olive green casual field jacket over black top, utility jacket pockets, outdoor casual outfit, no school uniform, no blouse, no necktie, no cardigan` | `hoodie, cardigan, blazer, school uniform, necktie, bow tie, blue blouse` | 0.83 | 1.05 | 62018453 | pass direction |
-| `red_track_jacket` | `red sporty zip-up track jacket with white sleeve stripes, casual athletic wear, simple black inner shirt, no school uniform, no blouse, no necktie, no cardigan` | `hoodie, cardigan, blazer, school uniform, necktie, bow tie, blue blouse` | 0.82 | 1.05 | 62018451 | pass direction |
-| `pink_ribbon_blouse` | `soft pink frilly casual blouse, small ribbon at neckline, cute weekend outfit, short puff sleeves, no school uniform, no blue blouse, no necktie, no cardigan, no blazer` | `hoodie, jacket, cardigan, school uniform, blue blouse, navy tie` | 0.80 | 1.05 | 62018454 | pass direction |
-| `yellow_summer_dress` | `sunny yellow casual summer dress, short puff sleeves, simple one-piece dress, cute weekend outfit, no school uniform, no blouse, no necktie, no cardigan, no jacket, no hoodie` | `cardigan, hoodie, jacket, blazer, school uniform, blouse, necktie, blue skirt` | 0.86 | 1.02 | 62018458 | pass direction |
-| `purple_witchy_capelet` | `purple fantasy casual capelet over black dress, witchy outfit, small cape collar, dark elegant dress, no school uniform, no blouse, no necktie, no cardigan, no hoodie` | `cream cardigan, hoodie, jacket, school uniform, blouse, necktie, blue skirt, tiara, crown, hat` | 0.87 | 1.00 | 62018459 | pass direction, face slightly softer |
-| `denim_jacket_white_tee` | `light blue denim jacket over plain white t-shirt, casual weekend outfit, visible denim collar and seams, no school uniform, no blouse, no necktie, no cardigan` | `hoodie, cardigan, blazer, school uniform, necktie, bow tie, blue blouse` | 0.82 | 1.05 | 62018452 | usable but may collapse to tee/shorts |
-| `black_bomber_jacket` | `black cropped bomber jacket over plain white t-shirt, casual streetwear, ribbed cuffs, zipper jacket, no school uniform, no blouse, no necktie, no cardigan` | `hoodie, drawstrings, cardigan, blazer, school uniform, necktie, bow tie, blue blouse` | 0.82 | 1.05 | 62018450 | pass-ish; color drift risk |
-| `black_leather_jacket` | `black leather biker jacket, black zipper jacket over dark gray shirt, edgy casual outfit, shiny leather sleeves, no school uniform, no blouse, no necktie, no cardigan, no hoodie` | `white cardigan, cream cardigan, hoodie, track jacket, school uniform, blouse, necktie, bow tie` | 0.86 | 1.02 | 62018456 | rejected for default safe set; revealing/crop risk |
-
-## Output naming
-
-권장 prefix:
-
-```text
-hermes_vn_outfit_variation/outfit_{character_slug}_{preset_slug}_seed{seed}
-```
-
-예:
-
-```text
-hermes_vn_outfit_variation/outfit_silver_bob_lavender_hoodie_seed62018433
-```
-
-ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
+| slug | positive outfit tags | negative additions | main denoise | PuLID weight | mask notes | seed examples |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| `lavender_hoodie_black_skirt` | `lavender_hoodie, light_purple_hoodie, hoodie, pullover_hoodie, long_sleeves, casual_clothes, hood_down, front_pocket, loose_hoodie, ribbed_cuffs, ribbed_hem, black_pleated_skirt, pleated_skirt, black_pantyhose` | school/cardigan/old clothing conflicts | 0.80 | 0.72 | active full-body mask; node `46` is final autoclean output | `62018571` |
+| `blue_denim_jacket` | `blue_denim_jacket, denim_jacket, open_jacket, unbuttoned_jacket, plain_white_t-shirt, white_t-shirt, blank_shirt, casual_clothes, long_sleeves, black_pleated_skirt, pleated_skirt, black_pantyhose` | cardigan/school/sailor/bow/hoodie conflicts plus `print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name` | 0.82 | 0.72 | plain-shirt anti-text prompt passed pink twin-braids smoke better than the earlier logo-prone denim prompt | `62018641` |
+| `red_track_jacket` | `red_track_jacket, track_jacket, zip-up_jacket, white_stripes, athletic_clothes, long_sleeves, black_skirt, black_pantyhose` | cardigan/school/blouse/hoodie conflicts | 0.74 | 0.72 | saturated colors can drift linework; QA required | choose new seed |
+| `yellow_summer_dress` | `yellow_dress, summer_dress, short_sleeves, casual_clothes` | cardigan/hoodie/jacket/school conflicts | 0.76 | 0.70 | full-body mask is appropriate; expect more body/silhouette change | choose new seed |
 
 ## Agent recipe: single outfit
 
-1. root `AGENTS.md`와 `WORKFLOW_INDEX.json`을 확인한다.
-2. 01 또는 승인된 source PNG를 고른다. alpha PNG보다 원본/source PNG를 우선 사용한다.
-3. source PNG가 ComfyUI input 폴더에 없으면 복사한다.
-4. `workflow_api/06_outfit_pulid_i2i_canonical_api.json`을 로드한다.
-5. node `3` `LoadImage.image`를 input-relative source path로 바꾼다.
-6. preset 표에서 outfit slug를 고른다.
-7. node `8` positive prompt를 `[quality block], [identity lock], [framing], [preset positive outfit tags], [pose/background/style]`로 만든다.
-8. node `9` negative prompt를 `[common negative prompt base], [preset negative additions]`로 만든다.
-9. node `7` PuLID `weight`, node `11` `seed`/`denoise`를 preset 값으로 설정한다.
-10. node `13` `SaveImage.filename_prefix`를 output naming 규칙에 맞춘다.
-11. ComfyUI `/queue`가 비어 있는지 확인한다. 공유 Windows ComfyUI를 함부로 interrupt/clear하지 않는다.
-12. `POST /prompt`로 실행한다.
-13. `/history/{prompt_id}`에서 output path를 확인한다.
-14. 후보가 마음에 들면 02 expression 또는 03 alpha 단계로 넘긴다.
-
-## Batch use
-
-여러 의상을 만들 때도 workflow JSON을 복제하지 않는다.
-
-- canonical JSON을 메모리에서 deep-copy한다.
-- 각 item마다 node `8`, `9`, `11`, `13`만 다르게 설정한다.
-- 같은 source image를 쓰되 output prefix는 outfit slug/seed를 포함해 충돌을 피한다.
-- batch 결과와 contact sheet는 reusable pack 안이 아니라 ComfyUI output run folder에 저장한다.
+1. Read root `AGENTS.md` and `WORKFLOW_INDEX.json`.
+2. Pick an approved 01/source PNG. Prefer the opaque source over a transparent alpha PNG.
+3. Copy the source into Windows ComfyUI `input` if needed.
+4. Load `workflow_api/06_outfit_pulid_i2i_canonical_api.json`.
+5. Replace node `3` `LoadImage.image` with the input-relative source path.
+6. Set node `23` positive prompt: quality block + character tags + target outfit tags + `grey_background`.
+7. Set node `24` negative prompt: common negative + old outfit conflict tags.
+8. Set node `27` seed/denoise and node `22` PuLID weight if using a preset.
+9. Keep node `38` cleanup default unless a smoke test shows false positives/false negatives.
+10. Set node `33`-`37`, `44`-`46`, and `56`-`57` prefixes with character slug, outfit slug, and seed.
+11. Check `/queue`; do not interrupt or clear shared Windows ComfyUI without approval.
+12. Submit via `POST /prompt` and poll `/history/{prompt_id}`.
+13. Review node `56` hand mask, node `34` edit mask preview, node `45` cleanup mask, and node `46` final output.
+14. If the final output is accepted, run it through `03_toonout_transparency_alpha` and check light/dark edge QA.
 
 ## QA checklist
 
-06 outfit source 후보는 contact sheet 또는 실제 출력 비교로 확인한다.
+Required before claiming production-ready:
 
-필수 확인:
-
-- 같은 인물로 보이는가
-- 얼굴/눈색/헤어 길이/헤어 실루엣이 유지되는가
-- 의상 변화가 명확한가
-- 이전 의상 잔재가 과하게 남지 않았는가
-- 손/팔/어깨가 깨지지 않았는가
-- 머리/얼굴이 잘리거나 crop되지 않았는가
-- 배경이 alpha 후처리에 적합한 단순 회색 계열인가
-- 02 alpha 후 밝은/어두운 배경에서 edge/halo가 허용 가능한가
-- Ren'Py 대사창/배경 위에서 sprite로 사용할 수 있는가
+- protection mask covers face/hair and does not over-protect collar/hood/neck
+- hand protection mask covers visible hands/fingers and does not false-positive on thighs/skirt
+- edit mask covers full outfit/lower body when whole outfit changes are desired while excluding protected hands
+- edit mask does not expose/change the background
+- final candidate is node `46`, not raw node `35`
+- face/eyes/hair silhouette match the original after original-head composite
+- neck/hood/collar seam is acceptable
+- hoodie hem/skirt/lower-body outfit reads as one coherent outfit
+- cleanup mask is local near old collar/bow or empty on clean outputs; it must not target hoodie pockets/hem/details
+- hands/wrists/sleeves are not broken
+- old cardigan/shirt/bow remnants are not obvious
+- 03 alpha light/dark composite has no severe halo/rim
+- Ren'Py placement/readability passes if promoting to game asset
 
 ## Known limitations
 
-- 이 route는 full-image img2img이므로 의상 변화는 강하지만 원본 픽셀 보존형 workflow가 아니다.
-- `denoise`를 높이면 의상은 잘 바뀌지만 얼굴/헤어가 부드러워지거나 drift할 수 있다.
-- `denoise`를 낮추면 identity는 잘 유지되지만 기존 의상 잔재가 남을 수 있다.
-- leather/revealing 계열은 default safe set에서 제외한다. 필요하면 별도 사용자 QA 후 사용한다.
-- 최종 game-ready 승격 전에는 반드시 02 alpha와 Ren'Py placement QA를 거친다.
+- Florence masks can miss back/side hair on some characters. If hair is edited, increase node `13` expand or adjust prompts, then rerun mask preview.
+- If node `9` over-subtracts neck/low hair, collar improves but hair tips may be less protected. QA the protection mask.
+- The full-body mask can change skirt/legs. This is intended for whole-outfit changes; use an upper-body-clipped sandbox route only if the lower body must stay fixed.
+- Florence hand prompts can miss a hand on some poses. Always inspect node `56`; if a hand is missed, try one-variable prompt alternatives (`hands`, `both hands`, `visible hands`) in sandbox before promotion. Avoid broad BodySegment arm masks unless gated/QA'd because they can false-positive on thigh/skirt highlights.
+- `denoise=0.80` changes outfit more strongly but can alter body/skirt more than `0.74`; hands are now composited back from the source when detected.
+- Auto cleanup is fail-closed and tuned for collar/bow remnants. If it misses a new type of artifact, do not broaden it blindly; add a controlled smoke or use a local/manual cleanup route in sandbox.
+- This workflow outputs an opaque source image. Transparent sprites still require workflow 03.
 
 ## Notes for agents
 
-- README는 사용법 문서다. 새 의상마다 JSON을 추가하지 않는다.
-- 새 의상 preset이 반복적으로 유용하면 README preset 표에만 추가한다.
-- 생성된 PNG/contact sheet는 reusable pack 안에 저장하지 않는다.
-- 상태, 대표 output, 승인 여부는 필요할 때 `WORKFLOW_INDEX.json`에 짧게 둔다.
+- Do not add one JSON per outfit. Keep one canonical JSON and patch editable nodes at runtime.
+- Do not store generated PNG/contact sheets inside this reusable pack.
+- Treat `TEMPLATE_identity_source.png` and `{character_slug}`/`{preset_slug}`/`{seed}` in prefixes as placeholders to patch before live execution.
+- The current active route is full-body face/hair/neck/hand-protected inpaint with integrated fail-closed cleanup, not the old full-image i2i or FashionSegment garment-local route.

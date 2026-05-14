@@ -18,7 +18,7 @@
   "3": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "TEMPLATE_identity_source.png"
+      "image": "hermes_vn_toonout_other_character/source_pink_twinbraids_apose_neutral_promptmatch_ilV180_719238245_00001_.png"
     }
   },
   "4": {
@@ -298,7 +298,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_OUTFIT_TAGS, black_pleated_skirt, pleated_skirt, black_pantyhose, grey_background, hoodie_neckline, drawstring, hood, covered_neck"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, twintails, twin_braids, pink_hair, blue_eyes, small_breasts, bare_hands, visible_hands, fingers, skin, white_t-shirt, plain_white_t-shirt, short_sleeves, denim_vest, sleeveless_jacket, blue_denim, open_vest, black_pleated_skirt, pleated_skirt, black_pantyhose, grey_background"
     }
   },
   "24": {
@@ -308,7 +308,7 @@
         "2",
         0
       ],
-      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, missing_fingers, extra_digits, school_uniform, cardigan, beige_cardigan, cream_cardigan, white_shirt, collared_shirt, bowtie, necktie, ribbon, blouse, blazer, jacket, open_clothes, cleavage, nude, nsfw, white_background, black_background, gradient_background, patterned_background, vignette, old_clothes, previous_outfit, visible_old_clothing, leftover_clothing, shirt_collar, visible_collar, buttoned_shirt, buttons, waistband, exposed_midriff, belly_cutout, black_bow, bow, dark_collar, shorts, denim_shorts, pants, bare_legs, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)"
+      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, missing_fingers, extra_digits, fewer_digits, school_uniform, cardigan, beige_cardigan, cream_cardigan, collared_shirt, bowtie, necktie, ribbon, blouse, blazer, jacket, long_sleeves, hoodie, hood, hood_down, old_clothes, previous_outfit, visible_old_clothing, leftover_clothing, shirt_collar, visible_collar, buttoned_shirt, buttons, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, shorts, denim_shorts, pants, bare_legs, white_gloves, gloves, detached_hand, detached_fingers, detached_limb, cloth_in_hand, holding_cloth, (worst quality, bad quality:1.2)"
     }
   },
   "25": {
@@ -366,12 +366,12 @@
         "25",
         2
       ],
-      "seed": 62019146,
+      "seed": 62018800,
       "steps": 28,
       "cfg": 5.0,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 0.76
+      "denoise": 0.82
     }
   },
   "28": {
@@ -422,7 +422,7 @@
       "y": 0,
       "resize_source": false,
       "mask": [
-        "67",
+        "52",
         0
       ]
     }
@@ -452,7 +452,7 @@
         "31",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/protect_TEMPLATE_character_slug_TEMPLATE_preset_slug_facehair_neckdiff"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_protect_barehands_d82_g5_facehair_neckdiff"
     }
   },
   "34": {
@@ -462,7 +462,7 @@
         "32",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/mask_TEMPLATE_character_slug_TEMPLATE_preset_slug_edit_nohands"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_mask_barehands_d82_g5_edit_nohands"
     }
   },
   "35": {
@@ -472,7 +472,7 @@
         "28",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/raw_TEMPLATE_character_slug_TEMPLATE_preset_slug_inpaint_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_raw_barehands_d82_g5_inpaint_seed62018800"
     }
   },
   "36": {
@@ -482,7 +482,7 @@
         "29",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/bodycomp_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_bodycomp_barehands_d82_g5_seed62018800"
     }
   },
   "37": {
@@ -492,7 +492,7 @@
         "30",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_original_head_hands_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_final_barehands_d82_g5_original_head_hands_seed62018800"
     },
     "_meta": {
       "title": "Save pre-cleanup original-head composite checkpoint"
@@ -509,18 +509,18 @@
         1
       ],
       "protect_mask": [
-        "14",
+        "52",
         0
       ],
-      "mode": "hoodie_collar_bow",
-      "roi_top_pad": 28,
-      "roi_height": 190,
-      "roi_width_scale": 0.46,
-      "candidate_threshold": 0.35,
-      "max_coverage": 0.055,
-      "min_coverage": 0.001,
-      "grow": 12,
-      "blur": 9
+      "mode": "blue_bow_only",
+      "roi_top_pad": 24,
+      "roi_height": 170,
+      "roi_width_scale": 0.42,
+      "candidate_threshold": 0.5,
+      "max_coverage": 0.025,
+      "min_coverage": 0.003,
+      "grow": 8,
+      "blur": 7
     },
     "class_type": "VN_AutoCollarCleanupMask",
     "_meta": {
@@ -586,12 +586,12 @@
         "40",
         2
       ],
-      "seed": 62019147,
-      "steps": 28,
+      "seed": 62018801,
+      "steps": 24,
       "cfg": 4.8,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 0.86
+      "denoise": 0.62
     },
     "class_type": "KSampler",
     "_meta": {
@@ -643,7 +643,7 @@
         "38",
         3
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/cleanup_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_cleanup_debug_barehands_d82_g5_seed62018800"
     },
     "class_type": "SaveImage",
     "_meta": {
@@ -656,7 +656,7 @@
         "39",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/cleanup_mask_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_cleanup_mask_barehands_d82_g5_seed62018800"
     },
     "class_type": "SaveImage",
     "_meta": {
@@ -666,10 +666,10 @@
   "46": {
     "inputs": {
       "images": [
-        "43",
+        "72",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_autoclean_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp6_final_handlocal_t75_autoclean_seed62018975"
     },
     "class_type": "SaveImage",
     "_meta": {
@@ -687,7 +687,7 @@
         "5",
         0
       ],
-      "text_input": "hand",
+      "text_input": "left hand",
       "task": "referring_expression_segmentation",
       "fill_mask": true,
       "keep_model_loaded": true,
@@ -698,7 +698,7 @@
       "seed": 1
     },
     "_meta": {
-      "title": "Florence hand protection mask (generic hand prompt)"
+      "title": "Florence left-hand protection mask"
     }
   },
   "48": {
@@ -712,10 +712,10 @@
         "5",
         0
       ],
-      "text_input": "both hands",
+      "text_input": "right hand",
       "task": "referring_expression_segmentation",
       "fill_mask": true,
-      "keep_model_loaded": true,
+      "keep_model_loaded": false,
       "max_new_tokens": 1024,
       "num_beams": 3,
       "do_sample": false,
@@ -723,23 +723,23 @@
       "seed": 1
     },
     "_meta": {
-      "title": "Florence both-hands protection mask"
+      "title": "Florence right-hand protection mask"
     }
   },
   "49": {
     "class_type": "AddMask",
     "inputs": {
       "mask1": [
-        "59",
-        0
+        "47",
+        1
       ],
       "mask2": [
-        "58",
+        "48",
         1
       ]
     },
     "_meta": {
-      "title": "Both-hand protection raw union: hand + both hands + fingers"
+      "title": "Both-hand protection raw union"
     }
   },
   "50": {
@@ -749,7 +749,7 @@
         "49",
         0
       ],
-      "expand": 2,
+      "expand": 5,
       "tapered_corners": true
     },
     "_meta": {
@@ -763,8 +763,8 @@
         "50",
         0
       ],
-      "kernel_size": 5,
-      "sigma": 2.0
+      "kernel_size": 7,
+      "sigma": 3.0
     },
     "_meta": {
       "title": "Feather hand protection"
@@ -778,7 +778,7 @@
         0
       ],
       "mask2": [
-        "60",
+        "51",
         0
       ]
     },
@@ -794,7 +794,7 @@
         0
       ],
       "mask2": [
-        "67",
+        "51",
         0
       ]
     },
@@ -806,7 +806,7 @@
     "class_type": "MaskToImage",
     "inputs": {
       "mask": [
-        "60",
+        "51",
         0
       ]
     },
@@ -818,7 +818,7 @@
     "class_type": "MaskToImage",
     "inputs": {
       "mask": [
-        "67",
+        "52",
         0
       ]
     },
@@ -833,7 +833,7 @@
         "54",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/protecthands_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_protecthands_barehands_d82_g5_seed62018800"
     },
     "_meta": {
       "title": "Save hand protection preview"
@@ -846,222 +846,195 @@
         "55",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/protectfull_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp2_protectfull_barehands_d82_g5_seed62018800"
     },
     "_meta": {
       "title": "Save full protection preview"
     }
   },
   "58": {
-    "class_type": "Florence2Run",
+    "class_type": "ColorToMask",
     "inputs": {
-      "image": [
-        "3",
+      "images": [
+        "43",
         0
       ],
-      "florence2_model": [
-        "5",
-        0
-      ],
-      "text_input": "fingers",
-      "task": "referring_expression_segmentation",
-      "fill_mask": true,
-      "keep_model_loaded": false,
-      "max_new_tokens": 1024,
-      "num_beams": 3,
-      "do_sample": false,
-      "output_mask_select": "",
-      "seed": 1
-    },
-    "_meta": {
-      "title": "Florence fingers protection mask"
+      "invert": false,
+      "red": 245,
+      "green": 245,
+      "blue": 245,
+      "threshold": 75,
+      "per_batch": 16
     }
   },
   "59": {
-    "class_type": "AddMask",
+    "class_type": "BitwiseAndMask",
     "inputs": {
       "mask1": [
-        "47",
-        1
+        "58",
+        0
       ],
       "mask2": [
-        "48",
-        1
+        "51",
+        0
       ]
-    },
-    "_meta": {
-      "title": "Hand protection union: hand + both hands"
+    }
+  },
+  "66": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": [
+        "59",
+        0
+      ],
+      "value": 0.02
     }
   },
   "60": {
-    "class_type": "VN_AutoHandFallbackProtectionMask",
+    "class_type": "GrowMask",
     "inputs": {
-      "image": [
-        "3",
+      "mask": [
+        "66",
         0
       ],
-      "character_mask": [
-        "4",
-        1
-      ],
-      "existing_hand_mask": [
-        "51",
-        0
-      ],
-      "start_y_ratio": 0.62,
-      "end_y_ratio": 0.97,
-      "side_width_ratio": 0.42,
-      "min_existing_side_coverage": 0.004,
-      "skin_lum_min": 0.24,
-      "skin_lum_max": 0.88,
-      "skin_sat_min": 0.06,
-      "skin_sat_max": 0.58,
-      "red_over_green": 0.015,
-      "green_over_blue": -0.02,
-      "min_added_coverage": 1e-05,
-      "max_added_coverage": 0.012,
-      "grow": 4,
-      "blur": 3
-    },
-    "_meta": {
-      "title": "Bilateral hand fallback: add missed lower-side skin hand candidates"
+      "expand": 5,
+      "tapered_corners": true
     }
   },
   "61": {
-    "class_type": "MaskToImage",
+    "class_type": "ImpactGaussianBlurMask",
     "inputs": {
       "mask": [
         "60",
-        1
-      ]
-    },
-    "_meta": {
-      "title": "Hand fallback ROI preview"
+        0
+      ],
+      "kernel_size": 7,
+      "sigma": 2.0
     }
   },
   "62": {
     "class_type": "MaskToImage",
     "inputs": {
       "mask": [
-        "60",
-        2
+        "61",
+        0
       ]
-    },
-    "_meta": {
-      "title": "Hand fallback added-mask preview"
     }
   },
-  "63": {
-    "class_type": "SaveImage",
+  "67": {
+    "class_type": "CLIPTextEncode",
     "inputs": {
-      "images": [
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "masterpiece, best quality, amazing quality, rating_questionable, bare_hands, hand, fingers, skin, fingernails, natural_hand, grey_background"
+    }
+  },
+  "68": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "gloves, white_gloves, cloth, sleeve, shirt, fabric, detached_hand, extra_fingers, bad_hands, deformed, text, logo, watermark, (worst quality, bad quality:1.2)"
+    }
+  },
+  "69": {
+    "class_type": "InpaintModelConditioning",
+    "inputs": {
+      "positive": [
+        "67",
+        0
+      ],
+      "negative": [
+        "68",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ],
+      "pixels": [
+        "43",
+        0
+      ],
+      "mask": [
         "61",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/handfallback_roi_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
-    },
-    "_meta": {
-      "title": "Save hand fallback ROI preview"
+      "noise_mask": true
     }
   },
-  "64": {
+  "70": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "26",
+        0
+      ],
+      "positive": [
+        "69",
+        0
+      ],
+      "negative": [
+        "69",
+        1
+      ],
+      "latent_image": [
+        "69",
+        2
+      ],
+      "seed": 62018975,
+      "steps": 22,
+      "cfg": 4.8,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 0.68
+    }
+  },
+  "71": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "70",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "72": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": [
+        "43",
+        0
+      ],
+      "source": [
+        "71",
+        0
+      ],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": [
+        "61",
+        0
+      ]
+    }
+  },
+  "73": {
     "class_type": "SaveImage",
     "inputs": {
       "images": [
         "62",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/handfallback_added_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
-    },
-    "_meta": {
-      "title": "Save hand fallback added mask preview"
-    }
-  },
-  "65": {
-    "class_type": "SaveImage",
-    "inputs": {
-      "images": [
-        "60",
-        3
-      ],
-      "filename_prefix": "hermes_vn_outfit_variation/handfallback_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
-    },
-    "_meta": {
-      "title": "Save hand fallback debug overlay"
-    }
-  },
-  "66": {
-    "class_type": "VN_AutoOutfitSilhouetteProtectMask",
-    "inputs": {
-      "image": [
-        "3",
-        0
-      ],
-      "character_mask": [
-        "4",
-        1
-      ],
-      "existing_protect_mask": [
-        "52",
-        0
-      ],
-      "lower_start_y_ratio": 0.5,
-      "side_width_ratio": 0.25,
-      "rim_radius": 8,
-      "thigh_start_y_ratio": 0.8,
-      "thigh_width_ratio": 0.34,
-      "blur": 3
-    }
-  },
-  "67": {
-    "class_type": "AddMask",
-    "inputs": {
-      "mask1": [
-        "52",
-        0
-      ],
-      "mask2": [
-        "66",
-        0
-      ]
-    }
-  },
-  "68": {
-    "class_type": "MaskToImage",
-    "inputs": {
-      "mask": [
-        "66",
-        0
-      ]
-    }
-  },
-  "69": {
-    "class_type": "MaskToImage",
-    "inputs": {
-      "mask": [
-        "67",
-        0
-      ]
-    }
-  },
-  "70": {
-    "class_type": "SaveImage",
-    "inputs": {
-      "images": [
-        "66",
-        3
-      ],
-      "filename_prefix": "hermes_vn_outfit_variation/silhouette_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
-    }
-  },
-  "71": {
-    "class_type": "SaveImage",
-    "inputs": {
-      "images": [
-        "68",
-        0
-      ],
-      "filename_prefix": "hermes_vn_outfit_variation/silhouette_protect_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/exp6_hand_local_mask_t75_seed62018975"
     }
   }
 }

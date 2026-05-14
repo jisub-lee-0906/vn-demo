@@ -1,4 +1,4 @@
-# 02 — 투명 스프라이트 알파/매팅
+# 03 — 투명 스프라이트 알파/매팅
 
 Category: `character`
 
@@ -6,17 +6,16 @@ Category: `character`
 
 이미 생성된 캐릭터 source PNG를 Ren'Py에서 바로 쓸 수 있는 투명 배경 PNG sprite로 변환한다.
 
-02는 새 캐릭터, 새 표정, 새 포즈, 새 의상을 만들지 않는다. 아래 workflow들이 만든 회색/단색 배경 source 이미지를 alpha PNG로 후처리하는 공통 workflow다.
+03은 새 캐릭터, 새 표정, 새 포즈, 새 의상을 만들지 않는다. 아래 workflow들이 만든 회색/단색 배경 source 이미지를 alpha PNG로 후처리하는 공통 workflow다.
 
 ```text
 01 character anchor source
-03 expression source
-04 pose variation source
-10 outfit/costume source
-→ 02 transparent alpha sprite
+02 expression source
+06 outfit/costume source
+→ 03 transparent alpha sprite
 ```
 
-다른 폴더에 alpha workflow를 중복해서 만들지 않는다. 표정/포즈/의상 source도 투명 PNG가 필요하면 02로 넘긴다.
+다른 폴더에 alpha workflow를 중복해서 만들지 않는다. 표정/포즈/의상 source도 투명 PNG가 필요하면 03으로 넘긴다.
 
 ## Output
 
@@ -26,12 +25,14 @@ Category: `character`
 
 ## API template
 
-- `workflow_api/02_alpha_toonout_b1_ref1_api.json`
+- `workflow_api/03_alpha_toonout_b1_ref1_api.json`
   - role: shared ToonOut/BiRefNet alpha/background-removal workflow
   - input node: `1` LoadImage `inputs.image`
   - processing node: `2` BiRefNetRMBG
   - output node: `3` SaveImage `inputs.filename_prefix`
   - status: user-approved canonical alpha setting
+
+Note: 03 should not be used to explain or cover up artifacts that are already visible in 01/02/06 opaque source outputs. If an artifact appears before alpha conversion, fix the upstream source/inpaint/mask workflow first.
 
 ## Editable nodes
 
@@ -42,7 +43,7 @@ Category: `character`
 | `1` LoadImage | `inputs.image` | ComfyUI input 폴더 기준 source image path |
 | `3` SaveImage | `inputs.filename_prefix` | output prefix |
 
-특별한 이유가 없으면 아래는 바꾸지 않는다.
+특별한 이유가 없으면 canonical workflow에서는 아래는 바꾸지 않는다.
 
 - node 구조
 - `BiRefNet_toonout` model
@@ -57,7 +58,6 @@ Category: `character`
 ## Fixed canonical settings
 
 현재 합격/유지 상태의 canonical 설정은 아래와 같다.
-
 ```text
 model: BiRefNet_toonout
 mask_blur: 1
@@ -139,7 +139,7 @@ ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
 1. root `AGENTS.md`와 `WORKFLOW_INDEX.json`을 확인한다.
 2. alpha 처리할 source PNG를 선택한다.
 3. source PNG가 ComfyUI `input` 폴더에 없으면 복사한다.
-4. `workflow_api/02_alpha_toonout_b1_ref1_api.json`을 로드한다.
+4. `workflow_api/03_alpha_toonout_b1_ref1_api.json`을 로드한다.
 5. node `1` `LoadImage.image`를 실제 input-relative filename으로 바꾼다.
 6. node `3` `SaveImage.filename_prefix`를 output naming 규칙에 맞춘다.
 7. ComfyUI `/queue`가 비어 있는지 확인한다. 공유 Windows ComfyUI를 함부로 interrupt/clear하지 않는다.
@@ -177,18 +177,17 @@ QA용 quick composite는 pack 밖의 임시/output 폴더에서 만든다. gener
 
 ## When not to use 02
 
-- source 캐릭터 자체가 마음에 들지 않으면 01/03/04/10에서 다시 생성한다.
-- 포즈가 틀렸으면 04를 사용한다.
-- 표정이 틀렸으면 03을 사용한다.
-- 의상 변경이 필요하면 10을 사용한다.
-- 02는 배경 제거/alpha 처리만 담당한다.
+- source 캐릭터 자체가 마음에 들지 않으면 01/02/06에서 다시 생성한다.
+- 표정이 틀렸으면 02를 사용한다.
+- 의상 변경이 필요하면 06을 사용한다.
+- 03은 배경 제거/alpha 처리만 담당한다.
 
 ## Notes for agents
 
 - README는 사용법 문서다. 긴 테스트 결과나 보고서는 여기에 누적하지 않는다.
 - 승인 상태, 대표 prompt_id, 대표 output은 `WORKFLOW_INDEX.json`에 짧게 둔다.
 - 생성된 PNG/contact sheet는 reusable pack 안에 저장하지 않는다.
-- 02는 v19 은발 anchor smoke 이후 `mask_blur: 1`, `refine_foreground: true`, no `background_color` 기준으로 갱신된 canonical이다. 추가 튜닝은 비교 output과 사용자 승인이 있을 때만 반영한다.
+- 03은 v19 은발 anchor smoke 이후 `mask_blur: 1`, `refine_foreground: true`, no `background_color` 기준으로 갱신된 canonical이다. 추가 튜닝은 비교 output과 사용자 승인이 있을 때만 반영한다.
 
 ## V190 silver-hair alpha tuning note
 

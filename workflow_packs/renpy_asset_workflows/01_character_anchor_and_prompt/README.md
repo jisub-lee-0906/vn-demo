@@ -12,10 +12,9 @@ Category: `character`
 
 ```text
 01 source anchor
-→ 02 transparent alpha sprite
-→ 03 expression variations
-→ 04 pose variations
-→ 10 outfit/costume variations
+→ 02 expression variations
+→ 03 transparent alpha sprite
+→ 06 outfit/costume variations
 ```
 
 ## Output
@@ -153,8 +152,8 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 ```
 
 주의:
-- positive에는 `grey_background`만 둔다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 04 same-seed sweep 기준으로 중복/충돌 가능성이 있어 01/03 canonical에서도 제외한다.
-- plain sprite source 목적에서는 `depth_of_field`, `volumetric_lighting`도 제외한다. 2026-05-13 재테스트에서 이 두 태그를 제거한 01 source가 더 중립적인 gray background로 나왔고, 02 alpha light/dark composite에서도 심한 halo/rim은 없었다.
+- positive에는 `grey_background`만 둔다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 04 same-seed sweep 기준으로 중복/충돌 가능성이 있어 01/02 canonical에서도 제외한다.
+- plain sprite source 목적에서는 `depth_of_field`, `volumetric_lighting`도 제외한다. 2026-05-13 재테스트에서 이 두 태그를 제거한 01 source가 더 중립적인 gray background로 나왔고, 03 alpha light/dark composite에서도 심한 halo/rim은 없었다.
 - 색상별 금지어는 캐릭터 identity 색상에는 넣지 않는다. 단, background-only 금지어(`white_background`, `bright_background`, `black_background`, `dark_background`, `vignette`, `gradient_background`, `patterned_background`)는 회색 소스/alpha 안정화를 위해 유지한다.
 - `badge`, `emblem`, `logo`는 기준 cardigan의 작은 마크 drift 방지용이다. 특정 캐릭터가 badge를 반드시 가져야 한다면 이 세 태그를 제거하고 별도 실험한다.
 
@@ -169,8 +168,8 @@ Silver-bob canonical candidate:
 Agent visual QA summary:
 - 고퀄리티 얼굴/머리/의상 렌더링.
 - 정면, 닫힌 입, 무표정 기준에 적합.
-- 회색 배경이 단순하고 02 alpha 전처리에 적합.
-- 손/팔이 보이고 후속 03/04에 방해되는 과한 포즈가 없음.
+- 회색 배경이 단순하고 03 alpha 전처리에 적합.
+- 손/팔이 보이고 후속 02/06에 방해되는 과한 포즈가 없음.
 - `black_pantyhose` 적용 후 15세 게임 톤이 더 안정적.
 
 Cross-character smoke test:
@@ -218,16 +217,16 @@ hermes_vn_experiments/nova_t2i_il_v190_character_anchor/{test_id}_{character_slu
 - 헤어/눈/의상 identity tags가 prompt와 맞는가
 - 배경이 단순한 neutral grey이며 gradient/pattern/vignette가 심하지 않은가
 - badge/emblem/logo 같은 작은 drift가 생기지 않았는가
-- 02 alpha로 넘겼을 때 halo/edge 문제가 심하지 않은가
+- 03 alpha로 넘겼을 때 halo/edge 문제가 심하지 않은가
 - 다른 캐릭터 1~2개로 identity block 교체 smoke를 해도 prompt 구조가 무너지지 않는가
 
 ## V190 Danbooru edge/background tuning note
 
-2026-05-13 tuning for 01→02 alpha:
+2026-05-13 tuning for 01→03 alpha:
 
 - Use `grey_background` only in positive for 01 canonical. Earlier `simple_background, grey_background, dark_background` was removed because the 04 same-seed sweep showed redundant/competing background tags can worsen neutral-gray consistency.
 - Add/keep background-only negatives: `white_background`, `bright_background`, `gradient_background`, `patterned_background`, `black_background`, `dark_background`, `vignette`.
 - Keep `thick_outline`: it slightly improves hair/body edge readability without visible identity drift.
 - Do not use `solid_background` here: in the v19 silver-bob test it reintroduced badge/emblem drift despite the negative prompt.
 - Do not use `black_background` for this anchor: it becomes too black/blue and is less suitable as a neutral source background.
-- Remove `depth_of_field` and `volumetric_lighting` for the 01 source prompt. Retest output: `ComfyUI/output/hermes_vn_chain_retest_20260513/01_no_depth_volumetric_contact.png`; prompt IDs `58dc5b1f-e099-49d0-919b-b3b980d4fde4` (01) and `5ab7e400-08b3-4fed-97df-87a29413f505` (02 alpha). This fixes the one-image background issue enough for 01→02 smoke, but full 01→04→03→02 must still be rerun.
+- Remove `depth_of_field` and `volumetric_lighting` for the 01 source prompt. Retest output: `ComfyUI/output/hermes_vn_chain_retest_20260513/01_no_depth_volumetric_contact.png`; prompt IDs `58dc5b1f-e099-49d0-919b-b3b980d4fde4` (01) and `5ab7e400-08b3-4fed-97df-87a29413f505` (03 alpha). This fixes the one-image background issue enough for 01→02 smoke, but full 01→04→03→02 must still be rerun.

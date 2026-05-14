@@ -1,4 +1,4 @@
-# 06 — 텍스트 없는 배경 생성
+# 04 — 텍스트 없는 배경 생성
 
 Category: `background`
 
@@ -12,7 +12,7 @@ VN 장면 배경을 새로 만든다.
 
 ## API templates
 
-- `workflow_api/06_background_generation_no_text_api.json` — minimal-smoke no-text classroom background baseline; also day/night base-generation route | inputs: - | status: SMOKE PASS: ilV190 minimal txt2img; use separate 06 generations for day/night; RenPy textbox QA still required
+- `workflow_api/04_background_generation_no_text_api.json` — minimal-smoke no-text classroom background baseline; also day/night base-generation route | inputs: - | status: SMOKE PASS: ilV190 minimal txt2img; use separate 06 generations for day/night; RenPy textbox QA still required
 
 ## Editable fields
 

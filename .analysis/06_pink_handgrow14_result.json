@@ -1,0 +1,15 @@
+{
+  "prompt_id": "2e774bbd-9e43-4d7b-a9a8-7d42d90d3e15",
+  "outputs": [
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_protecthands_pinkcanon_denim_handgrow14_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_protect_pinkcanon_denim_handgrow14_facehair_neckdiff_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_protectfull_pinkcanon_denim_handgrow14_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_mask_pinkcanon_denim_handgrow14_edit_nohands_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_raw_pinkcanon_denim_handgrow14_inpaint_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_bodycomp_pinkcanon_denim_handgrow14_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_final_pinkcanon_denim_handgrow14_original_head_hands_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_cleanup_debug_pinkcanon_denim_handgrow14_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_cleanup_mask_pinkcanon_denim_handgrow14_seed62018714_00001_.png",
+    "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_outfit_variation/exp_final_pinkcanon_denim_handgrow14_autoclean_seed62018714_00001_.png"
+  ]
+}

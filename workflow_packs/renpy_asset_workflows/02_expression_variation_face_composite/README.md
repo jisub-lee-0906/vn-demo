@@ -1,4 +1,4 @@
-# 03 — 표정 변형
+# 02 — 표정 변형
 
 Category: `character`
 
@@ -6,37 +6,37 @@ Category: `character`
 
 01에서 승인된 character source/anchor PNG를 기준으로 VN용 표정 source PNG를 만든다.
 
-03의 현재 canonical route는 Florence-2 face segmentation + face-local inpaint + masked composite 방식이다.
+02의 현재 canonical route는 Florence-2 face segmentation + face-local inpaint + masked composite 방식이다.
 
 목표:
 
 - 얼굴 표정만 바꾼다.
 - 머리카락, 옷, 리본, 치마, 몸, 배경은 원본을 최대한 보존한다.
-- 최종 투명 PNG가 필요하면 03 결과를 02 alpha workflow로 후처리한다.
+- 최종 투명 PNG가 필요하면 02 결과를 03 alpha workflow로 후처리한다.
 
 ```text
 01 character anchor/source PNG
-→ 03 expression source PNG, gray/dark-gray background preserved
-→ 02 transparent alpha sprite
+→ 02 expression source PNG, gray/dark-gray background preserved
+→ 03 transparent alpha sprite
 ```
 
-03은 alpha를 만들지 않는다. 02 alpha workflow를 중복하지 않는다.
+02는 alpha를 만들지 않는다. 03 alpha workflow를 중복하지 않는다.
 
 ## Output
 
-03 workflow는 한 번 실행할 때 3종류를 저장한다.
+02 workflow는 한 번 실행할 때 3종류를 저장한다.
 
 | Output | Meaning | Use |
 | --- | --- | --- |
 | `*_mask_preview_00001_.png` | Florence face mask preview | mask가 얼굴만 잡혔는지 QA |
 | `*_raw_inpaint_00001_.png` | inpaint raw output | 디버깅용; final로 쓰지 않음 |
-| `*_composited_00001_.png` | original 위에 face mask 영역만 합성한 최종 source | 03의 실제 후보 output |
+| `*_composited_00001_.png` | original 위에 face mask 영역만 합성한 최종 source | 02의 실제 후보 output |
 
 중요: raw inpaint는 얼굴 밖 색감도 바뀔 수 있으므로 final로 쓰지 않는다. 실제 후보는 항상 `*_composited_00001_.png`다.
 
 ## API template
 
-- `workflow_api/03_expression_source_canonical_api.json`
+- `workflow_api/02_expression_source_canonical_api.json`
   - role: runnable generic expression source workflow
   - route: Florence-2 face mask → inpaint → `ImageCompositeMasked`
   - checkpoint: `novaAnimeXL_ilV190.safetensors`
@@ -100,7 +100,7 @@ cfg: 5.0
 
 ## Input rules
 
-03은 02 alpha PNG가 아니라 01 source/anchor PNG를 입력으로 사용한다.
+02는 03 alpha PNG가 아니라 01 source/anchor PNG를 입력으로 사용한다.
 
 권장 입력:
 
@@ -181,7 +181,7 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 주의:
 
 - target expression을 negative에 넣지 않는다.
-- 03도 01/04와 맞춰 positive background는 `grey_background`만 사용한다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 positive에서 제외한다.
+- 02도 01과 맞춰 positive background는 `grey_background`만 사용한다. `simple_background`, `flat_background`, `plain_background`, `dark_background`는 positive에서 제외한다.
 - `white_background`, `bright_background`, `gradient_background`, `patterned_background`, `black_background`, `dark_background`, `vignette`는 background-only negative로 유지한다.
 - `changed_clothes`, `different_clothes`, `badge`, `emblem`, `logo`는 outfit/badge drift 방지용이다.
 - 다른 캐릭터가 badge/logo를 실제로 가져야 한다면 이 negative는 별도 검토한다.
@@ -190,7 +190,7 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 
 기본 VN 표정 세트는 `neutral, happy, sad, angry, disgusted, surprised, fearful`이다.
 
-`neutral`은 03에서 새로 생성하지 말고 01 source/anchor를 그대로 사용한다. 표정 변형이 필요한 6개만 03을 실행한다.
+`neutral`은 02에서 새로 생성하지 말고 01 source/anchor를 그대로 사용한다. 표정 변형이 필요한 6개만 02를 실행한다.
 
 | slug | positive expression tags | negative additions | denoise | seed example | status |
 | --- | --- | --- | ---: | ---: | --- |
@@ -236,7 +236,7 @@ ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
 1. root `AGENTS.md`와 `WORKFLOW_INDEX.json`을 확인한다.
 2. 01에서 통과한 source/anchor PNG를 선택한다.
 3. source PNG가 ComfyUI input 폴더에 없으면 복사한다.
-4. `workflow_api/03_expression_source_canonical_api.json`을 로드한다.
+4. `workflow_api/02_expression_source_canonical_api.json`을 로드한다.
 5. node `1` `LoadImage.image`를 input-relative source path로 바꾼다.
 6. node `4` `Florence2Run.text_input`은 `face`로 둔다.
 7. node `4` `Florence2Run.seed`와 node `13` `KSampler.seed`를 preset seed 또는 새 seed로 맞춘다.
@@ -248,7 +248,7 @@ ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
 13. `POST /prompt`로 실행한다.
 14. `/history/{prompt_id}`에서 node `19` composited output path를 확인한다.
 15. 사용자에게 `prompt_id`, mask preview, raw inpaint, composited final output path를 전달한다.
-16. 투명 PNG가 필요하면 node `19` output을 ComfyUI input으로 복사한 뒤 02 alpha workflow를 실행한다.
+16. 투명 PNG가 필요하면 node `19` output을 ComfyUI input으로 복사한 뒤 03 alpha workflow를 실행한다.
 
 ## Agent recipe: default expression batch
 
@@ -262,7 +262,7 @@ ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
 
 ## QA checklist
 
-03 source 후보는 contact sheet 또는 실제 출력 비교로 확인한다.
+02 source 후보는 contact sheet 또는 실제 출력 비교로 확인한다.
 
 필수 확인:
 
@@ -273,7 +273,7 @@ ComfyUI는 실제 파일명 뒤에 `_00001_.png` 같은 suffix를 붙인다.
 - 옷, 리본, 치마, 몸, 배경이 원본과 거의 같은가
 - mask preview가 얼굴만 잡고 머리카락/옷/몸/배경으로 크게 번지지 않았는가
 - raw inpaint가 아니라 composited output을 후보로 보고 있는가
-- 02 alpha 후 light/dark background에서 edge/halo가 허용 가능한가
+- 03 alpha 후 light/dark background에서 edge/halo가 허용 가능한가
 
 수치 검증이 필요하면 원본과 composited output을 비교한다.
 
@@ -320,6 +320,6 @@ ComfyUI/output/hermes_vn_expression_florence2_alpha_smoke/contact_batch3_disgust
 ## Notes for agents
 
 - README는 사용법 문서다. 긴 테스트 보고서를 계속 누적하지 않는다.
-- 표정별 workflow JSON을 만들지 않는다. 항상 `03_expression_source_canonical_api.json` 하나를 deep-copy해서 preset 값만 바꾼다.
+- 표정별 workflow JSON을 만들지 않는다. 항상 `02_expression_source_canonical_api.json` 하나를 deep-copy해서 preset 값만 바꾼다.
 - 생성된 PNG/contact sheet는 reusable pack 안에 저장하지 않는다.
 - 상태, 대표 output, 승인 여부는 `WORKFLOW_INDEX.json`에 짧게 둔다.

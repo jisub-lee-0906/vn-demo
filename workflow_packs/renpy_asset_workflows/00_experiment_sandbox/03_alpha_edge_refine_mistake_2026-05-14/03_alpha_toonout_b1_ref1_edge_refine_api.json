@@ -1,0 +1,58 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "TEMPLATE_source_image.png"
+    }
+  },
+  "2": {
+    "class_type": "BiRefNetRMBG",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "model": "BiRefNet_toonout",
+      "mask_blur": 1,
+      "mask_offset": 0,
+      "invert_output": false,
+      "refine_foreground": true,
+      "background": "Alpha"
+    }
+  },
+  "4": {
+    "class_type": "VN_AlphaEdgeRefine",
+    "inputs": {
+      "image": [
+        "2",
+        0
+      ],
+      "alpha_threshold": 0.015,
+      "edge_alpha_cut": 0.045,
+      "island_min_area": 96,
+      "bridge_radius": 1,
+      "edge_width": 2,
+      "max_removed_coverage": 0.03
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ],
+      "filename_prefix": "hermes_vn_toonout_other_character/alpha_TEMPLATE_CHARACTER_VARIANT_b1_ref1_edgerefine"
+    }
+  },
+  "5": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "4",
+        3
+      ],
+      "filename_prefix": "hermes_vn_toonout_other_character/debug_TEMPLATE_CHARACTER_VARIANT_b1_ref1_edgerefine_removed"
+    }
+  }
+}

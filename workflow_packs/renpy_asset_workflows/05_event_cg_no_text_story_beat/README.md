@@ -1,4 +1,4 @@
-# 08 — 스토리 이벤트 CG
+# 05 — 스토리 이벤트 CG
 
 Category: `cg`
 
@@ -12,7 +12,7 @@ Category: `cg`
 
 ## API templates
 
-- `workflow_api/08_event_cg_no_text_story_beat_api.json` — smoke-passed no-text sealed-envelope / hallway hook event CG template | inputs: - | status: SMOKE PASS candidate: selected uppermid_s2 seed 812347402; RenPy route screenshot QA still required
+- `workflow_api/05_event_cg_no_text_story_beat_api.json` — smoke-passed no-text sealed-envelope / hallway hook event CG template | inputs: - | status: SMOKE PASS candidate: selected uppermid_s2 seed 812347402; RenPy route screenshot QA still required
 
 ## Editable fields
 

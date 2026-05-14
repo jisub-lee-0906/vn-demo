@@ -18,7 +18,7 @@
   "3": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "TEMPLATE_identity_source.png"
+      "image": "source_pink_twinbraids_seed719251102_00001_.png"
     }
   },
   "4": {
@@ -298,7 +298,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_OUTFIT_TAGS, black_pleated_skirt, pleated_skirt, black_pantyhose, grey_background, hoodie_neckline, drawstring, hood, covered_neck"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, long_hair, twintails, pink_hair, green_eyes, small_breasts, lavender_hoodie, light_purple_hoodie, hoodie, pullover_hoodie, long_sleeves, casual_clothes, hood_down, front_pocket, loose_hoodie, ribbed_cuffs, ribbed_hem, black_pleated_skirt, pleated_skirt, black_pantyhose, grey_background, hoodie_neckline, drawstring, hood, covered_neck"
     }
   },
   "24": {
@@ -366,7 +366,7 @@
         "25",
         2
       ],
-      "seed": 62019146,
+      "seed": 62019202,
       "steps": 28,
       "cfg": 5.0,
       "sampler_name": "euler_ancestral",
@@ -452,7 +452,7 @@
         "31",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/protect_TEMPLATE_character_slug_TEMPLATE_preset_slug_facehair_neckdiff"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/protect_pink01_v4c2_lavenderhoodie_facehair_neckdiff"
     }
   },
   "34": {
@@ -462,7 +462,7 @@
         "32",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/mask_TEMPLATE_character_slug_TEMPLATE_preset_slug_edit_nohands"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/mask_pink01_v4c2_lavenderhoodie_edit_nohands"
     }
   },
   "35": {
@@ -472,7 +472,7 @@
         "28",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/raw_TEMPLATE_character_slug_TEMPLATE_preset_slug_inpaint_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/raw_pink01_v4c2_lavenderhoodie_inpaint_seed62019202"
     }
   },
   "36": {
@@ -482,7 +482,7 @@
         "29",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/bodycomp_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/bodycomp_pink01_v4c2_lavenderhoodie_seed62019202"
     }
   },
   "37": {
@@ -492,7 +492,7 @@
         "30",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_original_head_hands_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/final_pink01_v4c2_lavenderhoodie_original_head_hands_seed62019202"
     },
     "_meta": {
       "title": "Save pre-cleanup original-head composite checkpoint"
@@ -586,7 +586,7 @@
         "40",
         2
       ],
-      "seed": 62019147,
+      "seed": 62019203,
       "steps": 28,
       "cfg": 4.8,
       "sampler_name": "euler_ancestral",
@@ -643,7 +643,7 @@
         "38",
         3
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/cleanup_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/cleanup_debug_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "class_type": "SaveImage",
     "_meta": {
@@ -656,7 +656,7 @@
         "39",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/cleanup_mask_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/cleanup_mask_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "class_type": "SaveImage",
     "_meta": {
@@ -669,7 +669,7 @@
         "43",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_autoclean_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/final_pink01_v4c2_lavenderhoodie_autoclean_seed62019202"
     },
     "class_type": "SaveImage",
     "_meta": {
@@ -833,7 +833,7 @@
         "54",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/protecthands_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/protecthands_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "_meta": {
       "title": "Save hand protection preview"
@@ -846,7 +846,7 @@
         "55",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/protectfull_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/protectfull_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "_meta": {
       "title": "Save full protection preview"
@@ -958,7 +958,7 @@
         "61",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/handfallback_roi_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/handfallback_roi_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "_meta": {
       "title": "Save hand fallback ROI preview"
@@ -971,7 +971,7 @@
         "62",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/handfallback_added_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/handfallback_added_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "_meta": {
       "title": "Save hand fallback added mask preview"
@@ -984,7 +984,7 @@
         "60",
         3
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/handfallback_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/handfallback_debug_pink01_v4c2_lavenderhoodie_seed62019202"
     },
     "_meta": {
       "title": "Save hand fallback debug overlay"
@@ -1051,7 +1051,7 @@
         "66",
         3
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/silhouette_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/silhouette_debug_pink01_v4c2_lavenderhoodie_seed62019202"
     }
   },
   "71": {
@@ -1061,7 +1061,7 @@
         "68",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/silhouette_protect_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_06_crosschar_pink_v4c2/silhouette_protect_pink01_v4c2_lavenderhoodie_seed62019202"
     }
   }
 }

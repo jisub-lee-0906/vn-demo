@@ -298,7 +298,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_sensitive, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, arms_at_sides, hands_down, relaxed_pose, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_FULL_OUTFIT_TAGS, coordinated_outfit, grey_background"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_sensitive, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, arms_at_sides, hands_down, relaxed_pose, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_FULL_OUTFIT_TAGS, coordinated_outfit, grey_background"
     }
   },
   "24": {
@@ -308,7 +308,7 @@
         "2",
         0
       ],
-      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, duplicate_hands, missing_fingers, extra_digits, fewer_digits, hands_on_chest, hand_on_chest, holding_zipper, holding_clothes, clasped_hands, folded_hands, arms_up, raised_hands, crossed_arms, white_background, black_background, gradient_background, patterned_background, vignette, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)"
+      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, duplicate_hands, extra_hands, missing_fingers, extra_digits, hands_on_chest, hand_on_chest, holding_zipper, holding_clothes, clasped_hands, folded_hands, arms_up, raised_hands, crossed_arms, school_uniform, cardigan, beige_cardigan, cream_cardigan, lavender_hoodie, hoodie, hood, drawstring, pullover_hoodie, white_background, black_background, gradient_background, patterned_background, vignette, old_clothes, previous_outfit, visible_old_clothing, leftover_clothing, shirt_collar, visible_collar, buttoned_shirt, buttons, waistband, cream_trim, beige_trim, yellow_trim, cream_cuffs, beige_cuffs, yellow_cuffs, cream_hem, beige_hem, yellow_hem, contrasting_trim, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)"
     }
   },
   "25": {
@@ -368,7 +368,7 @@
       ],
       "seed": 62019146,
       "steps": 28,
-      "cfg": 4.5,
+      "cfg": 6.0,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
       "denoise": 0.92
@@ -912,17 +912,17 @@
       "end_y_ratio": 0.97,
       "side_width_ratio": 0.42,
       "min_existing_side_coverage": 0.004,
-      "skin_lum_min": 0.24,
-      "skin_lum_max": 0.88,
-      "skin_sat_min": 0.08,
-      "skin_sat_max": 0.58,
-      "red_over_green": 0.05,
-      "green_over_blue": 0.0,
+      "skin_lum_min": 0.26,
+      "skin_lum_max": 0.8,
+      "skin_sat_min": 0.1,
+      "skin_sat_max": 0.48,
+      "red_over_green": 0.075,
+      "green_over_blue": 0.005,
       "min_added_coverage": 1e-05,
-      "max_added_coverage": 0.014,
+      "max_added_coverage": 0.012,
       "grow": 1,
       "blur": 1,
-      "wrist_bridge_radius": 18,
+      "wrist_bridge_radius": 14,
       "wrist_bridge_grow": 1
     },
     "_meta": {
@@ -1160,18 +1160,18 @@
         "52",
         0
       ],
-      "bg_distance": 0.18,
-      "sat_max": 0.16,
-      "lum_min": 0.22,
-      "lum_max": 0.86,
-      "bridge_radius": 1,
-      "protect_expand": 6,
-      "side_width_ratio": 0.22,
-      "side_start_y_ratio": 0.24,
-      "neck_top_pad": 26,
-      "neck_height": 170,
-      "neck_width_ratio": 0.46,
-      "residue_strength": 1.35,
+      "bg_distance": 0.23,
+      "sat_max": 0.2,
+      "lum_min": 0.18,
+      "lum_max": 0.88,
+      "bridge_radius": 2,
+      "protect_expand": 5,
+      "side_width_ratio": 0.3,
+      "side_start_y_ratio": 0.2,
+      "neck_top_pad": 30,
+      "neck_height": 205,
+      "neck_width_ratio": 0.52,
+      "residue_strength": 1.7,
       "max_removed_coverage": 0.72
     },
     "_meta": {

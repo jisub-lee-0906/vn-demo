@@ -104,17 +104,17 @@
       "category": "character",
       "title": "의상/코스튬 변형",
       "purpose": "기존 캐릭터 source PNG를 입력으로 받아 full-body face/hair/neck-protected masked inpaint와 fail-closed cleanup으로 의상 variant source를 만든다.",
-      "output": "outfit variation source PNG; final output is node 46 autoclean original-head composite; alpha is handled by 03",
-      "test": "protection/edit mask preview, cleanup mask false-positive check, same-character head/hair retention, full outfit cohesion, 03 alpha/RenPy QA",
+      "output": "outfit variation source PNG; opaque diagnostic node 80 and transparent foreground-cut candidate node 82; alpha QA still required before production use",
+      "test": "protection/edit mask preview, same-character head/hair/hands retention, full outfit cohesion, foreground-cut light/dark/gray QA, 02 alpha/RenPy QA when needed",
       "api_templates": [
         {
           "file": "06_outfit_pulid_i2i_canonical_api.json",
           "path": "06_outfit_costume_variation/workflow_api/06_outfit_pulid_i2i_canonical_api.json",
-          "purpose": "single canonical full-body outfit workflow: BiRefNet character mask + Florence face/hair/neck protection + PuLID inpaint + original-head composite + fail-closed auto collar/bow cleanup",
+          "purpose": "single canonical full-body outfit workflow: BiRefNet character mask + Florence face/hair/neck protection + hand fallback + PuLID inpaint + original-head/hands composite + foreground residue cut",
           "required_inputs": [
             "TEMPLATE_identity_source.png"
           ],
-          "status": "runnable template; patch input/prompt/output prefixes before execution; final candidate is node 46"
+          "status": "runnable template; patch input/prompt/output prefixes before execution; opaque diagnostic is node 80, transparent candidate is node 82 after QA"
         }
       ]
     }

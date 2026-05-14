@@ -801,7 +801,11 @@ class VN_AutoHandFallbackProtectionMask(VN_AutoCollarCleanupMask):
             lower_side = cy >= lower_y and abs(cx - center_x) > char_w * 0.18
             if not (near_side and lower_side and bh >= 38 and bw <= max(180, char_w * 0.30)):
                 continue
-            trim = max(18, min(72, int(round(bh * 0.45))))
+            # v4e29: trim a little more of the upper connected wrist/cuff
+            # band. The prior v4e28 trim could leave a thin cream cardigan
+            # rib at the wrist; keep the terminal hand/finger region but do
+            # not paste the old sleeve cuff over the regenerated hoodie cuff.
+            trim = max(22, min(86, int(round(bh * 0.55))))
             cutoff = by1 + trim
             for y, x in coords:
                 if y < cutoff:
@@ -864,7 +868,10 @@ class VN_AutoHandFallbackProtectionMask(VN_AutoCollarCleanupMask):
             plausible_box = (3 <= bw <= max(180, char_w * 0.34)) and (4 <= bh <= max(700, char_h * 0.46))
             lower_side = cy >= lower_y and near_side and side_dist > char_w * 0.20
             if lower_side and plausible_box:
-                trim_top = max(by1, by2 - int(min(95, max(38, bh * 0.38))))
+                # Keep only the terminal lower part of lower-side skin blobs.
+                # This is deliberately stricter than v4e28 to reject pale old
+                # cuff pixels that pass the skin-color test near wrists.
+                trim_top = max(by1, by2 - int(min(88, max(30, bh * 0.30))))
                 for y, x in coords:
                     outer_terminal = (x <= x1 + char_w * 0.22) or (x >= x2 - char_w * 0.22)
                     if y >= trim_top and outer_terminal:
@@ -1147,11 +1154,31 @@ class VN_OutfitForegroundResidueCut(VN_AutoCollarCleanupMask):
             residue_roi = (side_roi | neck_roi) & cm & em & (~protected)
             strong = float(residue_strength)
             neutral_residue = (dist < float(bg_distance) * strong) & (sat < float(sat_max) * 1.25) & (lum > float(lum_min) * 0.85) & (lum < float(lum_max) * 0.92)
-            # Cut only residue connected to the flat background. This avoids
-            # punching holes through real low-saturation jacket folds/highlights
-            # inside the regenerated sleeve/body.
-            residue_connected = self._border_connected(bg_like | neutral_residue, border)
-            residue_cut = residue_connected & residue_roi
+            # v4e29: detached side ghosts are often not image-border-connected
+            # after the opaque final composite, but the destructive v4e29_param
+            # attempt showed that cutting all low-saturation hoodie folds is too
+            # broad. Add a second, stricter side-edge connection seed that only
+            # follows near-gray/background-like pixels from the character side
+            # boundary inside the editable side ROI. Lavender hoodie folds have
+            # enough blue/purple chroma to fail this near-gray test.
+            near_gray = (
+                neutral_residue
+                & (sat < float(sat_max) * 0.72)
+                & ((im[..., 0] - im[..., 1]).abs() < float(sat_max) * 0.40)
+                & ((im[..., 1] - im[..., 2]).abs() < float(sat_max) * 0.40)
+            )
+            side_seed = torch.zeros((h, w), dtype=torch.bool, device=device)
+            if cb is not None:
+                x1, y1, x2, y2 = cb
+                side_seed[:, max(0, x1 - 2):min(w, x1 + 3)] = True
+                side_seed[:, max(0, x2 - 2):min(w, x2 + 3)] = True
+                side_seed = side_seed & residue_roi & near_gray
+            # Cut only residue connected to the flat background or to the strict
+            # gray side seed. This avoids punching holes through real jacket
+            # folds/highlights inside the regenerated sleeve/body.
+            residue_connected = self._border_connected(bg_like | near_gray, border)
+            side_connected = self._border_connected(near_gray & residue_roi, side_seed)
+            residue_cut = (residue_connected | side_connected) & residue_roi
             cut = border_cut | residue_cut
 
             cov = float(cut.float().mean().item())

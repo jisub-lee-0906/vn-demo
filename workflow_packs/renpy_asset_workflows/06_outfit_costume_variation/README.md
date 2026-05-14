@@ -31,7 +31,7 @@ Active `workflow_api/`에는 하나의 canonical JSON만 둔다.
   - Florence model: `Florence-2-large`
   - alpha/matting mask: `BiRefNet_toonout`
   - custom node dependency: `VN_AutoCollarCleanupMask`, `VN_AutoHandFallbackProtectionMask`, `VN_AutoOutfitSilhouetteProtectMask`, `VN_AutoTrimCleanupMask`, and `VN_OutfitForegroundResidueCut` from `ComfyUI-VN-AutoMasks`
-  - current blocker/progress: 2026-05-14 v4e24/v4e25 isolated mask-node QA showed the output image can look improved while `protecthands`/handfallback masks remain structurally unsafe. v4e26 changes node `60` (`VN_AutoHandFallbackProtectionMask`) so Florence hand/both/fingers are spatial priors only, then applies source-skin filtering, component filtering, wrist bridge, and a lower terminal hand floor (`~0.84`) before hand protection. Live t5 + pink01 mask-only QA in `00_experiment_sandbox/06_mask_node_qa_2026-05-14/` produced `v4e26_floor84_node60` contact sheets with the old cardigan cuff/sleeve block largely removed. v4e27 bypass-source composite smoke (`hermes_vn_06_composite_mask_smoke/v4e27_floor84_*`) exercised `edit_nohands`, node `30`, and foreground-cut on t5 + pink01 without SDXL sampling; topology passed with face/hair/hands preserved, but t5 still shows a tiny right-cuff rib/sliver in handfallback debug. Do not claim full production pass until a real GPU SDXL 06 smoke is run and hand/cuff closeups are inspected.
+  - current blocker/progress: v4e29 code-level mask fixes passed a real GPU t5 + pink01 smoke for `lavender_hoodie_black_skirt`, but strict QA still showed that prompt conflicts could weaken target outfit generation. v4f/v4g applied the NoobAI/Nova prompt guide lesson: keep the canonical negative prompt generic and conflict-free, then append preset-specific old-outfit conflicts at runtime. In particular, the base negative prompt must not contain target outfit tags such as `lavender_hoodie`, `hoodie`, `pullover_hoodie`, or generic `jacket` when the target may be a jacket. v4g also lowered main CFG from `6.0` to `4.5`, matching the Nova/Illustrious recommended range, while retaining the proven high-denoise masked-inpaint route. Live t5 + pink01 hoodie smoke passed functional QA with coherent hoodie/skirt, preserved face/hair/hands, no obvious old cuff sliver, and non-destructive foreground cut. A denim stress probe showed the route is reusable, but outfit presets still need outfit-specific prompt QA: a cardigan-like white jacket failure was traced to negative/target conflicts, and a stronger denim prompt improved color but still tended to regenerate neck bow/ribbon. Treat non-hoodie presets as examples requiring visual QA before production.
 
 Archived routes:
 
@@ -108,7 +108,7 @@ silhouette protection: legacy debug/fallback only; not subtracted from the v4e c
 edit mask: character mask - protected head/hair, then GrowMask expand 5, blur kernel 7 sigma 3.0, multiplied by character mask, then subtract protected hands; upper/lower outfit both remain editable
 PuLID weight: 0.72
 PuLID start/end: 0.0 / 0.75
-main sampler: euler_ancestral, normal, steps 28, cfg 6.0, denoise 0.92
+main sampler: euler_ancestral, normal, steps 28, cfg 4.5, denoise 0.92
 canonical final: ImageCompositeMasked(destination=bodycomp, source=original, mask=protected_facehair_plus_hands), saved by node 80
 legacy auto-cleanup mask: VN_AutoCollarCleanupMask(...); debug/fallback only
 legacy trim cleanup mask: VN_AutoTrimCleanupMask(...); debug/fallback only
@@ -162,7 +162,7 @@ cp /mnt/c/Users/Desktop/Documents/ComfyUI/output/{run_folder}/{source_png}.png \
 
 ## Prompt structure
 
-Positive prompt should be Danbooru-style comma-separated tags.
+Positive prompt should be Danbooru-style comma-separated tags. For this masked inpaint route, keep the base prompt shorter than whole-image character generation prompts: the workflow composites original face/hair/hands back, so prompt the editable outfit/body region clearly and avoid long natural-language identity locks.
 
 ```text
 [quality block], [source character tags], [target outfit tags], [lower-body outfit tags if full outfit change], grey_background
@@ -171,7 +171,7 @@ Positive prompt should be Danbooru-style comma-separated tags.
 Recommended quality block:
 
 ```text
-masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest
+masterpiece, best quality, amazing quality, very aesthetic, high_resolution, ultra-detailed, absurdres, newest
 ```
 
 Example source character tags:
@@ -197,12 +197,13 @@ Notes:
 - Face/hair preservation is handled by mask/composite, not by natural-language locks.
 - Avoid natural language like `same face`, `same hair`, `casual weekend outfit` in the canonical prompt.
 - If replacing the whole outfit, include both upper and lower outfit tags. Do not clip the mask to the upper body unless the user explicitly wants the lower body preserved.
-- Add old outfit conflict tags to the negative prompt.
+- Add old outfit conflict tags to the negative prompt at runtime per preset.
+- Do not put target outfit tags in the base negative prompt. For example, a reusable template must not globally negate `hoodie`, `pullover_hoodie`, or `jacket`, because those can be valid targets in another preset.
 
 ## Common negative prompt base
 
 ```text
-modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, missing_fingers, extra_digits, fewer_digits, open_clothes, cleavage, nude, nsfw, white_background, black_background, gradient_background, patterned_background, vignette, (worst quality, bad quality:1.2)
+modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, duplicate_hands, missing_fingers, extra_digits, fewer_digits, hands_on_chest, hand_on_chest, holding_zipper, holding_clothes, clasped_hands, folded_hands, arms_up, raised_hands, crossed_arms, white_background, black_background, gradient_background, patterned_background, vignette, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)
 ```
 
 For a hoodie replacing a school/cardigan outfit, append:
@@ -217,8 +218,8 @@ Use one JSON. Change prompts, seed, denoise, PuLID weight, and output prefixes a
 
 | slug | positive outfit tags | negative additions | main denoise | PuLID weight | mask notes | seed examples |
 | --- | --- | ---: | ---: | ---: | --- | --- |
-| `lavender_hoodie_black_skirt` | `lavender_hoodie, light_purple_hoodie, hoodie, pullover_hoodie, long_sleeves, casual_clothes, hood_down, front_pocket, loose_hoodie, ribbed_cuffs, ribbed_hem, black_pleated_skirt, pleated_skirt, black_pantyhose` | school/cardigan/old clothing conflicts | 0.80 | 0.72 | active full-body mask; node `46` is final autoclean output | `62018571` |
-| `blue_denim_jacket` | `blue_denim_jacket, denim_jacket, open_jacket, unbuttoned_jacket, plain_white_t-shirt, white_t-shirt, blank_shirt, casual_clothes, long_sleeves, black_pleated_skirt, pleated_skirt, black_pantyhose` | cardigan/school/sailor/bow/hoodie conflicts plus `print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name` | 0.82 | 0.72 | plain-shirt anti-text prompt passed pink twin-braids smoke better than the earlier logo-prone denim prompt | `62018641` |
+| `lavender_hoodie_black_skirt` | `lavender_hoodie, light_purple_hoodie, hoodie, pullover_hoodie, long_sleeves, casual_clothes, hood_down, front_pocket, loose_hoodie, ribbed_cuffs, ribbed_hem, black_pleated_skirt, pleated_skirt, black_pantyhose` | school/cardigan/old clothing conflicts | 0.92 | 0.72 | current cross-character functional pass with v4g generic negative + CFG 4.5; inspect node `80` and node `82` | `62019146` |
+| `blue_denim_jacket` | `blue jacket, denim jacket, denim, open jacket, unbuttoned jacket, long sleeves, casual clothes, white t-shirt, plain shirt, blank shirt, black pleated skirt, pleated skirt, black pantyhose` | cardigan/school/sailor/bow/hoodie conflicts plus `white jacket, cream jacket, beige jacket`, and anti-text tags | 0.82 | 0.72 | stress preset only. v4h improved blue color but can still regenerate neck bow/ribbon; do not treat as production-passed without prompt/mask QA | `62018641` |
 | `red_track_jacket` | `red_track_jacket, track_jacket, zip-up_jacket, white_stripes, athletic_clothes, long_sleeves, black_skirt, black_pantyhose` | cardigan/school/blouse/hoodie conflicts | 0.74 | 0.72 | saturated colors can drift linework; QA required | choose new seed |
 | `yellow_summer_dress` | `yellow_dress, summer_dress, short_sleeves, casual_clothes` | cardigan/hoodie/jacket/school conflicts | 0.76 | 0.70 | full-body mask is appropriate; expect more body/silhouette change | choose new seed |
 
@@ -236,8 +237,8 @@ Use one JSON. Change prompts, seed, denoise, PuLID weight, and output prefixes a
 10. Set node `33`-`37`, `44`-`46`, and `56`-`57` prefixes with character slug, outfit slug, and seed.
 11. Check `/queue`; do not interrupt or clear shared Windows ComfyUI without approval.
 12. Submit via `POST /prompt` and poll `/history/{prompt_id}`.
-13. Review node `56` hand mask, node `34` edit mask preview, node `45` cleanup mask, and node `46` final output.
-14. If the final output is accepted, run it through `03_toonout_transparency_alpha` and check light/dark edge QA.
+13. Review node `56` hand mask, node `34` edit mask preview, node `80` opaque fullfit, node `82` foreground-cut candidate, and node `84`/`85`/`87` foreground-cut QA previews.
+14. If node `82` is accepted as a transparent foreground candidate, still check it over white/black/gray backgrounds. If using the opaque node `80` as a source, run it through `03_toonout_transparency_alpha` and check light/dark edge QA.
 
 ## QA checklist
 
@@ -247,7 +248,7 @@ Required before claiming production-ready:
 - hand protection mask covers visible hands/fingers and does not false-positive on thighs/skirt
 - edit mask covers full outfit/lower body when whole outfit changes are desired while excluding protected hands
 - edit mask does not expose/change the background
-- final candidate is node `46`, not raw node `35`
+- opaque diagnostic candidate is node `80`; transparent foreground-cut candidate is node `82`; never use raw node `35` as final
 - face/eyes/hair silhouette match the original after original-head composite
 - neck/hood/collar seam is acceptable
 - hoodie hem/skirt/lower-body outfit reads as one coherent outfit
@@ -263,9 +264,9 @@ Required before claiming production-ready:
 - If node `9` over-subtracts neck/low hair, collar improves but hair tips may be less protected. QA the protection mask.
 - The full-body mask can change skirt/legs. This is intended for whole-outfit changes; use an upper-body-clipped sandbox route only if the lower body must stay fixed.
 - Florence hand prompts can miss a hand on some poses. Always inspect node `56`; if a hand is missed, try one-variable prompt alternatives (`hands`, `both hands`, `visible hands`) in sandbox before promotion. Avoid broad BodySegment arm masks unless gated/QA'd because they can false-positive on thigh/skirt highlights.
-- `denoise=0.80` changes outfit more strongly but can alter body/skirt more than `0.74`; hands are now composited back from the source when detected.
+- `denoise=0.92` is intentionally strong for full-outfit replacement and can alter body/skirt silhouette; hands are composited back from the source when detected. Lower denoise in sandbox only if outfit identity is too unstable.
 - Auto cleanup is fail-closed and tuned for collar/bow remnants. If it misses a new type of artifact, do not broaden it blindly; add a controlled smoke or use a local/manual cleanup route in sandbox.
-- This workflow outputs an opaque source image. Transparent sprites still require workflow 03.
+- This workflow saves both an opaque diagnostic output (node `80`) and a foreground-cut RGBA candidate (node `82`). Node `82` can be used after light/dark/gray QA; otherwise run the opaque output through workflow `02_toonout_transparency_alpha`.
 
 ## Notes for agents
 

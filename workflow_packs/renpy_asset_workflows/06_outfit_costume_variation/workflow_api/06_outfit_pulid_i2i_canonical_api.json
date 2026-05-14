@@ -178,7 +178,7 @@
         "12",
         0
       ],
-      "expand": 8,
+      "expand": 0,
       "tapered_corners": true
     }
   },
@@ -189,8 +189,8 @@
         "13",
         0
       ],
-      "kernel_size": 7,
-      "sigma": 3.0
+      "kernel_size": 3,
+      "sigma": 1.0
     }
   },
   "15": {
@@ -298,7 +298,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_OUTFIT_TAGS, black_pleated_skirt, pleated_skirt, black_pantyhose, grey_background, hoodie_neckline, drawstring, hood, covered_neck"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_sensitive, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, arms_at_sides, hands_down, relaxed_pose, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_FULL_OUTFIT_TAGS, coordinated_outfit, grey_background"
     }
   },
   "24": {
@@ -308,7 +308,7 @@
         "2",
         0
       ],
-      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, missing_fingers, extra_digits, school_uniform, cardigan, beige_cardigan, cream_cardigan, white_shirt, collared_shirt, bowtie, necktie, ribbon, blouse, blazer, jacket, open_clothes, cleavage, nude, nsfw, white_background, black_background, gradient_background, patterned_background, vignette, old_clothes, previous_outfit, visible_old_clothing, leftover_clothing, shirt_collar, visible_collar, buttoned_shirt, buttons, waistband, exposed_midriff, belly_cutout, black_bow, bow, dark_collar, shorts, denim_shorts, pants, bare_legs, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)"
+      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, duplicate_hands, extra_hands, missing_fingers, extra_digits, hands_on_chest, hand_on_chest, holding_zipper, holding_clothes, clasped_hands, folded_hands, arms_up, raised_hands, crossed_arms, school_uniform, cardigan, beige_cardigan, cream_cardigan, lavender_hoodie, hoodie, hood, drawstring, pullover_hoodie, white_background, black_background, gradient_background, patterned_background, vignette, old_clothes, previous_outfit, visible_old_clothing, leftover_clothing, shirt_collar, visible_collar, buttoned_shirt, buttons, waistband, cream_trim, beige_trim, yellow_trim, cream_cuffs, beige_cuffs, yellow_cuffs, cream_hem, beige_hem, yellow_hem, contrasting_trim, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)"
     }
   },
   "25": {
@@ -368,10 +368,10 @@
       ],
       "seed": 62019146,
       "steps": 28,
-      "cfg": 5.0,
+      "cfg": 6.0,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 0.76
+      "denoise": 0.92
     }
   },
   "28": {
@@ -422,7 +422,7 @@
       "y": 0,
       "resize_source": false,
       "mask": [
-        "67",
+        "52",
         0
       ]
     }
@@ -794,7 +794,7 @@
         0
       ],
       "mask2": [
-        "67",
+        "52",
         0
       ]
     },
@@ -905,7 +905,7 @@
         1
       ],
       "existing_hand_mask": [
-        "51",
+        "49",
         0
       ],
       "start_y_ratio": 0.62,
@@ -914,14 +914,16 @@
       "min_existing_side_coverage": 0.004,
       "skin_lum_min": 0.24,
       "skin_lum_max": 0.88,
-      "skin_sat_min": 0.06,
+      "skin_sat_min": 0.08,
       "skin_sat_max": 0.58,
-      "red_over_green": 0.015,
-      "green_over_blue": -0.02,
+      "red_over_green": 0.05,
+      "green_over_blue": 0.0,
       "min_added_coverage": 1e-05,
-      "max_added_coverage": 0.012,
-      "grow": 4,
-      "blur": 3
+      "max_added_coverage": 0.014,
+      "grow": 1,
+      "blur": 1,
+      "wrist_bridge_radius": 18,
+      "wrist_bridge_grow": 1
     },
     "_meta": {
       "title": "Bilateral hand fallback: add missed lower-side skin hand candidates"
@@ -1062,6 +1064,179 @@
         0
       ],
       "filename_prefix": "hermes_vn_outfit_variation/silhouette_protect_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+    }
+  },
+  "72": {
+    "class_type": "VN_AutoTrimCleanupMask",
+    "inputs": {
+      "image": [
+        "43",
+        0
+      ],
+      "character_mask": [
+        "4",
+        1
+      ],
+      "edit_mask": [
+        "18",
+        0
+      ],
+      "protect_mask": [
+        "52",
+        0
+      ],
+      "mode": "cream_trim_only",
+      "hem_y_ratio": 0.7,
+      "hem_height_ratio": 0.17,
+      "cuff_y_ratio": 0.62,
+      "cuff_side_width_ratio": 0.28,
+      "lower_y_ratio": 0.77,
+      "cream_threshold": 0.12,
+      "dark_lum_max": 0.32,
+      "min_coverage": 5e-05,
+      "max_coverage": 0.05,
+      "grow": 0,
+      "blur": 0
+    },
+    "_meta": {
+      "title": "Fail-closed hem/cuff old trim cleanup mask (character alpha, protecting head/hands only)"
+    }
+  },
+  "78": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "72",
+        3
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/trim_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+    },
+    "_meta": {
+      "title": "Save trim cleanup debug overlay"
+    }
+  },
+  "79": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "72",
+        2
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/trim_mask_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+    },
+    "_meta": {
+      "title": "Save trim color-normalization candidate mask"
+    }
+  },
+  "80": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "30",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_fullfit_seed_TEMPLATE_seed"
+    },
+    "_meta": {
+      "title": "Save final 06 candidate after collar cleanup and deterministic trim color normalization"
+    }
+  },
+  "81": {
+    "class_type": "VN_OutfitForegroundResidueCut",
+    "inputs": {
+      "image": [
+        "30",
+        0
+      ],
+      "character_mask": [
+        "4",
+        1
+      ],
+      "edit_mask": [
+        "53",
+        0
+      ],
+      "protect_mask": [
+        "52",
+        0
+      ],
+      "bg_distance": 0.18,
+      "sat_max": 0.16,
+      "lum_min": 0.22,
+      "lum_max": 0.86,
+      "bridge_radius": 1,
+      "protect_expand": 6,
+      "side_width_ratio": 0.22,
+      "side_start_y_ratio": 0.24,
+      "neck_top_pad": 26,
+      "neck_height": 170,
+      "neck_width_ratio": 0.46,
+      "residue_strength": 1.35,
+      "max_removed_coverage": 0.72
+    },
+    "_meta": {
+      "title": "v4e12 foreground-route neck/side residue cut constrained by edit/protect masks"
+    }
+  },
+  "82": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "81",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_fullfit_foregroundcut_seed_TEMPLATE_seed"
+    }
+  },
+  "83": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "81",
+        1
+      ]
+    }
+  },
+  "84": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "83",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/foreground_cut_mask_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+    }
+  },
+  "85": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "81",
+        3
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/foreground_cut_debug_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
+    }
+  },
+  "86": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "81",
+        2
+      ]
+    },
+    "_meta": {
+      "title": "v4e12 residue ROI preview"
+    }
+  },
+  "87": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "86",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/foreground_cut_roi_TEMPLATE_character_slug_TEMPLATE_preset_slug_seed_TEMPLATE_seed"
     }
   }
 }

@@ -19,18 +19,19 @@ Category: `character`
 Active `workflow_api/`에는 하나의 canonical JSON만 둔다.
 
 - `workflow_api/06_outfit_pulid_i2i_canonical_api.json`
-  - route: source image → BiRefNet character mask → Florence-2 face/hair/neck/hand masks → bilateral hand fallback → lower-side silhouette protection → hand/silhouette-safe full-body edit mask → masked inpaint → original head/hands composite → fail-closed auto collar/bow cleanup branch
-  - edit mask: `character_alpha - protected_face_hair_neckdiff - protected_hands - lower_side_silhouette_protect`, constrained by character alpha
-  - protection mask: Florence-2-large `face and hair` minus `the neck of the person`, union with `hair`, `face`, generic `hand`, `both hands`, `fingers`, deterministic bilateral hand fallback, and deterministic lower-side silhouette/rim protection
+  - route: source image → BiRefNet character mask → Florence-2 face/hair/neck/hand masks → bilateral hand fallback → full outfit/body edit mask → masked inpaint → original face/hair/hands composite as canonical final
+  - edit mask: `character_alpha - protected_face_hair_neckdiff - protected_hands`, constrained by character alpha. Upper and lower garments are intentionally allowed to change together for coherent full-outfit swaps.
+  - protection mask: Florence-2-large `face and hair` minus `the neck of the person`, union with `hair`, `face`, generic `hand`, `both hands`, `fingers`, and deterministic bilateral hand fallback. The hand fallback is skin-filtered, adds a wrist transition bridge, and trims upper old-cuff pixels so source fingers/hands are preserved without pasting the previous outfit cuff over the new outfit.
   - identity: PuLID uses the source image face as weak identity bias during outfit inpaint
   - preservation: final output composites the original face/hair and detected hands back over the outfit candidate
-  - cleanup: deterministic `VN_AutoCollarCleanupMask` searches only a dynamic neck/chest ROI based on the head/face/hair protection bbox; if no reliable old collar/bow remnant is found, the cleanup mask is empty and the branch is effectively a no-op
+  - cleanup: deterministic collar/trim cleanup nodes remain in the graph for debug/fallback only. The canonical final does not route through them because v4e full-outfit tests showed old upper/lower separation cleanup can false-positive on new outfits.
+  - foreground/grey ghost: node `81` (`VN_OutfitForegroundResidueCut`) creates the transparent foreground candidate from the canonical fullfit by using the source character mask, final edit mask, and face/hair/hand protection mask. It cuts only border-connected/background-like neck/side residue inside dynamic editable ROIs, so old hood/collar and sleeve ghosts are removed without cutting real face/hair/hands/outfit highlights. The opaque diagnostic fullfit is still saved by node `80`; the production transparent candidate is node `82` after light/dark/gray contact-sheet QA.
   - checkpoint: `novaAnimeXL_ilV190.safetensors`
   - identity adapter: `ip-adapter_pulid_sdxl_fp16.safetensors`
   - Florence model: `Florence-2-large`
   - alpha/matting mask: `BiRefNet_toonout`
-  - custom node dependency: `VN_AutoCollarCleanupMask`, `VN_AutoHandFallbackProtectionMask`, and `VN_AutoOutfitSilhouetteProtectMask` from `ComfyUI-VN-AutoMasks`
-  - last smoke: 2026-05-14 v4c2 passed t5 green-glasses opaque QA, newly generated 01 pink-twinbraids cross-character 06 QA, and 03 alpha light/dark composite gate
+  - custom node dependency: `VN_AutoCollarCleanupMask`, `VN_AutoHandFallbackProtectionMask`, `VN_AutoOutfitSilhouetteProtectMask`, `VN_AutoTrimCleanupMask`, and `VN_OutfitForegroundResidueCut` from `ComfyUI-VN-AutoMasks`
+  - current blocker/progress: 2026-05-14 v4e24/v4e25 isolated mask-node QA showed the output image can look improved while `protecthands`/handfallback masks remain structurally unsafe. v4e26 changes node `60` (`VN_AutoHandFallbackProtectionMask`) so Florence hand/both/fingers are spatial priors only, then applies source-skin filtering, component filtering, wrist bridge, and a lower terminal hand floor (`~0.84`) before hand protection. Live t5 + pink01 mask-only QA in `00_experiment_sandbox/06_mask_node_qa_2026-05-14/` produced `v4e26_floor84_node60` contact sheets with the old cardigan cuff/sleeve block largely removed. v4e27 bypass-source composite smoke (`hermes_vn_06_composite_mask_smoke/v4e27_floor84_*`) exercised `edit_nohands`, node `30`, and foreground-cut on t5 + pink01 without SDXL sampling; topology passed with face/hair/hands preserved, but t5 still shows a tiny right-cuff rib/sliver in handfallback debug. Do not claim full production pass until a real GPU SDXL 06 smoke is run and hand/cuff closeups are inspected.
 
 Archived routes:
 
@@ -41,24 +42,26 @@ workflow_packs/workflow_backup/06_outfit_costume_variation_optional_cleanup_manu
 
 ## Output
 
-The canonical workflow saves ten outputs per run.
+The canonical workflow saves debug/checkpoint outputs plus one canonical final.
 
 | Output prefix | Node | Meaning | Use |
 | --- | ---: | --- | --- |
 | `protect_*_facehair_neckdiff_*` | `33` | face/hair protection mask preview | check that face/hair are protected and neck/collar can be edited |
-| `protecthands_*` | `56` | Florence hand protection mask preview | check hands/fingers are protected without thigh/skirt false positives |
-| `handfallback_roi_*` / `handfallback_added_*` / `handfallback_debug_*` | `63`-`65` | deterministic bilateral hand fallback previews | check missed lower-side hand is added and cardigan/skirt false positives stay out |
-| `silhouette_protect_*` / `silhouette_debug_*` | `71` / `70` | lower-side rim/thigh protection previews | check old exterior contour and lower-body shrink are blocked before inpaint |
-| `protectfull_*` | `57` | full protection mask preview | check face/hair/hands are protected |
-| `mask_*_edit_nohands_*` | `34` | final hand-safe edit mask preview | check body/clothes/skirt/legs are editable, hands are black/protected, and background is not |
+| `protecthands_*` | `56` | Florence hand protection mask preview | check hands/fingers are protected without outfit false positives |
+| `handfallback_roi_*` / `handfallback_added_*` / `handfallback_debug_*` | `63`-`65` | deterministic bilateral hand fallback previews | check missed lower-side hand is added |
+| `silhouette_protect_*` / `silhouette_debug_*` | `71` / `70` | legacy lower-side rim/thigh protection previews | debug/fallback only; not part of v4e canonical final route |
+| `protectfull_*` | `57` | full face/hair/hands protection mask preview | check face/hair/hands are protected |
+| `mask_*_edit_nohands_*` | `34` | final full-outfit edit mask preview | check body/clothes/upper/lower outfit are editable, hands/head are black/protected, and background is not |
 | `raw_*_inpaint_*` | `35` | raw outfit inpaint image | debugging only; do not use as final |
 | `bodycomp_*` | `36` | raw outfit inpaint composited into original by edit mask | intermediate candidate |
-| `final_*_original_head_hands_*` | `37` | pre-cleanup original-head-and-hands composite | checkpoint/debug candidate |
-| `cleanup_debug_*` | `44` | auto-cleanup ROI/candidate/final mask overlay | verify cleanup did not target hoodie pocket/hem/details |
-| `cleanup_mask_*` | `45` | auto-cleanup mask preview | should be local near old collar/bow or empty on clean outputs |
-| `final_*_autoclean_*` | `46` | original-head composite plus fail-closed cleanup branch | actual 06 candidate output |
+| `final_*_original_head_hands_*` | `37` | original face/hair/hands composite | checkpoint/debug candidate |
+| `cleanup_debug_*` / `cleanup_mask_*` / `final_*_autoclean_*` | `44`-`46` | legacy collar cleanup branch | optional debug/fallback only |
+| `trim_debug_*` / `trim_mask_*` | `78` / `79` | legacy hem/cuff cleanup previews | optional debug/fallback only |
+| `final_*_fullfit_*` | `80` | node `30` original face/hair/hands composite on opaque gray background | opaque diagnostic candidate |
+| `final_*_fullfit_foregroundcut_*` | `82` | node `81` foreground residue cut RGBA output | production transparent candidate after QA |
+| `foreground_cut_mask_*` / `foreground_cut_debug_*` / `foreground_cut_roi_*` | `84` / `85` / `87` | pixels removed and dynamic neck/side ROI from node `81` | check old grey collar/sleeve residue is removed while real face/hair/hands/outfit are kept |
 
-Important: the actual candidate is node `46`. Node `37` is a pre-cleanup checkpoint. Node `35` is raw inpaint and should not be used as the final asset.
+Important: the actual v4e opaque diagnostic candidate is node `80`, but node `80` now saves node `30` directly. Cleanup/trim branches remain available for experiments but are not canonical final outputs. If the blocker is grey side/neck foreground ghost residue rather than garment color, inspect node `82` foreground-cut output and its node `84`/`85`/`87` QA previews before adding more prompt negatives or repaint cleanup.
 
 ## Editable nodes
 
@@ -80,8 +83,9 @@ Normally edit only these nodes at runtime.
 | `24` | `CLIPTextEncode` negative | `text` | common negative + old outfit conflict terms |
 | `27` | `KSampler` | `seed`, `denoise`, `cfg` | main outfit candidate seed/strength |
 | `38` | `VN_AutoCollarCleanupMask` | `mode`, ROI, coverage, grow/blur | normally keep default fail-closed settings; tune only if cleanup misses/removes too much |
-| `41` | `KSampler` | `seed`, `denoise`, `cfg` | local cleanup seed/strength; normally keep default |
-| `33`-`37`, `44`-`46` | `SaveImage` | `filename_prefix` | output folder/slug/seed labels |
+| `72` | `VN_AutoTrimCleanupMask` | `mode`, ROI, color thresholds, grow/blur | default `cream_trim_only` cleans old cream/yellow hem/cuff remnants; switch to `cream_trim_and_lower_dark` only for full lower-color-change QA |
+| `41`/`75` | `KSampler` | `seed`, `denoise`, `cfg` | local cleanup seeds/strength; normally keep default |
+| `33`-`37`, `44`-`46`, `78`-`80`, `82`, `84`-`85`, `87` | `SaveImage` | `filename_prefix` | output folder/slug/seed labels |
 
 Do not change unless debugging:
 
@@ -98,17 +102,17 @@ clip last layer: -2
 character mask: BiRefNetRMBG(model=BiRefNet_toonout, mask_blur=1, refine_foreground=true)
 Florence model: Florence-2-large fp16
 protection prompts: face and hair / hair / face / the neck of the person / hand / both hands / fingers
-protected head/hair mask dilation: GrowMask expand 8, blur kernel 7 sigma 3.0
+protected head/hair mask dilation: GrowMask expand 0, blur kernel 3 sigma 1.0 (keeps neck/collar editable; increase only if hair changes)
 protected hand mask dilation: GrowMask expand 2, blur kernel 5 sigma 2.0, then deterministic bilateral fallback via VN_AutoHandFallbackProtectionMask
-silhouette protection: VN_AutoOutfitSilhouetteProtectMask(lower_start_y_ratio=0.50, side_width_ratio=0.25, rim_radius=8, thigh_start_y_ratio=0.80, thigh_width_ratio=0.34, blur=3)
-edit mask: character mask - protected head/hair, then GrowMask expand 5, blur kernel 7 sigma 3.0, multiplied by character mask, then subtract protected hands and lower-side silhouette protection
+silhouette protection: legacy debug/fallback only; not subtracted from the v4e canonical edit/final route
+edit mask: character mask - protected head/hair, then GrowMask expand 5, blur kernel 7 sigma 3.0, multiplied by character mask, then subtract protected hands; upper/lower outfit both remain editable
 PuLID weight: 0.72
 PuLID start/end: 0.0 / 0.75
-main sampler: euler_ancestral, normal, steps 28, cfg 5.0, denoise 0.80
-pre-cleanup final: ImageCompositeMasked(destination=bodycomp, source=original, mask=protected_facehair_plus_hands)
-auto-cleanup mask: VN_AutoCollarCleanupMask(mode=hoodie_collar_bow, roi_top_pad=28, roi_height=190, roi_width_scale=0.46, max_coverage=0.055, min_coverage=0.001, grow=12, blur=9); protect_mask input must be head/face/hair node 14, not the full hand/silhouette protection mask
-cleanup sampler: euler_ancestral, normal, steps 28, cfg 4.8, denoise 0.86
-final: ImageCompositeMasked(destination=precleanup_final, source=cleanup_raw, mask=cleanup_mask)
+main sampler: euler_ancestral, normal, steps 28, cfg 6.0, denoise 0.92
+canonical final: ImageCompositeMasked(destination=bodycomp, source=original, mask=protected_facehair_plus_hands), saved by node 80
+legacy auto-cleanup mask: VN_AutoCollarCleanupMask(...); debug/fallback only
+legacy trim cleanup mask: VN_AutoTrimCleanupMask(...); debug/fallback only
+final: node 80 saves node 30 directly (`final_*_fullfit_*`)
 ```
 
 ## Mask source contract
@@ -173,7 +177,7 @@ masterpiece, best quality, amazing quality, 4k, very aesthetic, high_resolution,
 Example source character tags:
 
 ```text
-rating_questionable, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, small_breasts
+rating_sensitive, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, short_hair, bob_cut, silver_hair, blue_eyes, small_breasts
 ```
 
 Example target outfit tags:

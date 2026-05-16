@@ -1,0 +1,38 @@
+{
+  "source_template": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/05_prop_close-up_cg/workflow_api/05_prop_close-up_cg_api.json",
+  "negative_prompt": "1girl, 1boy, human, person, character, face, hands, body, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad anatomy, sketch, jpeg artifacts, signature, watermark, username, bad ai-generated, (worst quality, bad quality:1.2)",
+  "variants": [
+    {
+      "name": "old_leather_diary",
+      "seed": 812349101,
+      "prompt_id": "c57d822c-cf1d-489a-a12b-b2e24b7b2fee",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_user_prompt_smoke/old_leather_diary_00001_.png",
+      "positive_prompt": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, digital illustration, still life, close-up, macro shot, object focus, old leather diary, gold lock, yellowed paper, aged texture, lying on a wooden desk, BREAK, strong depth of field, blurry background, studio lighting, highly detailed texture",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_prop_closeup_user_prompt_smoke_2026-05-16/05_prop_closeup_old_leather_diary_api.json"
+    },
+    {
+      "name": "antique_brass_key",
+      "seed": 812349102,
+      "prompt_id": "a62cc4ca-33b3-4ff4-bbf5-6cfa81e9b343",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_user_prompt_smoke/antique_brass_key_00001_.png",
+      "positive_prompt": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, digital illustration, still life, close-up, macro shot, object focus, antique brass key, complex gear design, scratched surface, metallic luster, dark velvet cloth background, BREAK, strong depth of field, blurry background, studio lighting, highly detailed texture",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_prop_closeup_user_prompt_smoke_2026-05-16/05_prop_closeup_antique_brass_key_api.json"
+    },
+    {
+      "name": "cracked_smartphone",
+      "seed": 812349103,
+      "prompt_id": "ee3b7c1a-51f2-419a-a708-3f138da57fcf",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_user_prompt_smoke/cracked_smartphone_00001_.png",
+      "positive_prompt": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, digital illustration, still life, close-up, macro shot, object focus, cracked smartphone screen, glowing chat message, fingerprint smudges, glass reflection, dark floor, BREAK, strong depth of field, blurry background, studio lighting, highly detailed texture",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_prop_closeup_user_prompt_smoke_2026-05-16/05_prop_closeup_cracked_smartphone_api.json"
+    },
+    {
+      "name": "broken_sword_hilt",
+      "seed": 812349104,
+      "prompt_id": "2fbe0473-9400-410b-ada6-fd77990a0329",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_user_prompt_smoke/broken_sword_hilt_00001_.png",
+      "positive_prompt": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, digital illustration, still life, close-up, macro shot, object focus, broken sword hilt, cold steel, sharp edge, heavy texture, lying on a stone floor, BREAK, strong depth of field, blurry background, studio lighting, highly detailed texture",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_prop_closeup_user_prompt_smoke_2026-05-16/05_prop_closeup_broken_sword_hilt_api.json"
+    }
+  ]
+}

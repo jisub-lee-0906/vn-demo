@@ -1,76 +1,63 @@
-0. 의상 변경
+### 👗 0. 의상 변경 워크플로우
 
-1. 프롬프팅 방법
+#### 1. 프롬프팅 방법
 
-Positive prompt:
+**Positive prompt:**
 
-masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, 1girl, solo, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, fully clothed, {의상 디테일(상의, 하의, 신발, 악세서리)}, coordinated_outfit, highly detailed clothes, grey_background
+```text
+masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, 1girl, solo, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, fully_clothed, {의상 디테일(상의, 하의, 신발, 악세서리)}, highly_detailed_clothes, grey_background
 
-Negative prompt:
+```
 
-nude, nipples, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra digits, fewer digits, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, changed_hair, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, conjoined, bad ai-generated, (worst quality, bad quality:1.2), vignette, shadow, depth of field, rim lighting
+**Negative prompt:**
 
-2. 의상 프롬프트 리스트
+```text
+nude, nipples, nsfw, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, changed_hair, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, (worst_quality, bad_quality:1.2), vignette, shadow, depth_of_field, rim_lighting
 
-1) 교복 (School Uniform)
-가장 기본이 되는 의상입니다. 계절감에 따라 디테일을 다르게 줍니다.
+```
 
-하복 (세일러복 스타일):
+#### 2. 의상 프롬프트 리스트 (단부루 표준 규격)
 
-fully clothed, japanese school uniform, white short-sleeved sailor shirt, blue ribbon, navy blue pleated skirt, white ankle socks, brown loafers, coordinated_outfit, highly detailed clothes, fabric texture
+*(※ Positive prompt의 `{의상 디테일}` 자리에 아래 텍스트를 그대로 복사해서 넣으세요.)*
 
-동복 (블레이저 스타일):
+**1) 교복 (School Uniform)**
 
-fully clothed, school uniform, black blazer open, white button-up shirt, red necktie, beige knit cardigan, plaid pleated skirt, black pantyhose, black loafers, coordinated_outfit, highly detailed clothes, wool texture
+* **하복 (세일러복 스타일):**
+`school_uniform, serafuku, white_shirt, short_sleeves, sailor_collar, blue_ribbon, pleated_skirt, blue_skirt, white_socks, ankle_socks, brown_loafers, fabric_texture`
+* **동복 (블레이저 스타일):**
+`school_uniform, black_blazer, open_jacket, white_shirt, collared_shirt, red_necktie, beige_cardigan, plaid_skirt, pleated_skirt, black_pantyhose, black_loafers, wool_texture`
 
-2) 일상복 / 데이트룩 (Casual / Date Outfit)
-캐릭터의 사적인 모습이나 매력을 어필할 때 쓰는 부드럽고 세련된 룩입니다.
+**2) 일상복 / 데이트룩 (Casual / Date Outfit)**
 
-봄/가을 (포근한 니트룩):
+* **봄/가을 (포근한 니트룩):**
+`casual, oversized_sweater, off_shoulder, beige_sweater, denim_shorts, black_shorts, black_tights, ankle_boots, brown_footwear, white_scarf, soft_knit_texture`
+* **여름 (시원한 원피스룩):**
+`sundress, white_dress, floral_print, sleeveless, frills, straw_hat, sandals, belt, light_fabric`
+* **겨울 (코트룩):**
+`winter_clothes, trench_coat, black_coat, white_sweater, turtleneck_sweater, blue_jeans, leather_boots, black_gloves, leather_gloves, heavy_fabric_texture`
 
-fully clothed, casual wear, beige oversized knit sweater, off-shoulder, black denim shorts, black tights, brown ankle boots, white scarf, cross-laced, coordinated_outfit, highly detailed clothes, soft knit texture
+**3) 판타지 / 이세계 (Fantasy / RPG)**
 
-여름 (시원한 원피스룩):
+* **기사/전사 (Knight/Fighter):**
+`armor, breastplate, white_tunic, corset, leather_belt, gauntlets, armored_boots, thigh_boots, red_cape, metallic_luster, leather_texture`
+* **마법사/마녀 (Mage/Witch):**
+`witch, witch_hat, wide-brimmed_hat, purple_cape, black_corset, long_skirt, black_boots, pendant, velvet_texture`
 
-fully clothed, summer dress, white floral sundress, sleeveless, frills, straw hat, white sandals, thin belt, coordinated_outfit, highly detailed clothes, light fabric, translucent fabric
+**4) 특별 이벤트 / 파티 (Formal / Party)**
 
-겨울 (코트룩):
+* **우아한 이브닝 드레스:**
+`evening_dress, black_dress, bare_shoulders, long_dress, side_slit, frills, lace, high_heels, pearl_necklace, gloves, shiny_silk_texture, intricate_lace`
 
-fully clothed, winter clothes, thick black trench coat, white turtleneck sweater, dark blue jeans, black leather boots, leather gloves, coordinated_outfit, highly detailed clothes, heavy fabric texture
+**5) 실내복 / 잠옷 (Sleepwear / Loungewear)**
 
-3) 판타지 / 이세계 (Fantasy / RPG)
-이세계물이나 판타지 장르에서 직업군을 나타낼 때 사용합니다. 질감(금속, 가죽 등) 묘사가 핵심입니다.
+* **오버사이즈 셔츠 (루즈핏/하의실종):**
+`roomwear, oversized_shirt, white_shirt, unbuttoned, open_shirt, bare_legs, white_shorts, slippers, soft_cotton_texture, loose_fit`
+* **귀여운 파자마:**
+`pajamas, pink_pajamas, long_sleeves, pants, frills, sleep_mask, shiny_silk`
 
-기사/전사 (Knight/Fighter):
+#### 3. 의상 프롬프팅 추가 팁 (단부루 태그)
 
-fully clothed, fantasy armor, silver breastplate, white tunic, leather corset belt, armored gauntlets, armored boots, thigh-highs, red cape, coordinated_outfit, highly detailed clothes, metallic luster, leather texture
-
-마법사/마녀 (Mage/Witch):
-
-fully clothed, witch outfit, wide-brimmed witch hat, dark purple cloak, black corset, long ruffled skirt, black leather boots, glowing crystal pendant, coordinated_outfit, highly detailed clothes, velvet texture
-
-4) 특별 이벤트 / 파티 (Formal / Party)
-
-우아한 이브닝 드레스:
-
-fully clothed, elegant black evening dress, bare shoulders, long skirt with slit, frills, lace trim, black high heels, pearl necklace, silk gloves, coordinated_outfit, highly detailed clothes, shiny silk texture, intricate lace
-
-5) 실내복 / 잠옷 (Sleepwear / Loungewear)
-
-오버사이즈 셔츠 (루즈핏):
-
-fully clothed, oversized white button-up shirt, unbuttoned top, matching white shorts, bare legs, fluffy slippers, coordinated_outfit, highly detailed clothes, soft cotton texture, loose fit
-
-귀여운 파자마:
-
-fully clothed, pink silk pajamas, long sleeves, matching pants, frilled edges, sleep mask on head, coordinated_outfit, highly detailed clothes, shiny silk, cozy atmosphere
-
-3. 의상 프롬프팅 추가
-
-재질 태그 (필수): fabric texture (기본 옷감), silk texture (부드럽고 광택 나는 실크), leather texture (가죽), metallic luster (금속 광택), denim (청재질), knit (니트/털실)
-
-형태와 핏 태그: loose fit (헐렁한), tight fit (몸에 딱 붙는), oversized (오버사이즈), pleated (주름진, 주로 치마에 사용)
-
-포인트 디테일: frills (프릴/주름장식), lace (레이스), ribbon (리본), zipper (지퍼), buttons (단추)
-
-특수 노출(주의점): 만약 어깨나 배를 살짝 노출하는 옷(bare shoulders, navel 등)을 입힐 때는 AI가 완전히 벗은 것으로 착각하지 않도록 반드시 프롬프트 맨 앞에 fully clothed를 둔 상태에서 노출 부위 태그를 추가해야 합니다.
+* **재질 태그 (필수):** `fabric_texture` (기본 옷감), `silk_texture` (부드럽고 광택 나는 실크), `leather_texture` (가죽), `metallic_luster` (금속 광택), `denim` (청재질), `knit` (니트/털실)
+* **형태와 핏 태그:** `loose_fit` (헐렁한), `tight_fit` (몸에 딱 붙는), `oversized` (오버사이즈), `pleated` (주름진, 주로 치마에 사용)
+* **포인트 디테일:** `frills` (프릴/주름장식), `lace` (레이스), `ribbon` (리본), `zipper` (지퍼), `buttons` (단추)
+* **특수 노출 (주의점):** 어깨나 배를 살짝 노출하는 옷(`bare_shoulders`, `navel` 등)을 입힐 때는 AI가 완전히 벗은 것으로 착각하지 않도록 반드시 프롬프트 맨 앞의 `fully_clothed`를 유지한 상태에서 추가해야 합니다.

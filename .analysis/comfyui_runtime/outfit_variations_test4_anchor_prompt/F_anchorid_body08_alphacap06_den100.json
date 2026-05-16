@@ -18,7 +18,7 @@
   "3": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "TEMPLATE_featureless_mannequin_source.png"
+      "image": "hermes_runtime/source_featureless_mannequin_base_seed719251139_test4.png"
     }
   },
   "4": {
@@ -171,7 +171,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, 1girl, solo, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, fully clothed, {의상 디테일(상의, 하의, 신발, 악세서리)}, coordinated_outfit, highly detailed clothes, grey_background"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, 1girl, solo, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, shoulder_length_hair, straight_hair, dark_brown_hair, amber_eyes, fully clothed, Japanese school uniform, sailor collar, white blouse, navy pleated skirt, red neck ribbon, long sleeves, knee socks, loafers, coordinated_outfit, highly detailed clothes, opaque clothing, cloth folds, grey_background"
     }
   },
   "24": {
@@ -181,7 +181,7 @@
         "2",
         0
       ],
-      "text": "nude, nipples, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra digits, fewer digits, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, changed_hair, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, conjoined, bad ai-generated, (worst quality, bad quality:1.2), vignette, shadow, depth of field, rim lighting, changed_hairstyle, changed_hair_color"
+      "text": "nude, nipples, bare chest, bare torso, see-through, transparent clothes, body paint, painted clothes, swimsuit, underwear, pink hair, twin braids, twintails, braided hair, different hairstyle, changed hairstyle, different hair color, changed hair color, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra digits, fewer digits, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, conjoined, bad ai-generated, (worst quality, bad quality:1.2), vignette, shadow, depth of field, rim lighting"
     }
   },
   "25": {
@@ -239,12 +239,12 @@
         "25",
         2
       ],
-      "seed": 62019164,
+      "seed": 62019322,
       "steps": 28,
       "cfg": 4.5,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 0.92
+      "denoise": 1.0
     }
   },
   "28": {
@@ -267,7 +267,7 @@
         "28",
         0
       ],
-      "filename_prefix": "hermes_vn_outfit_variation/final_TEMPLATE_character_slug_TEMPLATE_preset_slug_baseonly_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_outfit_variation/test4_anchorprompt_F_anchorid_body08_alphacap06_den100_school_uniform_seed62019322"
     }
   },
   "53": {
@@ -283,7 +283,7 @@
       ]
     },
     "_meta": {
-      "title": "Final edit mask: grown body/non-head area capped by expanded source alpha"
+      "title": "Final edit mask excluding face only (no hand protect for featureless base)"
     }
   },
   "900": {
@@ -340,9 +340,6 @@
       ],
       "expand": 6,
       "tapered_corners": true
-    },
-    "_meta": {
-      "title": "Lightly expanded source-alpha cap for outfit edit region"
     }
   },
   "955": {
@@ -354,9 +351,63 @@
       ],
       "kernel_size": 7,
       "sigma": 3.0
-    },
-    "_meta": {
-      "title": "Blurred alpha cap used by final mask multiply"
+    }
+  },
+  "950": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "53",
+        0
+      ]
+    }
+  },
+  "951": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "950",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/test4_anchorprompt_F_anchorid_body08_alphacap06_den100_editmask_seed62019322"
+    }
+  },
+  "952": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "8",
+        1
+      ]
+    }
+  },
+  "953": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "952",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/test4_anchorprompt_F_anchorid_body08_alphacap06_den100_protect_headhair_seed62019322"
+    }
+  },
+  "956": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "955",
+        0
+      ]
+    }
+  },
+  "957": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "956",
+        0
+      ],
+      "filename_prefix": "hermes_vn_outfit_variation/test4_anchorprompt_F_anchorid_body08_alphacap06_den100_expanded_alpha_cap_seed62019322"
     }
   }
 }

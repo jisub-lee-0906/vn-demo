@@ -87,7 +87,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, cinematic angle, dramatic lighting, 1girl, solo, TEMPLATE_HAIR_LENGTH, TEMPLATE_HAIR_STYLE, TEMPLATE_HAIR_COLOR, TEMPLATE_EYE_COLOR, TEMPLATE_CHARACTER_OUTFIT_AND_FEATURES, TEMPLATE_CAMERA_ANGLE, TEMPLATE_ACTION_DYNAMIC_POSE, TEMPLATE_EMOTION, TEMPLATE_BACKGROUND_THEME, BREAK, depth of field, volumetric lighting, light rays, detailed background"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, cinematic angle, dramatic lighting, 1girl, solo, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, {캐릭터 의상/특징}, {카메라 구도}, {상황 및 역동적인 포즈}, {감정표현}, {배경 테마}, BREAK, depth of field, volumetric lighting, light rays, detailed background"
     }
   },
   "10": {

@@ -285,6 +285,74 @@
     },
     {
       "order": 7,
+      "id": "pose_variations",
+      "folder": "pose_variations",
+      "readme": "pose_variations/README.md",
+      "api": "pose_variations/pose_variations_workflow_api.json",
+      "purpose": "Generate action/pose variants from an outfit character image using OpenPose ControlNet plus PuLID identity reference.",
+      "output_type": "opaque pose/action variant character image",
+      "requires_input_images": true,
+      "input_placeholders": [
+        "TEMPLATE_outfit_character_source.png",
+        "TEMPLATE_pose_control_image.png"
+      ],
+      "primary_nodes": {
+        "checkpoint": "1",
+        "source_image": "2",
+        "pose_control_image": "3",
+        "controlnet": "4",
+        "positive_prompt": "5",
+        "negative_prompt": "6",
+        "controlnet_apply": "7",
+        "pulid_apply": "16",
+        "latent_size": "17",
+        "sampler": "9",
+        "save_final": "11",
+        "save_pose_guide": "12"
+      },
+      "editable_fields": [
+        "2.inputs.image",
+        "3.inputs.image",
+        "5.inputs.text",
+        "6.inputs.text",
+        "7.inputs.strength",
+        "7.inputs.start_percent",
+        "7.inputs.end_percent",
+        "9.inputs.seed",
+        "9.inputs.steps",
+        "9.inputs.cfg",
+        "9.inputs.denoise",
+        "11.inputs.filename_prefix",
+        "16.inputs.weight",
+        "16.inputs.start_at",
+        "16.inputs.end_at",
+        "17.inputs.width",
+        "17.inputs.height"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "controlnet": "noobaiXLControlnet_openposeModel.safetensors",
+        "sampler": "euler_ancestral",
+        "scheduler": "normal",
+        "steps": 30,
+        "cfg": 4.8,
+        "denoise": 1.0,
+        "control_strength": 1.35,
+        "control_end_percent": 0.9,
+        "identity_reference": "PuLID Advanced weight=0.85 end_at=0.75",
+        "tested_pose": "crossed_arms from OpenPose-style guide"
+      },
+      "upstream": [
+        "outfit_variations"
+      ],
+      "downstream": [
+        "expression_variations",
+        "transparency_alpha"
+      ],
+      "status": "initial_smoke_tested_template_requires_runtime_input"
+    },
+    {
+      "order": 8,
       "id": "event_cg",
       "folder": "event_cg",
       "readme": "event_cg/README.md",

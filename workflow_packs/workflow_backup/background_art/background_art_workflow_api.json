@@ -22,7 +22,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, high_resolution, newest, scenery, background, no_monsters, scenery_only, wide_shot, landscape, {배경 테마 및 장소}, {시간대 및 광원 디테일}"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, digital illustration, scenery, scenery only, no humans, background, wide shot, landscape, clear foreground, unoccupied bottom third, {배경 테마 및 장소}, {시간대 및 분위기 태그}, BREAK, depth of field, volumetric lighting"
     }
   },
   "4": {
@@ -32,7 +32,7 @@
         "2",
         0
       ],
-      "text": "1girl, 1boy, human, person, character, crowd, people, silhouette, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst quality, bad quality:1.2)"
+      "text": "1girl, 1boy, human, person, character, crowd, people, silhouette, monster, animal, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, ugly, lowres, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, bad ai-generated, simple background, (worst quality, bad quality:1.2)"
     }
   },
   "5": {

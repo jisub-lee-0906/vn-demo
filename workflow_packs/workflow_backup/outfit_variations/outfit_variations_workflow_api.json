@@ -37,35 +37,6 @@
       "background_color": "#222222"
     }
   },
-  "5": {
-    "class_type": "Florence2ModelLoader",
-    "inputs": {
-      "model": "Florence-2-large",
-      "precision": "fp16"
-    }
-  },
-  "8": {
-    "class_type": "Florence2Run",
-    "inputs": {
-      "image": [
-        "3",
-        0
-      ],
-      "florence2_model": [
-        "5",
-        0
-      ],
-      "text_input": "face",
-      "task": "referring_expression_segmentation",
-      "fill_mask": true,
-      "keep_model_loaded": true,
-      "max_new_tokens": 1024,
-      "num_beams": 3,
-      "do_sample": false,
-      "output_mask_select": "",
-      "seed": 1
-    }
-  },
   "15": {
     "class_type": "SubtractMask",
     "inputs": {
@@ -74,9 +45,12 @@
         1
       ],
       "mask2": [
-        "8",
-        1
+        "1003",
+        0
       ]
+    },
+    "_meta": {
+      "title": "Body base mask: BiRefNet person alpha minus YOLO+SAM face protect"
     }
   },
   "16": {
@@ -86,7 +60,7 @@
         "15",
         0
       ],
-      "expand": 5,
+      "expand": 8,
       "tapered_corners": true
     }
   },
@@ -109,8 +83,8 @@
         0
       ],
       "source": [
-        "4",
-        1
+        "955",
+        0
       ],
       "x": 0,
       "y": 0,
@@ -171,7 +145,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, very aesthetic, high_resolution, ultra-detailed, absurdres, newest, rating_sensitive, 1girl, solo, cowboy_shot, standing, front_view, looking_at_viewer, arms_at_sides, hands_down, relaxed_pose, TEMPLATE_CHARACTER_IDENTITY_TAGS, small_breasts, TEMPLATE_TARGET_FULL_OUTFIT_TAGS, coordinated_outfit, grey_background"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, 1girl, solo, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, fully clothed, {의상 디테일(상의, 하의, 신발, 악세서리)}, coordinated_outfit, highly detailed clothes, grey_background"
     }
   },
   "24": {
@@ -181,7 +155,7 @@
         "2",
         0
       ],
-      "text": "modern, recent, old, oldest, text, signature, watermark, username, logo, emblem, badge, multiple_girls, duplicate_character, cropped_head, cut_off_hair, headwear, hat, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, changed_hair, deformed, bad_anatomy, bad_hands, extra_arms, extra_hands, duplicate_hands, missing_fingers, extra_digits, fewer_digits, fused_fingers, melted_hand, mitten, glove, white_glove, hands_on_chest, hand_on_chest, holding_zipper, holding_clothes, clasped_hands, folded_hands, arms_up, raised_hands, crossed_arms, white_background, black_background, gradient_background, patterned_background, vignette, print_shirt, shirt_logo, clothes_writing, english_text, letters, brand_name, (worst quality, bad quality:1.2)"
+      "text": "nude, nipples, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra digits, fewer digits, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, changed_hair, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, conjoined, bad ai-generated, (worst quality, bad quality:1.2), vignette, shadow, depth of field, rim lighting, changed_hairstyle, changed_hair_color"
     }
   },
   "25": {
@@ -244,7 +218,7 @@
       "cfg": 4.5,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 1.0
+      "denoise": 0.92
     }
   },
   "28": {
@@ -278,12 +252,12 @@
         0
       ],
       "mask2": [
-        "8",
-        1
+        "1003",
+        0
       ]
     },
     "_meta": {
-      "title": "Final edit mask excluding face only (no hand protect for featureless base)"
+      "title": "Final edit mask: grown body area capped by expanded source alpha, then subtract YOLO+SAM face protect"
     }
   },
   "900": {
@@ -329,6 +303,100 @@
         "1",
         2
       ]
+    }
+  },
+  "954": {
+    "class_type": "GrowMask",
+    "inputs": {
+      "mask": [
+        "4",
+        1
+      ],
+      "expand": 6,
+      "tapered_corners": true
+    },
+    "_meta": {
+      "title": "Lightly expanded source-alpha cap for outfit edit region"
+    }
+  },
+  "955": {
+    "class_type": "ImpactGaussianBlurMask",
+    "inputs": {
+      "mask": [
+        "954",
+        0
+      ],
+      "kernel_size": 7,
+      "sigma": 3.0
+    },
+    "_meta": {
+      "title": "Blurred alpha cap used by final mask multiply"
+    }
+  },
+  "1000": {
+    "class_type": "UltralyticsDetectorProvider",
+    "inputs": {
+      "model_name": "bbox/face_yolov9c.pt"
+    },
+    "_meta": {
+      "title": "Face protect detector: 3-05 YOLO face9c"
+    }
+  },
+  "1001": {
+    "class_type": "SAMLoader",
+    "inputs": {
+      "model_name": "sam_vit_b_01ec64.pth",
+      "device_mode": "AUTO"
+    },
+    "_meta": {
+      "title": "Face protect SAM model"
+    }
+  },
+  "1002": {
+    "class_type": "BboxDetectorSEGS",
+    "inputs": {
+      "bbox_detector": [
+        "1000",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "threshold": 0.35,
+      "dilation": 0,
+      "crop_factor": 2.0,
+      "drop_size": 10,
+      "labels": "all"
+    },
+    "_meta": {
+      "title": "Face protect bbox SEGS: threshold .35 / crop 2.0"
+    }
+  },
+  "1003": {
+    "class_type": "SAMDetectorCombined",
+    "inputs": {
+      "sam_model": [
+        "1001",
+        0
+      ],
+      "segs": [
+        "1002",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "detection_hint": "center-1",
+      "dilation": 0,
+      "threshold": 0.93,
+      "bbox_expansion": 0,
+      "mask_hint_threshold": 0.7,
+      "mask_hint_use_negative": "False"
+    },
+    "_meta": {
+      "title": "Face protect mask: 3-05 YOLO face9c + SAM center-1"
     }
   }
 }

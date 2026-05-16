@@ -1,85 +1,81 @@
-0. 감정 표현 워크플로우
+### 🎭 0. 감정 표현 워크플로우
 
-1. 프롬프팅 방법
+#### 1. 프롬프팅 방법
 
-Positive prompt:
+**Positive prompt:**
 
-masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, 1girl, solo, nude, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, straight_posture, arms_at_sides, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, {감정표현}, BREAK, depth of field, volumetric lighting
+```text
+masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, 1girl, solo, nude, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, straight_posture, arms_at_sides, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, {감정표현}, BREAK, depth_of_field, volumetric_lighting
 
-Negative prompt:
+```
 
-modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, lowres, bad anatomy, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, conjoined, bad ai-generated, changed_clothes, different_clothes, different_hair, (worst quality, bad quality:1.2), {상극 감정표현}
+**Negative prompt:**
 
-2. 감정표현 리스트
+```text
+modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, lowres, bad_anatomy, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, changed_clothes, different_clothes, different_hair, (worst_quality, bad_quality:1.2), {상극 감정표현}
 
-1) 기쁨 (Happy)
+```
 
-Positive: happy, smile, open_mouth, sparkling_eyes, light_blush
+#### 2. 감정표현 리스트 (Positive / Negative 세트)
 
-Negative: sad, angry, crying, tears, disgusted, expressionless
+*(※ 긍정 프롬프트의 `{감정표현}` 자리와 부정 프롬프트의 `{상극 감정표현}` 자리에 아래의 세트를 각각 복사해서 넣으세요.)*
 
-2) 슬픔 (Sad)
+**1) 기쁨 (Happy)**
 
-Positive: sad, watery_eyes, tears, quivering_lips, slanted_eyebrows
+* **Positive:** `happy, smile, open_mouth, sparkling_eyes, light_blush`
+* **Negative:** `sad, angry, crying, tears, disgusted, expressionless`
 
-Negative: happy, smile, laugh, angry, smug, sparkling_eyes
+**2) 슬픔 (Sad)**
 
-3) 놀람 (Surprised)
+* **Positive:** `sad, watery_eyes, tears, quivering_lips, slanted_eyebrows`
+* **Negative:** `happy, smile, laugh, angry, smug, sparkling_eyes`
 
-Positive: surprised, wide_eyed, open_mouth, gasped
+**3) 놀람 (Surprised)**
 
-Negative: calm, sleepy, expressionless, angry, happy, closed_eyes
+* **Positive:** `surprised, wide_eyed, open_mouth, gasped`
+* **Negative:** `calm, sleepy, expressionless, angry, happy, closed_eyes`
 
-4) 공포 (Scared)
+**4) 공포 (Scared)**
 
-Positive: scared, constricted_pupils, pale_skin, trembling, sweat_drop
+* **Positive:** `scared, constricted_pupils, pale_skin, trembling, sweat_drop`
+* **Negative:** `calm, happy, smile, relaxed, confident, smug`
 
-Negative: calm, happy, smile, relaxed, confident, smug
+**5) 혐오 (Disgusted)**
 
-5) 혐오 (Disgusted)
+* **Positive:** `disgusted, scowl, turned_away, frown`
+* **Negative:** `happy, smile, blush, excited, heart-shaped_pupils, sparkling_eyes`
 
-Positive: disgusted, scowl, turned_away, frown
+**6) 무표정 (Expressionless)**
 
-Negative: happy, smile, blush, excited, heart-shaped_pupils, sparkling_eyes
+* **Positive:** `expressionless, closed_mouth, blank_stare`
+* **Negative:** `smile, sad, angry, surprised, open_mouth, blush, tears`
 
-6) 무표정 (Expressionless)
+**7) 과부하 (Flustered)**
 
-Positive: expressionless, closed_mouth, blank_stare
+* **Positive:** `heavy_blush, flustered, trembling, teardrop, nervous_smile`
+* **Negative:** `calm, expressionless, confident, angry, pale_skin`
 
-Negative: smile, sad, angry, surprised, open_mouth, blush, tears
+**8) 황홀 (Dazed)**
 
-7) 과부하 (Flustered)
+* **Positive:** `heart-shaped_pupils, heavy_blush, open_mouth, dazed, tongue_out`
+* **Negative:** `sad, angry, disgusted, scared, pale_skin, expressionless`
 
-Positive: heavy_blush, flustered, trembling, teardrop, nervous_smile
+**9) 울먹임 (Crying)**
 
-Negative: calm, expressionless, confident, angry, pale_skin
+* **Positive:** `tears, crying, upset, quivering_lips, watery_eyes`
+* **Negative:** `happy, smile, laugh, smug, confident, sparkling_eyes`
 
-8) 황홀 (Dazed)
+**10) 분노/굴욕 (Angry)**
 
-Positive: heart-shaped_pupils, heavy_blush, open_mouth, dazed, tongue_out
+* **Positive:** `angry, glare, furrowed_brow, tight_lips, indignant`
+* **Negative:** `happy, smile, laugh, sad, calm, expressionless, blush`
 
-Negative: sad, angry, disgusted, scared, pale_skin, expressionless
+**11) 멘탈붕괴 (Mental Breakdown)**
 
-9) 울먹임 (Crying)
+* **Positive:** `expressionless, empty_eyes, hollow_eyes, pale_skin, agape`
+* **Negative:** `happy, smile, angry, sparkling_eyes, light_blush, confident`
 
-Positive: tears, crying, upset, quivering_lips, watery_eyes
+**12) 우쭐함 (Smug)**
 
-Negative: happy, smile, laugh, smug, confident, sparkling_eyes
-
-10) 분노/굴욕 (Angry)
-
-Positive: angry, glare, furrowed_brow, tight_lips, indignant
-
-Negative: happy, smile, laugh, sad, calm, expressionless, blush
-
-11) 멘탈붕괴 (Mental Breakdown)
-
-Positive: expressionless, empty_eyes, hollow_eyes, pale_skin, agape
-
-Negative: happy, smile, angry, sparkling_eyes, light_blush, confident
-
-12) 우쭐함 (Smug)
-
-Positive: smug, smirk, raised_eyebrows
-
-Negative: sad, crying, scared, flustered, pale_skin, wide_eyed
+* **Positive:** `smug, smirk, raised_eyebrows`
+* **Negative:** `sad, crying, scared, flustered, pale_skin, wide_eyed`

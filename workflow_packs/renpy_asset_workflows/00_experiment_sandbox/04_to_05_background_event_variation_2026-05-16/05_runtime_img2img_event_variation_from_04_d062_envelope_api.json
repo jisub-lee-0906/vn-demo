@@ -1,0 +1,115 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "novaAnimeXL_ilV190.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "CLIPSetLastLayer",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "stop_at_clip_layer": -2
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "masterpiece, best quality, very aesthetic, newest, anime event CG, same school hallway background, empty school hallway, warm afternoon sunlight, one single large blank sealed envelope lying on the wooden floor in the lower center foreground, red wax seal, the envelope is clearly visible, quiet suspense, large empty clean foreground floor for dialogue box, no people, no hands, 16:9 background art"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "text, watermark, logo, letters, words, readable writing, fake glyphs, handwriting, printed lines, ruled paper, document with writing, notice, poster, sign, label, book page, subtitles, captions, dialogue box, textbox, nameplate, ui, interface, overlay, visual novel screenshot, game screenshot, people, person, girl, boy, face, hand, fingers, envelope stuck to door, paper on wall, extra envelope, floating paper, blood, blood splatter, red liquid, impossible perspective, distorted hallway"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 576,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
+      "latent_image": [
+        "10",
+        0
+      ],
+      "seed": 812347462,
+      "steps": 30,
+      "cfg": 5.4,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 0.62
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "7",
+        0
+      ],
+      "filename_prefix": "hermes_vn_04_to_05_test/05_event_variation_from_04_d062_envelope"
+    }
+  },
+  "9": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "hermes_04_to_05_source_1f1e757e.png"
+    }
+  },
+  "10": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "9",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  }
+}

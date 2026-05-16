@@ -1,0 +1,53 @@
+{
+  "base_endpoint": "http://172.28.224.1:8001",
+  "variants": [
+    {
+      "name": "hairpin_closeup",
+      "seed": 812348201,
+      "prompt_id": "594a7cec-9e73-46be-b5f3-f5ff9336443a",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_prop_closeup_smoke_round2/hairpin_closeup_00001_.png",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_event_prop_closeup_candidate_2026-05-16/round2_more_props/05_prop_closeup_hairpin_closeup_api.json",
+      "prompt": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one small silver hairpin with a blue ribbon charm lying on the floor, delicate accessory, clearly visible object"
+    },
+    {
+      "name": "pendant_closeup",
+      "seed": 812348202,
+      "prompt_id": "cd541358-736c-43a3-8298-9201ff65cd58",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_prop_closeup_smoke_round2/pendant_closeup_00001_.png",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_event_prop_closeup_candidate_2026-05-16/round2_more_props/05_prop_closeup_pendant_closeup_api.json",
+      "prompt": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one small oval locket pendant necklace lying on the floor, closed locket, simple metal pendant, clearly visible object"
+    },
+    {
+      "name": "ribbon_closeup",
+      "seed": 812348203,
+      "prompt_id": "142019d4-eee7-4f88-91b6-74eeaec29a8c",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_prop_closeup_smoke_round2/ribbon_closeup_00001_.png",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_event_prop_closeup_candidate_2026-05-16/round2_more_props/05_prop_closeup_ribbon_closeup_api.json",
+      "prompt": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one red school uniform ribbon bow lying on the floor, fabric bow accessory, clearly visible object"
+    },
+    {
+      "name": "broken_glasses_closeup",
+      "seed": 812348204,
+      "prompt_id": "f4cb9be3-079a-4127-84ff-5185b18c65a2",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_prop_closeup_smoke_round2/broken_glasses_closeup_00001_.png",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_event_prop_closeup_candidate_2026-05-16/round2_more_props/05_prop_closeup_broken_glasses_closeup_api.json",
+      "prompt": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one pair of round glasses lying on the floor, one lens cracked, clearly visible object, no face"
+    },
+    {
+      "name": "blank_photo_closeup",
+      "seed": 812348205,
+      "prompt_id": "fe7e534f-82e3-4d69-94a1-53949ee90460",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_prop_closeup_smoke_round2/blank_photo_closeup_00001_.png",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_event_prop_closeup_candidate_2026-05-16/round2_more_props/05_prop_closeup_blank_photo_closeup_api.json",
+      "prompt": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one blank instant photo card lying face down on the floor, plain white back side, no image, no writing, clearly visible object"
+    },
+    {
+      "name": "small_charm_closeup",
+      "seed": 812348206,
+      "prompt_id": "d50fc452-8ad1-456d-b187-cfd0c64f6424",
+      "output": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_05_prop_closeup_smoke_round2/small_charm_closeup_00001_.png",
+      "runtime_json": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows/00_experiment_sandbox/05_event_prop_closeup_candidate_2026-05-16/round2_more_props/05_prop_closeup_small_charm_closeup_api.json",
+      "prompt": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one small cat-shaped keychain charm lying on the floor, simple metal charm, clearly visible object"
+    }
+  ]
+}

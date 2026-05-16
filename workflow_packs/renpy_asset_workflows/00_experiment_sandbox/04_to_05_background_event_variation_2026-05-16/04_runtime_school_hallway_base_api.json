@@ -22,7 +22,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, high_resolution, newest, scenery, background, no_monsters, scenery_only, wide_shot, landscape, {배경 테마 및 장소}, {시간대 및 광원 디테일}"
+      "text": "masterpiece, best quality, amazing quality, high_resolution, newest, scenery, background, no_monsters, scenery_only, wide_shot, landscape, school, hallway, classroom_doors, windows, wooden_floor, empty hallway, afternoon, warm_lighting, clean visual novel background, no people"
     }
   },
   "4": {
@@ -32,7 +32,7 @@
         "2",
         0
       ],
-      "text": "1girl, 1boy, human, person, character, crowd, people, silhouette, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst quality, bad quality:1.2)"
+      "text": "1girl, 1boy, human, person, character, crowd, people, silhouette, text, watermark, logo, letters, words, readable writing, fake glyphs, poster, sign, label, ui, interface, overlay, cartoon, graphic, crayon, graphite, abstract, glitch, deformed, lowres, cropped, jpeg_artifacts, signature, username, bad_ai-generated, (worst quality, bad quality:1.2)"
     }
   },
   "5": {
@@ -62,7 +62,7 @@
         "5",
         0
       ],
-      "seed": 812345001,
+      "seed": 812345041,
       "steps": 24,
       "cfg": 5.5,
       "sampler_name": "euler_ancestral",
@@ -90,7 +90,7 @@
         "7",
         0
       ],
-      "filename_prefix": "hermes_vn_background_template/bg_classroom_day"
+      "filename_prefix": "hermes_vn_04_to_05_test/04_school_hallway_base"
     }
   }
 }

@@ -22,7 +22,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, high_resolution, newest, scenery, background, no_monsters, scenery_only, wide_shot, landscape, {배경 테마 및 장소}, {시간대 및 광원 디테일}"
+      "text": "masterpiece, best quality, very aesthetic, newest, anime visual novel prop cut-in CG, close-up shot, single important story object, wooden school hallway floor, warm afternoon sunlight, soft shadow, shallow depth of field, clean composition, no people, no hands, no text, 16:9 event CG, one small oval locket pendant necklace lying on the floor, closed locket, simple metal pendant, clearly visible object"
     }
   },
   "4": {
@@ -32,7 +32,7 @@
         "2",
         0
       ],
-      "text": "1girl, 1boy, human, person, character, crowd, people, silhouette, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst quality, bad quality:1.2)"
+      "text": "text, watermark, logo, letters, words, readable writing, fake glyphs, handwriting, printed lines, numbers, subtitles, captions, dialogue box, textbox, nameplate, ui, interface, overlay, visual novel screenshot, game screenshot, screen text, page text, document text, people, person, girl, boy, face, hand, fingers, extra hands, blood, blood splatter, red liquid, horror, gore, cluttered background, cropped object, duplicate object, lowres, jpeg artifacts, worst quality, bad quality"
     }
   },
   "5": {
@@ -62,9 +62,9 @@
         "5",
         0
       ],
-      "seed": 812345001,
-      "steps": 24,
-      "cfg": 5.5,
+      "seed": 812348202,
+      "steps": 30,
+      "cfg": 5.2,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
       "denoise": 1.0
@@ -90,7 +90,7 @@
         "7",
         0
       ],
-      "filename_prefix": "hermes_vn_background_template/bg_classroom_day"
+      "filename_prefix": "hermes_vn_05_prop_closeup_smoke_round2/pendant_closeup"
     }
   }
 }

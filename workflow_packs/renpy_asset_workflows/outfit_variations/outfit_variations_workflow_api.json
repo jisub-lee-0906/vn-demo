@@ -37,35 +37,6 @@
       "background_color": "#222222"
     }
   },
-  "5": {
-    "class_type": "Florence2ModelLoader",
-    "inputs": {
-      "model": "Florence-2-large",
-      "precision": "fp16"
-    }
-  },
-  "8": {
-    "class_type": "Florence2Run",
-    "inputs": {
-      "image": [
-        "3",
-        0
-      ],
-      "florence2_model": [
-        "5",
-        0
-      ],
-      "text_input": "head, hair, face",
-      "task": "referring_expression_segmentation",
-      "fill_mask": true,
-      "keep_model_loaded": true,
-      "max_new_tokens": 1024,
-      "num_beams": 3,
-      "do_sample": false,
-      "output_mask_select": "",
-      "seed": 1
-    }
-  },
   "15": {
     "class_type": "SubtractMask",
     "inputs": {
@@ -74,9 +45,12 @@
         1
       ],
       "mask2": [
-        "8",
-        1
+        "1003",
+        0
       ]
+    },
+    "_meta": {
+      "title": "Body base mask: BiRefNet person alpha minus YOLO+SAM face protect"
     }
   },
   "16": {
@@ -278,12 +252,12 @@
         0
       ],
       "mask2": [
-        "8",
-        1
+        "1003",
+        0
       ]
     },
     "_meta": {
-      "title": "Final edit mask: grown body/non-head area capped by expanded source alpha"
+      "title": "Final edit mask: grown body area capped by expanded source alpha, then subtract YOLO+SAM face protect"
     }
   },
   "900": {
@@ -357,6 +331,72 @@
     },
     "_meta": {
       "title": "Blurred alpha cap used by final mask multiply"
+    }
+  },
+  "1000": {
+    "class_type": "UltralyticsDetectorProvider",
+    "inputs": {
+      "model_name": "bbox/face_yolov9c.pt"
+    },
+    "_meta": {
+      "title": "Face protect detector: 3-05 YOLO face9c"
+    }
+  },
+  "1001": {
+    "class_type": "SAMLoader",
+    "inputs": {
+      "model_name": "sam_vit_b_01ec64.pth",
+      "device_mode": "AUTO"
+    },
+    "_meta": {
+      "title": "Face protect SAM model"
+    }
+  },
+  "1002": {
+    "class_type": "BboxDetectorSEGS",
+    "inputs": {
+      "bbox_detector": [
+        "1000",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "threshold": 0.35,
+      "dilation": 0,
+      "crop_factor": 2.0,
+      "drop_size": 10,
+      "labels": "all"
+    },
+    "_meta": {
+      "title": "Face protect bbox SEGS: threshold .35 / crop 2.0"
+    }
+  },
+  "1003": {
+    "class_type": "SAMDetectorCombined",
+    "inputs": {
+      "sam_model": [
+        "1001",
+        0
+      ],
+      "segs": [
+        "1002",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "detection_hint": "center-1",
+      "dilation": 0,
+      "threshold": 0.93,
+      "bbox_expansion": 0,
+      "mask_hint_threshold": 0.7,
+      "mask_hint_use_negative": "False"
+    },
+    "_meta": {
+      "title": "Face protect mask: 3-05 YOLO face9c + SAM center-1"
     }
   }
 }

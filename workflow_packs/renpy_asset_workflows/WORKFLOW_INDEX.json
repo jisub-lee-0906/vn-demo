@@ -241,7 +241,9 @@
         "positive_prompt": "23",
         "negative_prompt": "24",
         "sampler": "27",
-        "save_final": "35"
+        "save_final": "35",
+        "face_protect_detector": "1000",
+        "face_protect_sam": "1003"
       },
       "editable_fields": [
         "3.inputs.image",
@@ -251,7 +253,17 @@
         "27.inputs.steps",
         "27.inputs.cfg",
         "27.inputs.denoise",
-        "35.inputs.filename_prefix"
+        "35.inputs.filename_prefix",
+        "16.inputs.expand",
+        "954.inputs.expand",
+        "1000.inputs.model_name",
+        "1002.inputs.threshold",
+        "1002.inputs.dilation",
+        "1002.inputs.crop_factor",
+        "1003.inputs.detection_hint",
+        "1003.inputs.threshold",
+        "1003.inputs.dilation",
+        "1003.inputs.bbox_expansion"
       ],
       "fixed_defaults_observed": {
         "checkpoint": "novaAnimeXL_ilV190.safetensors",
@@ -259,7 +271,9 @@
         "scheduler": "normal",
         "steps": 28,
         "cfg": 4.5,
-        "denoise": 1.0
+        "denoise": 0.92,
+        "masking": "body/non-face GrowMask expand=8, alpha cap expand=6, final mask subtracts 3-05 YOLO face_yolov9c + SAM center-1 face protection mask",
+        "face_protect": "YOLO face_yolov9c threshold=0.35 -> BboxDetectorSEGS crop_factor=2.0 -> SAMDetectorCombined center-1 threshold=0.93"
       },
       "upstream": [
         "character_anchor_base"

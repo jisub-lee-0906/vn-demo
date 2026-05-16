@@ -22,7 +22,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, very aesthetic, newest, close-up, object_focus, no_humans, brass_key, key, flat_key_shape, key_teeth, key_bow, small_antique_key, single_object, wooden_floor, school_hallway, sunlight, warm_lighting, soft_shadow, depth_of_field, clean_composition, visual_novel, 16:9"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, digital illustration, still life, close-up, macro shot, object focus, {아이템 이름 및 형태}, {재질 및 질감 디테일}, {놓여있는 장소/배경}, BREAK, strong depth of field, blurry background, studio lighting, highly detailed texture"
     }
   },
   "4": {
@@ -32,7 +32,7 @@
         "2",
         0
       ],
-      "text": "text, watermark, logo, letters, words, readable_text, fake_text, handwriting, signature, username, numbers, subtitles, caption, dialogue_box, textbox, nameplate, ui, interface, overlay, screenshot, phone_screen_text, document_text, paper_with_writing, poster, sign, label, human, person, girl, boy, face, hand, fingers, extra_hands, crowd, blood, gore, clutter, duplicate_object, cropped_object, lowres, jpeg_artifacts, worst quality, bad quality, fake_letters, fake_writing, printed_text, paragraphs, symbols, glyphs, blank_screen_ui"
+      "text": "1girl, 1boy, human, person, character, face, hands, body, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad anatomy, sketch, jpeg artifacts, signature, watermark, username, bad ai-generated, (worst quality, bad quality:1.2), readable text, fake letters, fake writing, printed text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue box, subtitle, caption"
     }
   },
   "5": {

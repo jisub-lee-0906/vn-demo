@@ -1,0 +1,320 @@
+{
+  "pack_name": "renpy_asset_workflows",
+  "version": "2026-05-16-flat-semantic-folders",
+  "root_wsl": "/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows",
+  "root_windows_unc": "\\\\wsl.localhost\\Ubuntu-24.04\\home\\jisub-lee\\workspace\\vn-demo\\workflow_packs\\renpy_asset_workflows",
+  "structure": "flat semantic workflow folders; each folder contains README.md and one canonical *_workflow_api.json",
+  "numbered_folder_contract": "deprecated; do not assume old 01_* through 07_* folders exist",
+  "agent_entrypoint": [
+    "README.md",
+    "WORKFLOW_INDEX.json",
+    "AGENTS.md",
+    "<target workflow>/README.md",
+    "<target workflow>/*_workflow_api.json"
+  ],
+  "global_rules": [
+    "Do not overwrite canonical API JSONs during normal generation; copy to a runtime/sandbox file and patch the copy.",
+    "Replace TEMPLATE_* and Korean brace placeholders before live ComfyUI submission unless explicitly testing placeholder behavior.",
+    "Keep generated images outside this canonical workflow pack.",
+    "Do not claim quality or production readiness without artifact/contact-sheet/Ren'Py QA.",
+    "When user performs visual QA, report output paths and seeds without inventing visual judgments."
+  ],
+  "workflows": [
+    {
+      "order": 1,
+      "id": "character_anchor_base",
+      "folder": "character_anchor_base",
+      "readme": "character_anchor_base/README.md",
+      "api": "character_anchor_base/character_anchor_base_workflow_api.json",
+      "purpose": "Generate opaque base/source character images for downstream VN assets.",
+      "output_type": "opaque character source image, 1152x1536 by default",
+      "requires_input_images": false,
+      "primary_nodes": {
+        "checkpoint": "1",
+        "positive_prompt": "3",
+        "negative_prompt": "4",
+        "latent_size": "5",
+        "sampler": "6",
+        "save": "8"
+      },
+      "editable_fields": [
+        "3.inputs.text",
+        "4.inputs.text",
+        "5.inputs.width",
+        "5.inputs.height",
+        "6.inputs.seed",
+        "6.inputs.steps",
+        "6.inputs.cfg",
+        "8.inputs.filename_prefix"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "width": 1152,
+        "height": 1536,
+        "sampler": "euler_ancestral",
+        "scheduler": "normal",
+        "steps": 28,
+        "cfg": 5.0
+      },
+      "downstream": [
+        "expression_variations",
+        "transparency_alpha",
+        "outfit_variations",
+        "event_cg"
+      ],
+      "status": "canonical_template"
+    },
+    {
+      "order": 2,
+      "id": "expression_variations",
+      "folder": "expression_variations",
+      "readme": "expression_variations/README.md",
+      "api": "expression_variations/expression_variations_workflow_api.json",
+      "purpose": "Generate facial/emotional expression variants from a source character image using mask/inpaint/composite style workflow.",
+      "output_type": "opaque expression variant plus mask/raw/composited debug outputs",
+      "requires_input_images": true,
+      "input_placeholders": [
+        "TEMPLATE_character_anchor_source.png"
+      ],
+      "primary_nodes": {
+        "source_image": "1",
+        "checkpoint": "2",
+        "positive_prompt": "6",
+        "negative_prompt": "7",
+        "sampler": "13",
+        "save_raw_inpaint": "15",
+        "save_mask_preview": "17",
+        "save_composited": "19"
+      },
+      "editable_fields": [
+        "1.inputs.image",
+        "6.inputs.text",
+        "7.inputs.text",
+        "13.inputs.seed",
+        "13.inputs.denoise",
+        "15.inputs.filename_prefix",
+        "17.inputs.filename_prefix",
+        "19.inputs.filename_prefix"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "sampler": "euler_ancestral",
+        "scheduler": "karras",
+        "steps": 26,
+        "cfg": 5.0,
+        "denoise": 0.4
+      },
+      "upstream": [
+        "character_anchor_base"
+      ],
+      "downstream": [
+        "transparency_alpha"
+      ],
+      "status": "canonical_template_requires_runtime_input"
+    },
+    {
+      "order": 3,
+      "id": "transparency_alpha",
+      "folder": "transparency_alpha",
+      "readme": "transparency_alpha/README.md",
+      "api": "transparency_alpha/transparency_alpha_workflow_api.json",
+      "purpose": "Remove background / create transparent PNG alpha output from a character/source image.",
+      "output_type": "transparent PNG / alpha character asset",
+      "requires_input_images": true,
+      "input_placeholders": [
+        "TEMPLATE_source_image.png"
+      ],
+      "primary_nodes": {
+        "source_image": "1",
+        "background_removal": "2",
+        "save": "3"
+      },
+      "editable_fields": [
+        "1.inputs.image",
+        "3.inputs.filename_prefix"
+      ],
+      "upstream": [
+        "character_anchor_base",
+        "expression_variations",
+        "outfit_variations"
+      ],
+      "status": "canonical_template_requires_runtime_input"
+    },
+    {
+      "order": 4,
+      "id": "background_art",
+      "folder": "background_art",
+      "readme": "background_art/README.md",
+      "api": "background_art/background_art_workflow_api.json",
+      "purpose": "Generate 16:9 visual-novel background art with no characters or text.",
+      "output_type": "opaque 16:9 background image, 1024x576 by default",
+      "requires_input_images": false,
+      "primary_nodes": {
+        "checkpoint": "1",
+        "clip_last_layer": "2",
+        "positive_prompt": "3",
+        "negative_prompt": "4",
+        "latent_size": "5",
+        "sampler": "6",
+        "save": "8"
+      },
+      "editable_fields": [
+        "3.inputs.text",
+        "4.inputs.text",
+        "5.inputs.width",
+        "5.inputs.height",
+        "6.inputs.seed",
+        "6.inputs.steps",
+        "6.inputs.cfg",
+        "8.inputs.filename_prefix"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "width": 1024,
+        "height": 576,
+        "sampler": "euler_ancestral",
+        "scheduler": "normal",
+        "steps": 24,
+        "cfg": 5.5
+      },
+      "known_placeholders_in_current_json": [
+        "{배경 테마 및 장소}",
+        "{시간대 및 광원 디테일}"
+      ],
+      "status": "canonical_template_but_prompt_placeholders_require_runtime_patch"
+    },
+    {
+      "order": 5,
+      "id": "prop_closeup_cg",
+      "folder": "prop_closeup_cg",
+      "readme": "prop_closeup_cg/README.md",
+      "api": "prop_closeup_cg/prop_closeup_cg_workflow_api.json",
+      "purpose": "Generate separate 16:9 close-up prop, clue, or story cut-in CG images for Ren'Py staging.",
+      "output_type": "opaque 16:9 prop close-up CG, 1024x576 by default",
+      "requires_input_images": false,
+      "primary_nodes": {
+        "checkpoint": "1",
+        "clip_last_layer": "2",
+        "positive_prompt": "3",
+        "negative_prompt": "4",
+        "latent_size": "5",
+        "sampler": "6",
+        "save": "8"
+      },
+      "editable_fields": [
+        "3.inputs.text",
+        "4.inputs.text",
+        "5.inputs.width",
+        "5.inputs.height",
+        "6.inputs.seed",
+        "6.inputs.steps",
+        "6.inputs.cfg",
+        "8.inputs.filename_prefix"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "width": 1024,
+        "height": 576,
+        "sampler": "euler_ancestral",
+        "scheduler": "normal",
+        "steps": 30,
+        "cfg": 5.2,
+        "default_subject": "brass_key"
+      },
+      "status": "canonical_template"
+    },
+    {
+      "order": 6,
+      "id": "outfit_variations",
+      "folder": "outfit_variations",
+      "readme": "outfit_variations/README.md",
+      "api": "outfit_variations/outfit_variations_workflow_api.json",
+      "purpose": "Generate outfit/costume variants from a featureless mannequin/source character image.",
+      "output_type": "opaque outfit-variant character image",
+      "requires_input_images": true,
+      "input_placeholders": [
+        "TEMPLATE_featureless_mannequin_source.png"
+      ],
+      "primary_nodes": {
+        "checkpoint": "1",
+        "source_image": "3",
+        "positive_prompt": "23",
+        "negative_prompt": "24",
+        "sampler": "27",
+        "save_final": "35"
+      },
+      "editable_fields": [
+        "3.inputs.image",
+        "23.inputs.text",
+        "24.inputs.text",
+        "27.inputs.seed",
+        "27.inputs.steps",
+        "27.inputs.cfg",
+        "27.inputs.denoise",
+        "35.inputs.filename_prefix"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "sampler": "euler_ancestral",
+        "scheduler": "normal",
+        "steps": 28,
+        "cfg": 4.5,
+        "denoise": 1.0
+      },
+      "upstream": [
+        "character_anchor_base"
+      ],
+      "downstream": [
+        "transparency_alpha"
+      ],
+      "status": "canonical_template_requires_runtime_input"
+    },
+    {
+      "order": 7,
+      "id": "event_cg",
+      "folder": "event_cg",
+      "readme": "event_cg/README.md",
+      "api": "event_cg/event_cg_workflow_api.json",
+      "purpose": "Generate full 16:9 character event CG from a character reference image and a scene/composition reference image.",
+      "output_type": "opaque 16:9 event CG",
+      "requires_input_images": true,
+      "input_placeholders": [
+        "TEMPLATE_character_reference.png",
+        "TEMPLATE_event_scene_reference.png"
+      ],
+      "primary_nodes": {
+        "checkpoint": "1",
+        "character_reference": "3",
+        "scene_reference": "4",
+        "positive_prompt": "9",
+        "negative_prompt": "10",
+        "sampler": "12",
+        "save": "14"
+      },
+      "editable_fields": [
+        "3.inputs.image",
+        "4.inputs.image",
+        "9.inputs.text",
+        "10.inputs.text",
+        "12.inputs.seed",
+        "12.inputs.steps",
+        "12.inputs.cfg",
+        "12.inputs.denoise",
+        "14.inputs.filename_prefix"
+      ],
+      "fixed_defaults_observed": {
+        "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "sampler": "euler_ancestral",
+        "scheduler": "normal",
+        "steps": 30,
+        "cfg": 5.0,
+        "denoise": 0.62
+      },
+      "upstream": [
+        "character_anchor_base",
+        "background_art"
+      ],
+      "status": "canonical_template_requires_runtime_input"
+    }
+  ]
+}

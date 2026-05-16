@@ -8,11 +8,7 @@ masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution,
 
 Negative prompt:
 
-1girl, 1boy, human, person, character, face, hands, body, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad anatomy, sketch, jpeg artifacts, signature, watermark, username, bad ai-generated, (worst quality, bad quality:1.2)
-
-공통 보완 Negative prompt:
-
-readable text, fake letters, fake writing, printed text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue box, subtitle, caption
+1girl, 1boy, human, person, character, face, hands, body, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad anatomy, sketch, jpeg artifacts, signature, watermark, username, bad ai-generated, (worst quality, bad quality:1.2), readable text, fake letters, fake writing, printed text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue box, subtitle, caption
 
 2. 단서 리스트 적용 예시
 

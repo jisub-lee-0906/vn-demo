@@ -1,0 +1,68 @@
+{
+  "run": "hermes_vn_event_prop_corrected_20260517_172251",
+  "base": "http://172.28.224.1:8001",
+  "client_id": "hermes-vn-event-prop-corrected-f2a5ab8fef834165adfe6ff5c0b58891",
+  "source_anchor": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_user_readme_pair_20260517_171806/01_character_anchor_00001_.png",
+  "input_name": "hermes_vn_runtime/hermes_vn_event_prop_corrected_20260517_172251/01_character_anchor_00001_.png",
+  "tag_findings": {
+    "single_object": "missing in danbooru_tag.csv",
+    "one_object": "missing",
+    "single_item": "missing",
+    "closest_verified_tags": [
+      "no_humans",
+      "still_life",
+      "object_focus",
+      "key",
+      "table",
+      "simple_background"
+    ]
+  },
+  "prompts": {
+    "event_positive": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG, 1girl, solo, long_hair, straight_hair, blunt_bangs, sidelocks, black_hair, blue_eyes, white_shirt, blue_bow, navy_skirt, upper_body, waist_up, standing, hand_on_own_chest, slight_body_turn, expressionless, closed_mouth, classroom, window, sunset, soft_sunlight, depth_of_field, detailed_background",
+    "event_negative": "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, (worst_quality, bad_quality:1.2), vignette, shadow, rim_lighting, different_hair, different_hair_color, different_eye_color, different_clothes, multiple_girls, duplicate_person, far_away_character, tiny_character",
+    "prop_positive": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, no_humans, still_life, object_focus, key, table, simple_background, centered composition, entire key visible, single key, fully visible object, BREAK, depth_of_field, studio_lighting, highly_detailed_texture",
+    "prop_negative": "1girl, 1boy, human, person, character, face, hands, body, multiple objects, duplicate object, cropped, out of frame, cut off, extreme close-up, macro_shot, keychain, keyhole, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad_anatomy, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst_quality, bad_quality:1.2), readable_text, fake_letters, fake_writing, printed_text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue_box, subtitle, caption"
+  },
+  "runtime_notes": [
+    "event_cg generated from prior character anchor output, not anchor workflow",
+    "event pose LoRA strength reduced to 0.45 runtime-only",
+    "prop prompt removes key part-detail tags and macro_shot; uses natural-language anti-crop phrases because exact Danbooru single-object tag is absent"
+  ],
+  "results": [
+    {
+      "workflow": "event_cg",
+      "prompt_id": "8c69bb83-5b75-495a-bc36-d7a7b8c0787b",
+      "seed": 260517301,
+      "input_image": "hermes_vn_runtime/hermes_vn_event_prop_corrected_20260517_172251/01_character_anchor_00001_.png",
+      "outputs": [
+        {
+          "node": "14",
+          "path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_event_prop_corrected_20260517_172251/01_event_cg_00001_.png",
+          "exists": true,
+          "size": 621210
+        }
+      ]
+    },
+    {
+      "workflow": "prop_closeup_cg",
+      "prompt_id": "2b7ee0f8-c4b2-4845-9122-d96fd980fbde",
+      "seed": 260517302,
+      "outputs": [
+        {
+          "node": "8",
+          "path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_event_prop_corrected_20260517_172251/02_prop_single_object_00001_.png",
+          "exists": true,
+          "size": 736955
+        }
+      ]
+    }
+  ],
+  "queue_before": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "queue_after": {
+    "queue_running": [],
+    "queue_pending": []
+  }
+}

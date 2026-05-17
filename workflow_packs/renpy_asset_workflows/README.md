@@ -1,6 +1,10 @@
-# Ren'Py VN Asset ComfyUI Workflow Pack
+# Ren'Py VN 에셋 ComfyUI 워크플로우 팩
 
-This folder is the repo-local source of truth for reusable ComfyUI API workflows used to create visual-novel / dating-sim assets for `vn-demo`.
+이 폴더는 `vn-demo` 게임 제작 중 필요한 visual novel / dating-sim 에셋을 AI agent의 도움으로 ComfyUI에서 생성하기 위한 repo-local source of truth입니다.
+
+이 pack은 단순한 ComfyUI workflow 보관함이 아니라, 게임을 AI agent와 함께 제작하면서 필요한 에셋 후보를 즉시 뽑기 위한 실행 계약입니다. 사용자가 “소품 CG 만들어줘”, “이 장면에 쓸 캐릭터 CG가 필요해”, “교실 배경 뽑아줘”처럼 말하거나, agent가 현재 구현 중인 장면에서 필요한 에셋을 스스로 판단하면, agent는 이 문서와 각 workflow README를 읽고 적절한 workflow를 골라 runtime payload만 패치해 ComfyUI에 제출합니다.
+
+생성 결과는 곧바로 최종 게임 에셋이 아니라 QA/promote 전의 후보입니다. 실제 게임 리소스로 승격할지는 사용자 또는 agent의 artifact QA 이후 결정합니다.
 
 Windows path:
 `\\wsl.localhost\Ubuntu-24.04\home\jisub-lee\workspace\vn-demo\workflow_packs\renpy_asset_workflows`
@@ -8,81 +12,177 @@ Windows path:
 WSL path:
 `/home/jisub-lee/workspace/vn-demo/workflow_packs/renpy_asset_workflows`
 
-## Current structure
+## 현재 구조
 
-The current pack uses flat, named workflow folders. It no longer uses the old numbered `01_*`, `02_*`, `03_*` folder contract.
+현재 pack은 의미 기반의 flat folder 구조를 사용합니다. 예전 번호식 `01_*`, `02_*`, `03_*` 폴더 계약은 더 이상 사용하지 않습니다.
 
-Each workflow folder should contain:
+각 workflow 폴더는 다음 파일을 포함합니다.
 
-- `README.md` — human/agent operating notes for that workflow.
-- `*_workflow_api.json` — the canonical ComfyUI API graph template.
+- `README.md` — 해당 workflow의 프롬프트 작성법과 운영 메모.
+- `*_workflow_api.json` — canonical ComfyUI API graph template.
 
-Current canonical folders:
+현재 canonical folder 목록:
 
-| Folder | Purpose | Main API JSON |
+| 폴더 | 목적 | 메인 API JSON |
 |---|---|---|
-| `character_anchor_base` | Generate base character/source images. | `character_anchor_base/character_anchor_base_workflow_api.json` |
-| `expression_variations` | Generate expression variants from a character source image using face/mask inpaint/composite. | `expression_variations/expression_variations_workflow_api.json` |
-| `transparency_alpha` | Convert a source character image to transparent PNG / alpha output. | `transparency_alpha/transparency_alpha_workflow_api.json` |
-| `background_art` | Generate 16:9 VN background art. | `background_art/background_art_workflow_api.json` |
-| `prop_closeup_cg` | Generate 16:9 close-up prop / clue / cut-in CG images. | `prop_closeup_cg/prop_closeup_cg_workflow_api.json` |
-| `outfit_variations` | Generate outfit/costume variants from a featureless or source character image. | `outfit_variations/outfit_variations_workflow_api.json` |
-| `event_cg` | Generate 16:9 character event CG from a character reference; background is generated from the prompt with pose LoRA support. | `event_cg/event_cg_workflow_api.json` |
+| `character_anchor_base` | downstream workflow에 사용할 기본 캐릭터/source image 생성. | `character_anchor_base/character_anchor_base_workflow_api.json` |
+| `expression_variations` | 캐릭터 source image에서 얼굴/표정 variant 생성. | `expression_variations/expression_variations_workflow_api.json` |
+| `transparency_alpha` | source character image를 transparent PNG / alpha output으로 변환. | `transparency_alpha/transparency_alpha_workflow_api.json` |
+| `background_art` | 캐릭터 없는 16:9 VN 배경 생성. | `background_art/background_art_workflow_api.json` |
+| `prop_closeup_cg` | 16:9 소품 / 단서 / item cut-in CG 생성. | `prop_closeup_cg/prop_closeup_cg_workflow_api.json` |
+| `outfit_variations` | source character image에서 outfit/costume variant 생성. | `outfit_variations/outfit_variations_workflow_api.json` |
+| `event_cg` | 캐릭터 reference 1장으로 16:9 character event CG 생성. 배경은 prompt로 생성되며 pose LoRA가 기본 적용됩니다. | `event_cg/event_cg_workflow_api.json` |
 
-## Recommended agent entrypoint
+## AI agent 시작 지점
 
-When an AI agent starts work in this pack:
+AI agent가 이 pack으로 에셋을 생성하거나 문서를 점검할 때는 다음 순서로 읽습니다.
 
-1. Read this `README.md`.
-2. Read `WORKFLOW_INDEX.json`.
-3. Read `AGENTS.md`.
-4. Read the target workflow folder's `README.md`.
-5. Load the target `*_workflow_api.json` and runtime-patch only the editable fields listed in the index.
+1. 루트 `README.md`를 읽습니다.
+2. `WORKFLOW_INDEX.json`을 읽고 workflow path, editable field, input placeholder를 확인합니다.
+3. `AGENTS.md`를 읽고 실행 규칙을 확인합니다.
+4. target workflow folder의 `README.md`를 읽고 prompt template과 주의사항을 확인합니다.
+5. target `*_workflow_api.json`을 load하고, index에 적힌 editable field만 runtime patch합니다.
 
-## Workflow role split
+사용자가 “README 프롬프트를 수정했다”고 말하면, 기존 기억이나 이전 run prompt를 재사용하지 말고 target README를 즉시 다시 읽습니다.
 
-A typical asset flow is:
+## 사용자/장면 요청 라우팅 가이드
 
-1. `character_anchor_base` — produce an opaque base/source character.
-2. `transparency_alpha` — convert an accepted character source to transparent PNG when needed.
-3. `expression_variations` — create expression variants from a source character image.
-4. `outfit_variations` — create outfit variants, especially from featureless/source character images.
-5. `background_art` — create 16:9 scene backgrounds.
-6. `prop_closeup_cg` — create separate 16:9 prop/clue cut-ins for Ren'Py staging.
-7. `event_cg` — create full 16:9 event CGs from a character reference only; background/composition are prompt-generated with pose LoRA support. Use this for special pose/action illustration needs instead of the removed `pose_variations` sprite route.
+게임 제작은 보통 AI agent와 함께 진행되므로, 사용자가 매번 workflow 이름을 직접 말하지 않아도 됩니다. Agent는 현재 장면 구현 맥락과 사용자 자연어 지시를 보고 필요한 에셋 종류를 판단한 뒤 아래 기준으로 workflow를 선택합니다.
 
-The folders are reusable tools, not a mandatory linear pipeline. Choose the smallest workflow that matches the asset being created.
+| 사용자 또는 장면 맥락 | 사용할 workflow | 입력 이미지 | 판단 기준 / 주의사항 |
+|---|---|---|---|
+| “캐릭터 CG 만들어줘”, “이벤트 CG 뽑아줘”, “이 장면용 캐릭터 일러스트가 필요해” | `event_cg` | 캐릭터 reference 1장 | 16:9 캐릭터 CG입니다. 사용자가 source/base/anchor를 명시하지 않았다면 `character_anchor_base`로 가지 않습니다. |
+| 새 캐릭터의 기본 source, anchor, base image가 필요함 | `character_anchor_base` | 없음 | downstream expression/outfit/event workflow에 넣을 기준 캐릭터 이미지를 만듭니다. |
+| 표정만 바꾸고 싶음, 대사창용 표정 variation이 필요함 | `expression_variations` | source character image | 몸/의상을 유지하고 얼굴/표정만 바꾸는 route입니다. |
+| 투명 배경 PNG, sprite cutout, 배경 제거가 필요함 | `transparency_alpha` | source image | QA된 캐릭터/표정/의상 이미지를 transparent PNG 후보로 만듭니다. |
+| 의상 변경, costume variation이 필요함 | `outfit_variations` | source character image | 얼굴 보호 route가 포함되어 있지만 identity/outfit drift QA가 필요합니다. |
+| 교실, 복도, 방, 거리 같은 VN 배경이 필요함 | `background_art` | 없음 | 캐릭터 없는 16:9 배경을 생성합니다. |
+| 소품 CG, 단서 이미지, item cut-in이 필요함 | `prop_closeup_cg` | 없음 | 16:9 단일 소품 후보를 생성합니다. 전체 소품이 보여야 하면 과한 close-up/detail 태그를 줄입니다. |
+| 포즈나 액션이 있는 장면 일러스트가 필요함 | `event_cg` | 캐릭터 reference 1장 | `pose_variations`는 제거되었습니다. Dialogue sprite 재생성이 아니라 event CG로 처리합니다. |
 
-## Canonical JSON handling
+중요한 용어 구분:
 
-Do not overwrite canonical API JSONs during normal generation.
+- “캐릭터 CG”는 기본적으로 `event_cg`입니다.
+- `character_anchor_base`는 “캐릭터 앵커/source/base”를 만들 때만 사용합니다.
+- “대사 중 서 있는 캐릭터 sprite”는 보통 source/outfit → expression → alpha route로 만듭니다.
+- “장면 삽화 / 이벤트 일러스트 / 포즈 있는 CG”는 `event_cg`로 만듭니다.
 
-Preferred pattern:
+## 에셋 생성 lifecycle
 
-1. Deep-copy the canonical `*_workflow_api.json` into a temporary runtime/sandbox path outside the canonical workflow folder.
-2. Patch only the intended runtime fields: prompts, seed, input image names, output prefix, and any explicitly approved parameters.
-3. Submit the runtime copy to ComfyUI.
-4. Save generated outputs under ComfyUI output folders, not inside this reusable pack.
-5. Promote changes back into canonical JSON only after explicit user QA/approval.
+1. 요청 또는 장면 필요 인식
+   - 사용자 지시 또는 agent의 게임 구현 맥락에서 필요한 에셋을 판단합니다.
+2. 라우팅
+   - 위 표에 따라 가장 작은 적절한 workflow를 선택합니다.
+3. 프롬프트 작성
+   - target workflow README의 템플릿을 읽고 모든 placeholder를 실제 태그/문장으로 채웁니다.
+4. Runtime patch
+   - canonical JSON은 직접 수정하지 않고, runtime payload/copy의 editable field만 바꿉니다.
+5. ComfyUI 제출
+   - backend, queue, object_info, input image 존재 여부를 확인한 뒤 `/prompt`에 제출합니다.
+6. 후보 생성
+   - 결과는 ComfyUI output folder에 저장됩니다.
+7. QA
+   - 캐릭터 identity, 의상 drift, 소품 잘림, 가짜 텍스트, 배경 구도, alpha edge 등을 확인합니다.
+8. Promote 또는 재시도
+   - 마음에 드는 후보만 game asset directory로 승격하고, 나머지는 prompt/runtime 설정을 조정해 다시 생성합니다.
 
-## Placeholders and input files
+## Workflow 역할 구분
 
-Some templates intentionally contain placeholders such as:
+일반적인 asset flow는 다음과 같습니다.
+
+1. `character_anchor_base` — opaque base/source character를 생성합니다.
+2. `transparency_alpha` — 승인된 character source를 transparent PNG로 변환합니다.
+3. `expression_variations` — source character image에서 표정 variant를 만듭니다.
+4. `outfit_variations` — source/featureless character image에서 의상 variant를 만듭니다.
+5. `background_art` — 16:9 scene background를 만듭니다.
+6. `prop_closeup_cg` — Ren'Py 연출용 16:9 prop/clue cut-in을 만듭니다.
+7. `event_cg` — 캐릭터 reference 1장으로 full 16:9 event CG를 만듭니다. 배경/구도는 prompt-generated이며, 제거된 `pose_variations` sprite route 대신 특수 포즈/액션 illustration에 사용합니다.
+
+이 폴더들은 필수 linear pipeline이 아니라 재사용 도구입니다. 현재 장면에 필요한 가장 작은 workflow를 선택합니다.
+
+## Canonical JSON 취급 규칙
+
+일반 생성 중에는 canonical API JSON을 덮어쓰지 않습니다.
+
+권장 패턴:
+
+1. canonical `*_workflow_api.json`을 canonical folder 밖의 runtime/sandbox 위치로 deep-copy하거나, 메모리에서만 payload를 복사합니다.
+2. prompt, seed, input image name, output prefix, 명시적으로 허용된 parameter만 patch합니다.
+3. runtime payload를 ComfyUI에 제출합니다.
+4. 생성 결과는 reusable pack 안이 아니라 ComfyUI output folder나 명시적인 sandbox/output 위치에 둡니다.
+5. canonical JSON 변경은 사용자 QA/승인 후에만 promote합니다.
+
+## Placeholder와 input file 규칙
+
+일부 template에는 다음 placeholder가 의도적으로 들어 있습니다.
 
 - `TEMPLATE_character_anchor_source.png`
 - `TEMPLATE_source_image.png`
 - `TEMPLATE_featureless_mannequin_source.png`
 - `TEMPLATE_character_reference.png`
-- `TEMPLATE_*` output prefix fragments
-- Korean prompt placeholders such as `{감정표현}` or `{배경 테마 및 장소}`
+- `TEMPLATE_*` output prefix fragment
+- `{감정표현}`, `{배경 테마 및 장소}`, `{아이템 이름 및 형태}` 같은 한국어 prompt placeholder
 
-Before live ComfyUI submission, agents must replace these with real ComfyUI `input/` filenames, prompt text, seeds, and output prefixes.
+Live ComfyUI 제출 전 agent는 이것들을 실제 ComfyUI `input/` filename, prompt text, seed, output prefix로 교체해야 합니다.
 
-## Quality and promotion rule
+Input image가 필요한 workflow에서 사용자가 특정 이미지를 지정하지 않았다면:
 
-A workflow being runnable is not the same as being production-approved.
+- “방금 뽑은 캐릭터”, “이 캐릭터”처럼 맥락이 분명할 때만 가장 최근의 관련 image를 사용합니다.
+- 후보가 여러 개이거나 source가 불분명하면 사용자에게 물어봅니다.
+- 관계없는 오래된 이미지를 조용히 사용하지 않습니다.
+- `LoadImage.inputs.image`에 넣기 전에 active Windows ComfyUI `input/` directory에 파일이 실제로 있는지 확인합니다.
 
-Only call an output canonical/approved after the user or agent has checked the actual generated artifact/contact sheet/Ren'Py screenshot. If the user says they will visually QA the image themselves, report only the prompt id, seed, runtime JSON path, and output path; do not invent quality claims.
+## Prompt 작성 규칙
+
+각 workflow folder의 `README.md`가 해당 workflow의 prompt contract입니다.
+
+Live generation 전:
+
+- target workflow README를 다시 읽습니다.
+- `{감정표현}`, `{배경 테마 및 장소}`, `{아이템 이름 및 형태}` 같은 placeholder를 모두 채웁니다.
+- README의 prompt ordering을 기본적으로 유지합니다.
+- 사용자가 README를 수정했다고 말하면 즉시 다시 읽습니다.
+- unresolved placeholder를 ComfyUI에 제출하지 않습니다.
+- `danbooru_tag.csv`에 존재하지 않는 태그를 README에 새 guidance로 추가하지 않습니다. 단, 실제 생성에서 필요한 자연어 구도 보정은 runtime prompt에 사용할 수 있습니다.
+
+## QA와 promote 규칙
+
+Workflow가 runnable하다는 것은 production-approved와 다릅니다.
+
+생성 결과는 다음 기준으로 확인합니다.
+
+### Character / event CG
+
+- identity drift
+- hair color/style drift
+- outfit drift
+- hand/anatomy issue
+- framing
+- unwanted duplicate character
+- background lighting/composition integration
+
+### Prop CG
+
+- 단일 main prop 여부
+- 전체 object가 잘리지 않고 보이는지
+- fake text/logo 여부
+- 불필요한 duplicate object 여부
+
+### Background
+
+- 사람/캐릭터가 없는지
+- fake text/signage가 없는지
+- VN composition으로 사용 가능한지
+- 캐릭터를 세울 foreground/headroom 여유가 있는지
+
+### Transparent PNG
+
+- alpha edge
+- hair edge
+- body part 누락
+- leftover background artifact
+
+사용자가 직접 눈으로 QA하겠다고 하면 agent는 품질을 단정하지 말고 prompt id, seed, runtime JSON path, output path만 보고합니다.
 
 ## 고정 상태
 
@@ -104,7 +204,7 @@ Only call an output canonical/approved after the user or agent has checked the a
 
 - 현재 폴더명은 번호식 이름이 아니라 flat semantic name입니다. 예전 `01_*`부터 `07_*`까지의 참조는 stale일 수 있습니다.
 - `background_art`와 `prop_closeup_cg`는 이미지 입력이 없는 16:9 txt2img 계열 workflow입니다.
-- `expression_variations`, `transparency_alpha`, `outfit_variations`, `event_cg`는 런타임 이미지 입력이 필요합니다.
+- `expression_variations`, `transparency_alpha`, `outfit_variations`, `event_cg`는 runtime image input이 필요합니다.
 - `pose_variations`는 pose/action sprite 테스트에서 색감/의상/구도/해부학 drift가 커서 canonical pack에서 제거했습니다. 포즈/액션 CG는 `event_cg`로 처리하고, dialogue sprite는 fixed outfit/expression/alpha 경로를 유지합니다.
 - 일부 README의 prompt 텍스트는 사람이 읽기 위한 안내라 canonical JSON prompt와 정확히 일치하지 않을 수 있습니다. 실행 기준은 `WORKFLOW_INDEX.json`과 실제 JSON입니다.
 - 루트 `danbooru_tag.csv`는 README tag note의 로컬 검증 기준입니다. 해당 CSV에 존재하거나 실제 생성물로 테스트된 태그가 아니라면, 기억이나 실패한 web fetch 기반으로 tag guidance를 추가하지 않습니다.

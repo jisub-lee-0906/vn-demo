@@ -9,7 +9,7 @@
     "class_type": "CLIPSetLastLayer",
     "inputs": {
       "clip": [
-        "1",
+        "100",
         1
       ],
       "stop_at_clip_layer": -2
@@ -22,15 +22,6 @@
     },
     "_meta": {
       "title": "Character identity reference image"
-    }
-  },
-  "4": {
-    "class_type": "LoadImage",
-    "inputs": {
-      "image": "TEMPLATE_event_scene_reference.png"
-    },
-    "_meta": {
-      "title": "Event CG composition / scene reference image"
     }
   },
   "5": {
@@ -53,7 +44,7 @@
     "class_type": "ApplyPulidAdvanced",
     "inputs": {
       "model": [
-        "1",
+        "100",
         0
       ],
       "pulid": [
@@ -72,12 +63,12 @@
         "3",
         0
       ],
-      "weight": 0.65,
+      "weight": 0.66,
       "projection": "ortho_v2",
       "fidelity": 10,
       "noise": 0.0,
       "start_at": 0.0,
-      "end_at": 0.72
+      "end_at": 0.76
     }
   },
   "9": {
@@ -87,7 +78,7 @@
         "2",
         0
       ],
-      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, cinematic angle, dramatic lighting, 1girl, solo, {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}, {캐릭터 의상/특징}, {카메라 구도}, {상황 및 역동적인 포즈}, {감정표현}, {배경 테마}, BREAK, depth of field, volumetric lighting, light rays, detailed background"
+      "text": "masterpiece, best quality, amazing quality, 4k, very aesthetic, high resolution, ultra-detailed, absurdres, newest, anime style, cinematic visual novel event CG, same character as reference, preserve original face, preserve original facial features, preserve original hairstyle, preserve original hair color, preserve original eye color, preserve original school uniform design, preserve original outfit colors, preserve original body proportions, minimal character redesign, 1girl, solo, {캐릭터 핵심 특징}, {원본 의상 디테일}, {카메라 구도}, {원본 포즈를 크게 바꾸지 않는 자연스러운 작은 연출}, {감정표현}, {배경 테마 및 장소}, {시간대 및 조명}, small natural pose change only, coherent perspective, character integrated with background lighting, natural pose, depth of field, detailed background"
     }
   },
   "10": {
@@ -97,20 +88,18 @@
         "2",
         0
       ],
-      "text": "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra digits, fewer digits, cropped, very displeasing, sketch, jpeg artifacts, signature, watermark, username, conjoined, bad ai-generated, simple background, white background, (worst quality, bad quality:1.2)"
+      "text": "different character, different face, different facial features, different hair, different hairstyle, different hair color, different eye color, different clothes, changed uniform, outfit redesign, different body type, changed body proportions, extreme action pose, acrobatics, large pose change, tiny character, far away character, empty room, crowd, multiple girls, duplicate person, bad hands, extra fingers, missing fingers, fewer digits, bad anatomy, long body, deformed, mutated, cropped head, lowres, blurry, text, watermark, signature, simple background, white background, (worst quality, bad quality:1.2)"
     }
   },
   "11": {
-    "class_type": "VAEEncode",
+    "class_type": "EmptyLatentImage",
     "inputs": {
-      "pixels": [
-        "4",
-        0
-      ],
-      "vae": [
-        "1",
-        2
-      ]
+      "width": 1024,
+      "height": 576,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "Blank latent: generate event CG background from prompt, using only character reference"
     }
   },
   "12": {
@@ -134,10 +123,10 @@
       ],
       "seed": 719260001,
       "steps": 30,
-      "cfg": 5.0,
+      "cfg": 5.2,
       "sampler_name": "euler_ancestral",
       "scheduler": "normal",
-      "denoise": 0.62
+      "denoise": 1.0
     }
   },
   "13": {
@@ -160,7 +149,26 @@
         "13",
         0
       ],
-      "filename_prefix": "hermes_vn_07_event_cg/template_scene_seed_TEMPLATE_seed"
+      "filename_prefix": "hermes_vn_event_cg_character_only/template_scene_seed_TEMPLATE_seed"
+    }
+  },
+  "100": {
+    "class_type": "LoraLoader",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "hinaMaybeBetterPoseXL_v5-NoobAI.safetensors",
+      "strength_model": 0.65,
+      "strength_clip": 0.65
+    },
+    "_meta": {
+      "title": "Pose LoRA for natural event-CG staging"
     }
   }
 }

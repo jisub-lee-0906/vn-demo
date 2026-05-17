@@ -11,42 +11,12 @@
       "ckpt_name": "novaAnimeXL_ilV190.safetensors"
     }
   },
-  "3": {
-    "class_type": "DownloadAndLoadFlorence2Model",
-    "inputs": {
-      "model": "microsoft/Florence-2-large",
-      "precision": "fp16",
-      "convert_to_safetensors": false
-    }
-  },
-  "4": {
-    "class_type": "Florence2Run",
-    "inputs": {
-      "image": [
-        "1",
-        0
-      ],
-      "florence2_model": [
-        "3",
-        0
-      ],
-      "text_input": "face",
-      "task": "referring_expression_segmentation",
-      "fill_mask": true,
-      "keep_model_loaded": false,
-      "max_new_tokens": 1024,
-      "num_beams": 3,
-      "do_sample": false,
-      "output_mask_select": "",
-      "seed": 719251301
-    }
-  },
   "5": {
     "class_type": "AILab_MaskEnhancer",
     "inputs": {
       "mask": [
-        "4",
-        1
+        "1003",
+        0
       ],
       "sensitivity": 1.0,
       "mask_blur": 3,
@@ -54,6 +24,9 @@
       "smooth": 1.0,
       "fill_holes": true,
       "invert_output": false
+    },
+    "_meta": {
+      "title": "Expression face edit mask enhancer: YOLO+SAM face mask"
     }
   },
   "6": {
@@ -253,6 +226,72 @@
         0
       ],
       "filename_prefix": "hermes_vn_expression/source_TEMPLATE_CHARACTER_happy_composited"
+    }
+  },
+  "1000": {
+    "class_type": "UltralyticsDetectorProvider",
+    "inputs": {
+      "model_name": "bbox/face_yolov9c.pt"
+    },
+    "_meta": {
+      "title": "Expression face detector: YOLO face9c"
+    }
+  },
+  "1001": {
+    "class_type": "SAMLoader",
+    "inputs": {
+      "model_name": "sam_vit_b_01ec64.pth",
+      "device_mode": "AUTO"
+    },
+    "_meta": {
+      "title": "Expression face SAM model"
+    }
+  },
+  "1002": {
+    "class_type": "BboxDetectorSEGS",
+    "inputs": {
+      "bbox_detector": [
+        "1000",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ],
+      "threshold": 0.35,
+      "dilation": 0,
+      "crop_factor": 2.0,
+      "drop_size": 10,
+      "labels": "all"
+    },
+    "_meta": {
+      "title": "Expression face bbox SEGS: threshold .35 / crop 2.0"
+    }
+  },
+  "1003": {
+    "class_type": "SAMDetectorCombined",
+    "inputs": {
+      "sam_model": [
+        "1001",
+        0
+      ],
+      "segs": [
+        "1002",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ],
+      "detection_hint": "center-1",
+      "dilation": 0,
+      "threshold": 0.93,
+      "bbox_expansion": 0,
+      "mask_hint_threshold": 0.7,
+      "mask_hint_use_negative": "False"
+    },
+    "_meta": {
+      "title": "Expression face mask: YOLO face9c + SAM center-1"
     }
   }
 }

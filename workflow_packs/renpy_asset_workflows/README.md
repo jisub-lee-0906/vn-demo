@@ -27,7 +27,7 @@ Current canonical folders:
 | `background_art` | Generate 16:9 VN background art. | `background_art/background_art_workflow_api.json` |
 | `prop_closeup_cg` | Generate 16:9 close-up prop / clue / cut-in CG images. | `prop_closeup_cg/prop_closeup_cg_workflow_api.json` |
 | `outfit_variations` | Generate outfit/costume variants from a featureless or source character image. | `outfit_variations/outfit_variations_workflow_api.json` |
-| `event_cg` | Generate 16:9 character event CG from character and scene references. | `event_cg/event_cg_workflow_api.json` |
+| `event_cg` | Generate 16:9 character event CG from a character reference; background is generated from the prompt with pose LoRA support. | `event_cg/event_cg_workflow_api.json` |
 
 ## Recommended agent entrypoint
 
@@ -49,7 +49,7 @@ A typical asset flow is:
 4. `outfit_variations` — create outfit variants, especially from featureless/source character images.
 5. `background_art` — create 16:9 scene backgrounds.
 6. `prop_closeup_cg` — create separate 16:9 prop/clue cut-ins for Ren'Py staging.
-7. `event_cg` — create full 16:9 event CGs using character and scene references.
+7. `event_cg` — create full 16:9 event CGs from a character reference only; background/composition are prompt-generated with pose LoRA support. Use this for special pose/action illustration needs instead of the removed `pose_variations` sprite route.
 
 The folders are reusable tools, not a mandatory linear pipeline. Choose the smallest workflow that matches the asset being created.
 
@@ -73,7 +73,6 @@ Some templates intentionally contain placeholders such as:
 - `TEMPLATE_source_image.png`
 - `TEMPLATE_featureless_mannequin_source.png`
 - `TEMPLATE_character_reference.png`
-- `TEMPLATE_event_scene_reference.png`
 - `TEMPLATE_*` output prefix fragments
 - Korean prompt placeholders such as `{감정표현}` or `{배경 테마 및 장소}`
 
@@ -90,4 +89,5 @@ Only call an output canonical/approved after the user or agent has checked the a
 - The current folder names are flat semantic names, not numbered names. Old references to `01_*` through `07_*` may be stale.
 - `background_art` and `prop_closeup_cg` are 16:9 txt2img-style workflows with no image input.
 - `expression_variations`, `transparency_alpha`, `outfit_variations`, and `event_cg` require runtime image inputs.
+- `pose_variations` was removed from the canonical pack after pose/action sprite tests proved too unstable; use `event_cg` for pose/action CG needs and keep dialogue sprites on fixed outfit/expression/alpha routes.
 - Some README prompt text is human-facing and may not exactly match the canonical JSON prompt. Treat `WORKFLOW_INDEX.json` plus the actual JSON as execution source of truth.

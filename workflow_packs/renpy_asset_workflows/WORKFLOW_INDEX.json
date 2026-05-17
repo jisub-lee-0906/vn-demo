@@ -70,7 +70,7 @@
       "folder": "expression_variations",
       "readme": "expression_variations/README.md",
       "api": "expression_variations/expression_variations_workflow_api.json",
-      "purpose": "Generate facial/emotional expression variants from a source character image using mask/inpaint/composite style workflow.",
+      "purpose": "Generate facial/emotional expression variants from a source character image using YOLO+SAM face mask + inpaint/composite workflow.",
       "output_type": "opaque expression variant plus mask/raw/composited debug outputs",
       "requires_input_images": true,
       "input_placeholders": [
@@ -84,7 +84,11 @@
         "sampler": "13",
         "save_raw_inpaint": "15",
         "save_mask_preview": "17",
-        "save_composited": "19"
+        "save_composited": "19",
+        "face_detector": "1000",
+        "face_bbox_segs": "1002",
+        "face_sam_mask": "1003",
+        "mask_enhancer": "5"
       },
       "editable_fields": [
         "1.inputs.image",
@@ -94,7 +98,14 @@
         "13.inputs.denoise",
         "15.inputs.filename_prefix",
         "17.inputs.filename_prefix",
-        "19.inputs.filename_prefix"
+        "19.inputs.filename_prefix",
+        "5.inputs.mask_blur",
+        "5.inputs.mask_offset",
+        "1000.inputs.model_name",
+        "1002.inputs.threshold",
+        "1002.inputs.crop_factor",
+        "1003.inputs.detection_hint",
+        "1003.inputs.threshold"
       ],
       "fixed_defaults_observed": {
         "checkpoint": "novaAnimeXL_ilV190.safetensors",
@@ -102,7 +113,12 @@
         "scheduler": "karras",
         "steps": 26,
         "cfg": 5.0,
-        "denoise": 0.4
+        "denoise": 0.4,
+        "face_mask_route": "YOLO face_yolov9c bbox + SAM center-1",
+        "face_detector": "bbox/face_yolov9c.pt",
+        "sam_model": "sam_vit_b_01ec64.pth",
+        "face_bbox_threshold": 0.35,
+        "face_sam_threshold": 0.93
       },
       "upstream": [
         "character_anchor_base"
@@ -110,7 +126,7 @@
       "downstream": [
         "transparency_alpha"
       ],
-      "status": "canonical_template_requires_runtime_input"
+      "status": "canonical_template_requires_runtime_input_yolosam_face_mask"
     },
     {
       "order": 3,
@@ -285,99 +301,38 @@
     },
     {
       "order": 7,
-      "id": "pose_variations",
-      "folder": "pose_variations",
-      "readme": "pose_variations/README.md",
-      "api": "pose_variations/pose_variations_workflow_api.json",
-      "purpose": "Generate action/pose variants from an outfit character image using OpenPose ControlNet plus PuLID identity reference.",
-      "output_type": "opaque pose/action variant character image",
-      "requires_input_images": true,
-      "input_placeholders": [
-        "TEMPLATE_outfit_character_source.png",
-        "TEMPLATE_pose_control_image.png"
-      ],
-      "primary_nodes": {
-        "checkpoint": "1",
-        "source_image": "2",
-        "pose_control_image": "3",
-        "controlnet": "4",
-        "positive_prompt": "5",
-        "negative_prompt": "6",
-        "controlnet_apply": "7",
-        "pulid_apply": "16",
-        "latent_size": "17",
-        "sampler": "9",
-        "save_final": "11",
-        "save_pose_guide": "12"
-      },
-      "editable_fields": [
-        "2.inputs.image",
-        "3.inputs.image",
-        "5.inputs.text",
-        "6.inputs.text",
-        "7.inputs.strength",
-        "7.inputs.start_percent",
-        "7.inputs.end_percent",
-        "9.inputs.seed",
-        "9.inputs.steps",
-        "9.inputs.cfg",
-        "9.inputs.denoise",
-        "11.inputs.filename_prefix",
-        "16.inputs.weight",
-        "16.inputs.start_at",
-        "16.inputs.end_at",
-        "17.inputs.width",
-        "17.inputs.height"
-      ],
-      "fixed_defaults_observed": {
-        "checkpoint": "novaAnimeXL_ilV190.safetensors",
-        "controlnet": "noobaiXLControlnet_openposeModel.safetensors",
-        "sampler": "euler_ancestral",
-        "scheduler": "normal",
-        "steps": 30,
-        "cfg": 4.8,
-        "denoise": 1.0,
-        "control_strength": 1.35,
-        "control_end_percent": 0.9,
-        "identity_reference": "PuLID Advanced weight=0.85 end_at=0.75",
-        "tested_pose": "crossed_arms from OpenPose-style guide"
-      },
-      "upstream": [
-        "outfit_variations"
-      ],
-      "downstream": [
-        "expression_variations",
-        "transparency_alpha"
-      ],
-      "status": "initial_smoke_tested_template_requires_runtime_input"
-    },
-    {
-      "order": 8,
       "id": "event_cg",
       "folder": "event_cg",
       "readme": "event_cg/README.md",
       "api": "event_cg/event_cg_workflow_api.json",
-      "purpose": "Generate full 16:9 character event CG from a character reference image and a scene/composition reference image.",
+      "purpose": "Generate 16:9 character event CG from a character reference only; background is prompt-generated and a pose LoRA is applied for natural small staging.",
       "output_type": "opaque 16:9 event CG",
       "requires_input_images": true,
       "input_placeholders": [
-        "TEMPLATE_character_reference.png",
-        "TEMPLATE_event_scene_reference.png"
+        "TEMPLATE_character_reference.png"
       ],
       "primary_nodes": {
         "checkpoint": "1",
+        "pose_lora": "100",
         "character_reference": "3",
-        "scene_reference": "4",
+        "pulid_apply": "8",
         "positive_prompt": "9",
         "negative_prompt": "10",
+        "latent_size": "11",
         "sampler": "12",
         "save": "14"
       },
       "editable_fields": [
         "3.inputs.image",
-        "4.inputs.image",
+        "100.inputs.lora_name",
+        "100.inputs.strength_model",
+        "100.inputs.strength_clip",
+        "8.inputs.weight",
+        "8.inputs.end_at",
         "9.inputs.text",
         "10.inputs.text",
+        "11.inputs.width",
+        "11.inputs.height",
         "12.inputs.seed",
         "12.inputs.steps",
         "12.inputs.cfg",
@@ -386,17 +341,25 @@
       ],
       "fixed_defaults_observed": {
         "checkpoint": "novaAnimeXL_ilV190.safetensors",
+        "pose_lora": "hinaMaybeBetterPoseXL_v5-NoobAI.safetensors",
+        "pose_lora_strength_model": 0.65,
+        "pose_lora_strength_clip": 0.65,
         "sampler": "euler_ancestral",
         "scheduler": "normal",
         "steps": 30,
-        "cfg": 5.0,
-        "denoise": 0.62
+        "cfg": 5.2,
+        "denoise": 1.0,
+        "latent_size": "1024x576",
+        "identity_reference": "PuLID Advanced weight=0.66 end_at=0.76",
+        "scene_reference": "none; prompt-generated background from blank latent",
+        "direction": "preserve original character/outfit as much as possible; pose LoRA supports natural small event-CG staging"
       },
       "upstream": [
         "character_anchor_base",
-        "background_art"
+        "outfit_variations",
+        "expression_variations"
       ],
-      "status": "canonical_template_requires_runtime_input"
+      "status": "canonical_template_requires_character_reference_only_prompt_generated_background_pose_lora"
     }
   ]
 }

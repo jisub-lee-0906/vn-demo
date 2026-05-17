@@ -7,7 +7,7 @@
 **Positive prompt:**
 
 ```text
-masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG,1girl, solo, [원본 캐릭터 핵심 특징:  {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}], {감정표현}, [원본 의상 디테일: {상의, 하의, 신발, 악세서리}], {카메라 구도}, {자연스러운 작은 연출}, {배경 테마 및 장소}, {시간대 및 조명}, depth_of_field, detailed_background
+masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG,1girl, solo, [원본 캐릭터 핵심 특징:  {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}], {감정표현}, [원본 의상 디테일: {상의, 하의, 신발, 악세서리}], {카메라 구도}, {자연스러운 작은 연출}, {배경 테마 및 장소}, {시간대 및 조명}, character_integrated_with_background_lighting, depth_of_field, detailed_background
 
 ```
 

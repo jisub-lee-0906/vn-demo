@@ -1,0 +1,33 @@
+{
+  "run": "hermes_vn_event_readme_20260517_173909",
+  "base": "http://172.28.224.1:8001",
+  "client_id": "hermes-vn-event-readme-d2476f71592c4576938b5eae123c1cf3",
+  "workflow": "event_cg",
+  "reference_source": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_user_readme_pair_20260517_171806/01_character_anchor_00001_.png",
+  "input_name": "hermes_vn_runtime/hermes_vn_event_readme_20260517_173909/01_character_anchor_00001_.png",
+  "seed": 260517501,
+  "prompt_positive": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG, 1girl, solo, long_hair, straight_hair, blunt_bangs, sidelocks, black_hair, blue_eyes, gentle_smile, closed_mouth, light_blush, white_shirt, blue_bow, navy_skirt, upper_body, waist_up, standing_beside_classroom_window, slight_body_turn, hand_on_own_chest, looking_at_viewer, warm_sunset_classroom, classroom, window, sunlight_through_window, sunset, soft_orange_sunlight, character_integrated_with_background_lighting, depth_of_field, detailed_background",
+  "prompt_negative": "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, (worst_quality, bad_quality:1.2), vignette, shadow, rim_lighting, different_hair, different_hair_color, different_eye_color, different_clothes, outfit_change, multiple_girls, duplicate_person, far_away_character, tiny_character, full_body, back_view, looking_away",
+  "runtime_notes": [
+    "README event_cg template filled with concrete identity/expression/outfit/camera/staging/background/time placeholders",
+    "pose LoRA strength lowered 0.65 -> 0.45 runtime-only to reduce identity/outfit drift",
+    "canonical JSON not modified"
+  ],
+  "queue_before": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "prompt_id": "431b48d8-6d6f-4616-9a33-7e87e031a26d",
+  "outputs": [
+    {
+      "node": "14",
+      "path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_event_readme_20260517_173909/event_cg_readme_window_smile_00001_.png",
+      "exists": true,
+      "size": 570375
+    }
+  ],
+  "queue_after": {
+    "queue_running": [],
+    "queue_pending": []
+  }
+}

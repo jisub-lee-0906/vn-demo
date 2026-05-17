@@ -1,0 +1,26 @@
+{
+  "run": "hermes_vn_prop_alt_20260517_173640",
+  "base": "http://172.28.224.1:8001",
+  "client_id": "hermes-vn-prop-alt-7be3025e0b454486934461be7aed103c",
+  "workflow": "prop_closeup_cg",
+  "seed": 260517401,
+  "prompt_positive": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, no_humans, still_life, object_focus, pocket_watch, silver_pocket_watch, watch, chain, metal, scratches, reflective, wooden_table, centered composition, entire object visible, single object, BREAK, depth_of_field, studio_lighting, highly_detailed_texture",
+  "prompt_negative": "1girl, 1boy, human, person, character, face, hands, body, multiple objects, duplicate object, cropped, out_of_frame, cut off, extreme close-up, macro shot, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad_anatomy, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst_quality, bad_quality:1.2), readable_text, fake_letters, fake_writing, printed_text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue_box, subtitle, caption",
+  "queue_before": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "prompt_id": "17946fdc-f0a2-422d-a82c-eb468994d563",
+  "outputs": [
+    {
+      "node": "8",
+      "path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_prop_alt_20260517_173640/pocket_watch_single_object_00001_.png",
+      "exists": true,
+      "size": 782469
+    }
+  ],
+  "queue_after": {
+    "queue_running": [],
+    "queue_pending": []
+  }
+}

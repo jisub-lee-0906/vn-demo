@@ -5,14 +5,14 @@
 **Positive prompt:**
 
 ```text
-masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, still_life, close-up, object_focus, {아이템 이름 및 형태}, {재질 및 질감 디테일}, {놓여있는 장소/배경}, BREAK, strong_depth_of_field, blurry_background, studio_lighting, highly_detailed_texture
+masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, no_humans, still_life, object_focus, {아이템 이름 및 형태}, {재질 및 질감 디테일}, {놓여있는 장소/배경}, centered composition, entire object visible, single object, BREAK, depth_of_field, studio_lighting, highly_detailed_texture
 
 ```
 
 **Negative prompt:**
 
 ```text
-1girl, 1boy, human, person, character, face, hands, body, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad_anatomy, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst_quality, bad_quality:1.2), readable_text, fake_letters, fake_writing, printed_text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue_box, subtitle, caption
+1girl, 1boy, human, person, character, face, hands, body, multiple objects, duplicate object, cropped, out_of_frame, cut off, extreme close-up, macro shot, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad_anatomy, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst_quality, bad_quality:1.2), readable_text, fake_letters, fake_writing, printed_text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue_box, subtitle, caption
 
 ```
 
@@ -54,5 +54,5 @@ masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution,
 - 표면/조명: `wooden_table`, `desk`, `shadow`, `depth_of_field`, `blurry_background`
 - CSV에서 확인된 텍스트/UI negative: `signature`, `watermark`, `logo`, `label`, `caption`, `speech_bubble`
 
-소품 규칙: 편지/책/화면은 최종 텍스트를 ComfyUI 밖에서 합성할 계획이 아니라면 빈 디자인이나 읽을 수 없는 디자인을 우선합니다.
+소품 규칙: 편지/책/화면은 최종 텍스트를 ComfyUI 밖에서 합성할 계획이 아니라면 빈 디자인이나 읽을 수 없는 디자인을 우선합니다. `single_object`처럼 "단일 소품만"을 직접 뜻하는 Danbooru 태그는 현재 로컬 CSV에 없으므로, 단일 소품 구도는 `no_humans`, `still_life`, `object_focus`와 `entire object visible`, `single object` 같은 자연어 구도 보정으로 유도합니다. 소품이 잘리면 `close-up`, `macro shot`, `key_teeth`, `key_bow`처럼 부분 디테일이나 과한 근접을 유도하는 태그를 줄입니다.
 

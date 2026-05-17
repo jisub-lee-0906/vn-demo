@@ -1,0 +1,423 @@
+{
+  "run": "hermes_vn_readme_guided_smoke_20260517_153253",
+  "base": "http://172.28.224.1:8001",
+  "client_id": "hermes-readme-guided-smoke-b61a3efef4fb455996c60f29295342c5",
+  "input_dir": "/mnt/c/Users/Desktop/Documents/ComfyUI/input/hermes_vn_runtime/hermes_vn_readme_guided_smoke_20260517_153253",
+  "prompts": {
+    "anchor_pos": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, 1girl, solo, fully_clothed, school_uniform, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, long_hair, straight_hair, blunt_bangs, sidelocks, black_hair, blue_eyes, grey_background",
+    "anchor_neg": "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, (worst_quality, bad_quality:1.2), vignette, shadow, depth_of_field, rim_lighting",
+    "expression_pos": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, 1girl, solo, fully_clothed, school_uniform, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, straight_posture, arms_at_sides, long_hair, straight_hair, blunt_bangs, sidelocks, black_hair, blue_eyes, happy, smile, open_mouth, sparkling_eyes, light_blush, BREAK, depth_of_field, volumetric_lighting",
+    "expression_neg": "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, lowres, bad_anatomy, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, changed_clothes, different_clothes, different_hair, (worst_quality, bad_quality:1.2), sad, angry, crying, tears, disgusted, expressionless",
+    "background_pos": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, scenery, no_humans, background, wide_shot, landscape, clear_foreground, unoccupied_bottom_third, school, classroom, desks, chairs, blackboard, windows, day, sunlight, bright, clear_sky, BREAK, depth_of_field, volumetric_lighting",
+    "background_neg": "1girl, 1boy, human, person, character, crowd, people, silhouette, monster, animal, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, ugly, lowres, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, simple_background, (worst_quality, bad_quality:1.2)",
+    "prop_pos": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, still_life, close-up, macro_shot, object_focus, antique_key, brass_key, flat_key, key_teeth, key_bow, scratched_surface, metallic_luster, dark_velvet_cloth_background, BREAK, strong_depth_of_field, blurry_background, studio_lighting, highly_detailed_texture",
+    "prop_neg": "1girl, 1boy, human, person, character, face, hands, body, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, lowres, bad_anatomy, sketch, jpeg_artifacts, signature, watermark, username, bad_ai-generated, (worst_quality, bad_quality:1.2), readable_text, fake_letters, fake_writing, printed_text, paragraphs, symbols, glyphs, logo, label, ui, interface, screenshot, dialogue_box, subtitle, caption",
+    "outfit_pos": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, 1girl, solo, medium_breasts, cowboy_shot, standing, front_view, looking_at_viewer, expressionless, closed_mouth, arms_at_sides, straight_posture, long_hair, straight_hair, blunt_bangs, sidelocks, black_hair, blue_eyes, fully_clothed, school_uniform, black_blazer, open_jacket, white_shirt, collared_shirt, red_necktie, beige_cardigan, plaid_skirt, pleated_skirt, black_pantyhose, black_loafers, wool_texture, highly_detailed_clothes, grey_background",
+    "outfit_neg": "nude, nipples, nsfw, modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, different_face, different_hair, different_hairstyle, different_eye_color, changed_face, changed_hair, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, (worst_quality, bad_quality:1.2), vignette, shadow, depth_of_field, rim_lighting",
+    "event_pos": "masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG, same_character_as_reference, preserve_original_face, preserve_original_facial_features, preserve_original_hairstyle, preserve_original_hair_color, preserve_original_eye_color, preserve_original_school_uniform_design, preserve_original_outfit_colors, preserve_original_body_proportions, minimal_character_redesign, 1girl, solo, long_hair, straight_hair, blunt_bangs, sidelocks, black_hair, blue_eyes, white_shirt, red_ribbon, pleated_skirt, upper_body, waist_up, one_hand_lightly_near_chest, slight_body_turn, happy, smile, light_blush, school, classroom, windows, sunset, sunlight, small_natural_pose_change_only, coherent_perspective, character_integrated_with_background_lighting, natural_pose, depth_of_field, detailed_background",
+    "event_neg": "different_character, different_face, different_facial_features, different_hair, different_hairstyle, different_hair_color, different_eye_color, different_clothes, changed_uniform, outfit_redesign, different_body_type, changed_body_proportions, extreme_action_pose, acrobatics, large_pose_change, tiny_character, far_away_character, empty_room, crowd, multiple_girls, duplicate_person, bad_hands, extra_fingers, missing_fingers, fewer_digits, bad_anatomy, long_body, deformed, mutated, cropped_head, lowres, blurry, text, watermark, signature, simple_background, white_background, (worst_quality, bad_quality:1.2)"
+  },
+  "safety_adjustments": [
+    "README nude token replaced with fully_clothed, school_uniform in anchor/expression live smoke runtime prompts"
+  ],
+  "results": [
+    {
+      "workflow": "character_anchor_base",
+      "prompt_id": "dfa50bea-166c-4336-9ae3-a536bdb22898",
+      "outputs": [
+        {
+          "node": "8",
+          "filename": "01_anchor_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/01_anchor_readme_00001_.png",
+          "exists": true,
+          "size": 1302812
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "dfa50bea-166c-4336-9ae3-a536bdb22898",
+              "timestamp": 1778999574208
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1"
+              ],
+              "prompt_id": "dfa50bea-166c-4336-9ae3-a536bdb22898",
+              "timestamp": 1778999574448
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "dfa50bea-166c-4336-9ae3-a536bdb22898",
+              "timestamp": 1778999586619
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "expression_variations",
+      "prompt_id": "f2be1869-8512-464c-85b6-07349b95a537",
+      "outputs": [
+        {
+          "node": "17",
+          "filename": "02_expression_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/02_expression_readme_00001_.png",
+          "exists": true,
+          "size": 26966
+        },
+        {
+          "node": "15",
+          "filename": "02_expression_readme_00002_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/02_expression_readme_00002_.png",
+          "exists": true,
+          "size": 1411035
+        },
+        {
+          "node": "19",
+          "filename": "02_expression_readme_00003_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/02_expression_readme_00003_.png",
+          "exists": true,
+          "size": 1309417
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "f2be1869-8512-464c-85b6-07349b95a537",
+              "timestamp": 1778999587489
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "2"
+              ],
+              "prompt_id": "f2be1869-8512-464c-85b6-07349b95a537",
+              "timestamp": 1778999587499
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "f2be1869-8512-464c-85b6-07349b95a537",
+              "timestamp": 1778999601707
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "transparency_alpha",
+      "prompt_id": "5d24d8a2-735c-4714-a6d4-765c96d9406a",
+      "outputs": [
+        {
+          "node": "3",
+          "filename": "03_alpha_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/03_alpha_readme_00001_.png",
+          "exists": true,
+          "size": 1039817
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "5d24d8a2-735c-4714-a6d4-765c96d9406a",
+              "timestamp": 1778999602832
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1"
+              ],
+              "prompt_id": "5d24d8a2-735c-4714-a6d4-765c96d9406a",
+              "timestamp": 1778999603724
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "5d24d8a2-735c-4714-a6d4-765c96d9406a",
+              "timestamp": 1778999605420
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "background_art",
+      "prompt_id": "07135fac-81a4-4c64-b9a4-0262eab1b9f3",
+      "outputs": [
+        {
+          "node": "8",
+          "filename": "04_background_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/04_background_readme_00001_.png",
+          "exists": true,
+          "size": 668505
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "07135fac-81a4-4c64-b9a4-0262eab1b9f3",
+              "timestamp": 1778999607298
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [],
+              "prompt_id": "07135fac-81a4-4c64-b9a4-0262eab1b9f3",
+              "timestamp": 1778999607298
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "07135fac-81a4-4c64-b9a4-0262eab1b9f3",
+              "timestamp": 1778999614320
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "prop_closeup_cg",
+      "prompt_id": "52aed920-08c1-4123-8ef3-9b22d5dcf3a1",
+      "outputs": [
+        {
+          "node": "8",
+          "filename": "05_prop_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/05_prop_readme_00001_.png",
+          "exists": true,
+          "size": 614997
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "52aed920-08c1-4123-8ef3-9b22d5dcf3a1",
+              "timestamp": 1778999616221
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1",
+                "2",
+                "5"
+              ],
+              "prompt_id": "52aed920-08c1-4123-8ef3-9b22d5dcf3a1",
+              "timestamp": 1778999616221
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "52aed920-08c1-4123-8ef3-9b22d5dcf3a1",
+              "timestamp": 1778999620390
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "outfit_variations",
+      "prompt_id": "c09f151a-c0c3-46d5-ac0f-abd53bedaae7",
+      "outputs": [
+        {
+          "node": "35",
+          "filename": "06_outfit_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/06_outfit_readme_00001_.png",
+          "exists": true,
+          "size": 1548284
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "c09f151a-c0c3-46d5-ac0f-abd53bedaae7",
+              "timestamp": 1778999620629
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1",
+                "2"
+              ],
+              "prompt_id": "c09f151a-c0c3-46d5-ac0f-abd53bedaae7",
+              "timestamp": 1778999620645
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "c09f151a-c0c3-46d5-ac0f-abd53bedaae7",
+              "timestamp": 1778999656007
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "event_cg",
+      "prompt_id": "4fedd306-a20b-4ae3-a1cb-c8622a59a8f4",
+      "outputs": [
+        {
+          "node": "14",
+          "filename": "07_event_cg_readme_00001_.png",
+          "subfolder": "hermes_vn_readme_guided_smoke_20260517_153253",
+          "type": "output",
+          "wsl_path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_readme_guided_smoke_20260517_153253/07_event_cg_readme_00001_.png",
+          "exists": true,
+          "size": 753146
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "4fedd306-a20b-4ae3-a1cb-c8622a59a8f4",
+              "timestamp": 1778999657997
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1",
+                "3",
+                "5",
+                "6",
+                "7"
+              ],
+              "prompt_id": "4fedd306-a20b-4ae3-a1cb-c8622a59a8f4",
+              "timestamp": 1778999658065
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "4fedd306-a20b-4ae3-a1cb-c8622a59a8f4",
+              "timestamp": 1778999668333
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "system_stats": {
+    "system": {
+      "os": "win32",
+      "ram_total": 34046808064,
+      "ram_free": 8968933376,
+      "comfyui_version": "0.21.1",
+      "required_frontend_version": null,
+      "installed_templates_version": "0.9.75",
+      "required_templates_version": "0.9.75",
+      "python_version": "3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]",
+      "pytorch_version": "2.10.0+cu130",
+      "embedded_python": false,
+      "argv": [
+        "C:\\Users\\Desktop\\AppData\\Local\\Programs\\ComfyUI\\resources\\ComfyUI\\main.py",
+        "--user-directory",
+        "C:\\Users\\Desktop\\Documents\\ComfyUI\\user",
+        "--input-directory",
+        "C:\\Users\\Desktop\\Documents\\ComfyUI\\input",
+        "--output-directory",
+        "C:\\Users\\Desktop\\Documents\\ComfyUI\\output",
+        "--front-end-root",
+        "C:\\Users\\Desktop\\AppData\\Local\\Programs\\ComfyUI\\resources\\ComfyUI\\web_custom_versions\\desktop_app",
+        "--base-directory",
+        "C:\\Users\\Desktop\\Documents\\ComfyUI",
+        "--database-url",
+        "sqlite:///C:/Users/Desktop/Documents/ComfyUI/user/comfyui.db",
+        "--extra-model-paths-config",
+        "C:\\Users\\Desktop\\AppData\\Roaming\\ComfyUI\\extra_models_config.yaml",
+        "--log-stdout",
+        "--listen",
+        "127.0.0.1",
+        "--port",
+        "8000",
+        "--enable-manager"
+      ]
+    },
+    "devices": [
+      {
+        "name": "cuda:0 NVIDIA GeForce RTX 5070 Ti : cudaMallocAsync",
+        "type": "cuda",
+        "index": 0,
+        "vram_total": 17094475776,
+        "vram_free": 5685729720,
+        "torch_vram_total": 1577058304,
+        "torch_vram_free": 167074232
+      }
+    ]
+  },
+  "queue_before": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "object_info_count": 1913,
+  "missing_class_types": [],
+  "anchor_input_name": "hermes_vn_runtime/hermes_vn_readme_guided_smoke_20260517_153253/01_anchor_readme_00001_.png",
+  "queue_after": {
+    "queue_running": [],
+    "queue_pending": []
+  }
+}

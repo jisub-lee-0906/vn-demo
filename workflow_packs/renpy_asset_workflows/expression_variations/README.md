@@ -79,3 +79,15 @@ modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite,
 
 * **Positive:** `smug, smirk, raised_eyebrows`
 * **Negative:** `sad, crying, scared, flustered, pale_skin, wide_eyed`
+
+#### 3. 검증된 Danbooru CSV 태그 메모
+
+출처: 루트 `danbooru_tag.csv`. 아래 태그들은 README에 적기 전에 해당 CSV에 실제 존재하는지 확인했습니다. `{감정표현}` / `{상극 감정표현}`에는 얼굴에 영향을 주는 태그만 넣고, 의상/배경/카메라 태그는 expression patch에 넣지 않습니다.
+
+- 감정 기준 태그: `happy`, `sad`, `angry`, `surprised`, `scared`, `embarrassed`, `flustered`, `smug`, `crying`, `expressionless`
+- 눈/동공: `sparkling_eyes`, `empty_eyes`, `hollow_eyes`, `constricted_pupils`, `closed_eyes`
+- 입: `closed_mouth`, `open_mouth`, `smile`, `frown`, `smirk`, `wavy_mouth`, `clenched_teeth`, `parted_lips`
+- 얼굴 효과: `blush`, `light_blush`, `tears`, `sweatdrop`, `pale_skin`
+
+표정 규칙: 태그가 포즈/의상/배경/카메라 구도를 바꿀 가능성이 있으면 이 workflow에 넣지 말고 `event_cg`를 사용합니다.
+

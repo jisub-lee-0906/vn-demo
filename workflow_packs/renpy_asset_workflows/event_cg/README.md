@@ -7,7 +7,7 @@
 **Positive prompt:**
 
 ```text
-masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG, same_character_as_reference, preserve_original_face, preserve_original_facial_features, preserve_original_hairstyle, preserve_original_hair_color, preserve_original_eye_color, preserve_original_school_uniform_design, preserve_original_outfit_colors, preserve_original_body_proportions, minimal_character_redesign, 1girl, solo, {캐릭터 핵심 특징}, {원본 의상 디테일}, {카메라 구도}, {원본 포즈를 크게 바꾸지 않는 자연스러운 작은 연출}, {감정표현}, {배경 테마 및 장소}, {시간대 및 조명}, small_natural_pose_change_only, coherent_perspective, character_integrated_with_background_lighting, natural_pose, depth_of_field, detailed_background
+masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, cinematic_visual_novel_event_CG,1girl, solo, [원본 캐릭터 핵심 특징:  {헤어 길이}, {헤어 스타일}, {머리색}, {눈색}], [원본 의상 디테일: {상의, 하의, 신발, 악세서리}], {카메라 구도}, {자연스러운 작은 연출}, {감정표현}, {배경 테마 및 장소}, {시간대 및 조명}, depth_of_field, detailed_background
 
 ```
 
@@ -16,7 +16,7 @@ masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution,
 **Negative prompt:**
 
 ```text
-different_character, different_face, different_facial_features, different_hair, different_hairstyle, different_hair_color, different_eye_color, different_clothes, changed_uniform, outfit_redesign, different_body_type, changed_body_proportions, extreme_action_pose, acrobatics, large_pose_change, tiny_character, far_away_character, empty_room, crowd, multiple_girls, duplicate_person, bad_hands, extra_fingers, missing_fingers, fewer_digits, bad_anatomy, long_body, deformed, mutated, cropped_head, lowres, blurry, text, watermark, signature, simple_background, white_background, (worst_quality, bad_quality:1.2)
+modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long_body, lowres, bad_anatomy, bad_hands, missing_fingers, extra_digits, fewer_digits, cropped, very_displeasing, sketch, jpeg_artifacts, signature, watermark, username, conjoined, bad_ai-generated, (worst_quality, bad_quality:1.2), vignette, shadow, depth_of_field, rim_lighting
 
 ```
 
@@ -37,3 +37,16 @@ different_character, different_face, different_facial_features, different_hair, 
 **3) 배경 및 조명 연출 보강**
 
 * **예시 (창가에서 햇빛을 받는 씬):** `{배경 테마 및 장소}` 자리에 `warm_sunset_classroom, sunlight_through_window, dust_motes` 등을 넣고, `{시간대 및 조명}` 자리에 `golden_hour_rim_light, soft_orange_sunlight` 등을 넣으면 캐릭터와 배경 조명이 함께 맞춰집니다.
+
+#### 3. 검증된 Danbooru CSV 태그 메모
+
+출처: 루트 `danbooru_tag.csv`. 아래 태그들은 README에 적기 전에 해당 CSV에 실제 존재하는지 확인했습니다. `pose_variations`가 제거되었으므로 특수 포즈/액션 일러스트는 이 workflow에서 처리하되, identity/outfit 보존이 중요할 때는 포즈 변화를 작게 유지합니다.
+
+- 구도/대상: `upper_body`, `cowboy_shot`, `close-up`, `portrait`, `1girl`, `solo`
+- 카메라: `from_above`, `from_below`, `dutch_angle`, `pov`
+- 작은 연출: `sitting`, `standing`, `leaning_forward`, `hand_on_own_chest`, `looking_at_viewer`
+- 표정: `smile`, `sad`, `surprised`, `blush`, `tears`, `serious`
+- 장소/조명: `classroom`, `bedroom`, `rooftop`, `street`, `park`, `library`, `sunset`, `night`, `window`
+
+Event CG 규칙: 큰 액션 태그는 의상/몸을 다시 그리게 만들 수 있습니다. 과한 동작을 시도하기 전에 카메라, 배경, 조명, 작은 손/몸 연출을 우선 사용합니다.
+

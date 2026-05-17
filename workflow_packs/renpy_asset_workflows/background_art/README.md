@@ -46,3 +46,16 @@ masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution,
 * **노을/저녁 (Sunset):** `sunset, golden_hour, orange_sky, warm_lighting, shadows`
 * **밤 (Night):** `night, starry_sky, moonlight, dark, window_light`
 * **새벽/비 (Atmosphere):** `morning, misty, fog` 또는 `rain, rainy_day, overcast`
+
+#### 3. 검증된 Danbooru CSV 태그 메모
+
+출처: 루트 `danbooru_tag.csv`. 아래 태그들은 README에 적기 전에 해당 CSV에 실제 존재하는지 확인했습니다. `{배경 테마 및 장소}`와 `{시간대 및 분위기 태그}`를 런타임에서 패치할 때 사용합니다.
+
+- 장면 기본 태그: `scenery`, `no_humans`, `indoors`, `outdoors`
+- 장소: `classroom`, `school`, `hallway`, `rooftop`, `bedroom`, `living_room`, `street`, `park`, `forest`, `library`
+- 장면 오브젝트: `window`, `bookshelf`, `bench`, `utility_pole`
+- 구도/시간/날씨: `wide_shot`, `depth_of_field`, `day`, `sunset`, `night`, `rain`, `overcast`, `fog`, `snow`
+- 조명/분위기: `sunlight`, `moonlight`
+
+배경 규칙: 사람이 있는 배경을 의도적으로 테스트하는 경우가 아니라면 `no_humans`와 사람/캐릭터 관련 negative를 유지합니다.
+

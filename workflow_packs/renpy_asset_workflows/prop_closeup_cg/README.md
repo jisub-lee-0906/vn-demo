@@ -5,7 +5,7 @@
 **Positive prompt:**
 
 ```text
-masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, still_life, close-up, macro_shot, object_focus, {아이템 이름 및 형태}, {재질 및 질감 디테일}, {놓여있는 장소/배경}, BREAK, strong_depth_of_field, blurry_background, studio_lighting, highly_detailed_texture
+masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution, ultra-detailed, absurdres, newest, anime_style, digital_illustration, still_life, close-up, object_focus, {아이템 이름 및 형태}, {재질 및 질감 디테일}, {놓여있는 장소/배경}, BREAK, strong_depth_of_field, blurry_background, studio_lighting, highly_detailed_texture
 
 ```
 
@@ -43,3 +43,16 @@ masterpiece, best_quality, amazing_quality, 4k, very_aesthetic, high_resolution,
 * **아이템 및 형태:** `bloody_knife, kitchen_knife, vintage_revolver, broken_sword, sword_hilt`
 * **재질 및 질감:** `dried_blood, cold_steel, sharp_edge, heavy_texture`
 * **적용 예시:** `... object_focus, bloody_knife, kitchen_knife, sharp_edge, cold_steel, dried_blood, heavy_texture, dimly_lit_table, BREAK, strong_depth_of_field ...`
+
+#### 3. 검증된 Danbooru CSV 태그 메모
+
+출처: 루트 `danbooru_tag.csv`. 아래 태그들은 README에 적기 전에 해당 CSV에 실제 존재하는지 확인했습니다. 오브젝트/재질/카메라 태그를 사용하고, 스토리상 텍스트 artifact 테스트가 꼭 필요한 경우가 아니라면 읽을 수 있는 글자는 피합니다.
+
+- 카메라/오브젝트 초점: `still_life`, `object_focus`, `close-up`
+- 자주 쓰는 소품 오브젝트: `key`, `ring`, `pendant`, `smartphone`, `letter`, `open_book`, `knife`, `pocket_watch`
+- 디테일/상태 태그: `cracked_screen`, `hilt`, `rust`, `blood`, `scratches`
+- 표면/조명: `wooden_table`, `desk`, `shadow`, `depth_of_field`, `blurry_background`
+- CSV에서 확인된 텍스트/UI negative: `signature`, `watermark`, `logo`, `label`, `caption`, `speech_bubble`
+
+소품 규칙: 편지/책/화면은 최종 텍스트를 ComfyUI 밖에서 합성할 계획이 아니라면 빈 디자인이나 읽을 수 없는 디자인을 우선합니다.
+

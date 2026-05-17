@@ -62,7 +62,8 @@
         "outfit_variations",
         "event_cg"
       ],
-      "status": "canonical_template"
+      "status": "canonical_template",
+      "input_placeholders": []
     },
     {
       "order": 2,
@@ -154,7 +155,15 @@
         "expression_variations",
         "outfit_variations"
       ],
-      "status": "canonical_template_requires_runtime_input"
+      "status": "canonical_template_requires_runtime_input",
+      "fixed_defaults_observed": {
+        "background_removal_model": "BiRefNet_toonout",
+        "mask_blur": 1,
+        "mask_offset": 0,
+        "invert_output": false,
+        "refine_foreground": true,
+        "background": "Alpha"
+      }
     },
     {
       "order": 4,
@@ -197,7 +206,8 @@
         "{배경 테마 및 장소}",
         "{시간대 및 광원 디테일}"
       ],
-      "status": "canonical_template_but_prompt_placeholders_require_runtime_patch"
+      "status": "canonical_template_but_prompt_placeholders_require_runtime_patch",
+      "input_placeholders": []
     },
     {
       "order": 5,
@@ -237,7 +247,8 @@
         "cfg": 5.2,
         "default_subject": "brass_key"
       },
-      "status": "canonical_template"
+      "status": "canonical_template",
+      "input_placeholders": []
     },
     {
       "order": 6,

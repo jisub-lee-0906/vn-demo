@@ -84,10 +84,27 @@ A workflow being runnable is not the same as being production-approved.
 
 Only call an output canonical/approved after the user or agent has checked the actual generated artifact/contact sheet/Ren'Py screenshot. If the user says they will visually QA the image themselves, report only the prompt id, seed, runtime JSON path, and output path; do not invent quality claims.
 
-## Current known caution
+## 고정 상태
 
-- The current folder names are flat semantic names, not numbered names. Old references to `01_*` through `07_*` may be stale.
-- `background_art` and `prop_closeup_cg` are 16:9 txt2img-style workflows with no image input.
-- `expression_variations`, `transparency_alpha`, `outfit_variations`, and `event_cg` require runtime image inputs.
-- `pose_variations` was removed from the canonical pack after pose/action sprite tests proved too unstable; use `event_cg` for pose/action CG needs and keep dialogue sprites on fixed outfit/expression/alpha routes.
-- Some README prompt text is human-facing and may not exactly match the canonical JSON prompt. Treat `WORKFLOW_INDEX.json` plus the actual JSON as execution source of truth.
+현재 canonical pack은 위에 적힌 7개 workflow 폴더로 의도적으로 제한합니다. `pose_variations`는 canonical pack에서 제거되었으므로, 포즈/액션이 필요한 경우 dialogue sprite 재생성이 아니라 16:9 `event_cg`로 처리합니다.
+
+고정 전 audit 상태:
+
+- 7개 canonical API JSON 파일 모두 정상 파싱됩니다.
+- `WORKFLOW_INDEX.json`은 실제 존재하는 workflow 폴더와 API 파일만 가리킵니다.
+- 각 그래프를 출력 노드에서 역방향으로 추적했을 때 미사용/분리 노드는 발견되지 않았습니다.
+- 존재하지 않는 노드를 참조하는 dangling reference는 발견되지 않았습니다.
+- `WORKFLOW_INDEX.json`은 editable field, primary node, placeholder, observed default의 machine-readable 기준 문서입니다.
+- 각 workflow README는 간결한 운영 가이드로 유지합니다. 실험 이력이나 일시적인 튜닝 노트를 넣기 위해 수정하지 않습니다.
+
+최신 audit report:
+`/home/jisub-lee/workspace/vn-demo/.analysis/workflow_pack_freeze_audit_20260517.md`
+
+## 현재 주의사항
+
+- 현재 폴더명은 번호식 이름이 아니라 flat semantic name입니다. 예전 `01_*`부터 `07_*`까지의 참조는 stale일 수 있습니다.
+- `background_art`와 `prop_closeup_cg`는 이미지 입력이 없는 16:9 txt2img 계열 workflow입니다.
+- `expression_variations`, `transparency_alpha`, `outfit_variations`, `event_cg`는 런타임 이미지 입력이 필요합니다.
+- `pose_variations`는 pose/action sprite 테스트에서 색감/의상/구도/해부학 drift가 커서 canonical pack에서 제거했습니다. 포즈/액션 CG는 `event_cg`로 처리하고, dialogue sprite는 fixed outfit/expression/alpha 경로를 유지합니다.
+- 일부 README의 prompt 텍스트는 사람이 읽기 위한 안내라 canonical JSON prompt와 정확히 일치하지 않을 수 있습니다. 실행 기준은 `WORKFLOW_INDEX.json`과 실제 JSON입니다.
+- 루트 `danbooru_tag.csv`는 README tag note의 로컬 검증 기준입니다. 해당 CSV에 존재하거나 실제 생성물로 테스트된 태그가 아니라면, 기억이나 실패한 web fetch 기반으로 tag guidance를 추가하지 않습니다.

@@ -1,0 +1,104 @@
+{
+  "run": "hermes_vn_user_readme_pair_20260517_171806",
+  "base": "http://172.28.224.1:8001",
+  "client_id": "hermes-vn-user-readme-pair-146c07072c7044a98af65df4d31631b4",
+  "safety_adjustment": "character_anchor_base README nude token replaced with fully_clothed, school_uniform in runtime only",
+  "results": [
+    {
+      "workflow": "character_anchor_base",
+      "prompt_id": "329dcdb4-9c5a-4b37-a2a1-c7dc5690da61",
+      "seed": 260517201,
+      "outputs": [
+        {
+          "node": "8",
+          "path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_user_readme_pair_20260517_171806/01_character_anchor_00001_.png",
+          "exists": true,
+          "size": 1629638
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "329dcdb4-9c5a-4b37-a2a1-c7dc5690da61",
+              "timestamp": 1779005885428
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1"
+              ],
+              "prompt_id": "329dcdb4-9c5a-4b37-a2a1-c7dc5690da61",
+              "timestamp": 1779005885554
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "329dcdb4-9c5a-4b37-a2a1-c7dc5690da61",
+              "timestamp": 1779005898208
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "workflow": "prop_closeup_cg",
+      "prompt_id": "1b9dd5e8-c098-475f-9996-6f5a44b42e97",
+      "seed": 260517202,
+      "outputs": [
+        {
+          "node": "8",
+          "path": "/mnt/c/Users/Desktop/Documents/ComfyUI/output/hermes_vn_user_readme_pair_20260517_171806/02_prop_cg_00001_.png",
+          "exists": true,
+          "size": 644169
+        }
+      ],
+      "status": {
+        "status_str": "success",
+        "completed": true,
+        "messages": [
+          [
+            "execution_start",
+            {
+              "prompt_id": "1b9dd5e8-c098-475f-9996-6f5a44b42e97",
+              "timestamp": 1779005898905
+            }
+          ],
+          [
+            "execution_cached",
+            {
+              "nodes": [
+                "1"
+              ],
+              "prompt_id": "1b9dd5e8-c098-475f-9996-6f5a44b42e97",
+              "timestamp": 1779005898906
+            }
+          ],
+          [
+            "execution_success",
+            {
+              "prompt_id": "1b9dd5e8-c098-475f-9996-6f5a44b42e97",
+              "timestamp": 1779005903167
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "queue_before": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "object_info_count": 1913,
+  "queue_after": {
+    "queue_running": [],
+    "queue_pending": []
+  }
+}
